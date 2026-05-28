@@ -1,44 +1,26 @@
 # CLAUDE.md — CVM Benchmark Kit
 
-## Purpose
+## How to Start
 
-This kit configures Claude Code to solve coding tasks using structured TDDAB methodology + CVM execution. Instead of writing code directly, Claude follows a disciplined flow: understand → plan → review → execute.
+**Load and run the CVM benchmark-runner program.** It orchestrates the entire flow automatically.
 
-## Mandatory Flow
+```
+1. mcp__cvm__loadFile → programId: "benchmark-runner", filePath: "benchmark-runner.ts"
+2. mcp__cvm__start → programId: "benchmark-runner", executionId: "run-1"
+3. Follow the getTask/submitTask loop — the program guides you through each phase
+```
 
-For EVERY task, follow these steps IN ORDER. Never skip steps. Never write code without a plan.
+The benchmark-runner handles 5 phases: understand → init MB → plan → review → execute. Follow its prompts.
 
-### 1. UNDERSTAND
-- Read the task description (instruction.md) carefully
-- Explore the codebase: file structure, existing tests, dependencies, build system
-- Identify the language, framework, test runner, and conventions used
+## What the Runner Does
 
-### 2. INIT MEMORY BANK
-- Read `memory-bank/README.md` to understand the MBEL format
-- Create these files in `memory-bank/`:
-  - `productContext.md` — what this project does, its purpose
-  - `techContext.md` — language, framework, build commands, test commands, dependencies
-  - `activeContext.md` — current task focus, what needs to be done
-  - `progress.md` — empty (will be updated during execution)
-
-### 3. PLAN
-- Read `skills/mind-sets/tddab-planner.md` completely — these are the rules for generating plans
-- Generate a TDDAB plan from the task description following ALL rules in the mindset
-- Save as `plan.md` in the working directory
-- The plan must have: `<mission>`, `<block>`, `<intro>`, `<red>`, `<success>` tags
-- If the task is removal/migration/cleanup: read `skills/mind-sets/step-planner.md` and use `<actions>` instead of `<red>`
-
-### 4. REVIEW
-- Read the mindset file again (tddab-planner.md or step-planner.md)
-- Review the plan against ALL rules in the mindset
-- Focus on: block dependencies (no block uses types from future blocks), self-sufficiency, completeness
-- If ANY issue found → fix the plan and review again
-- Loop until the plan is clean
-
-### 5. EXECUTE
-- Use skill `/j-cvm-exec-plan` on plan.md
-- This parses the plan via CVM, loads the planexecutor, and runs the getTask/submitTask loop
-- Follow each phase: RED → GREEN → VERIFY → COMMIT (TDDAB) or EXECUTE → VERIFY → COMMIT (step)
+| Phase | What the runner asks you to do |
+|-------|-------------------------------|
+| 1. UNDERSTAND | Explore the codebase, understand the task |
+| 2. INIT MB | Create memory-bank/ with project context |
+| 3. PLAN | Load tddab-planner mindset, generate plan.md |
+| 4. REVIEW | Review plan against mindset rules (loop until clean) |
+| 5. EXECUTE | Use skill /j-cvm-exec-plan on plan.md |
 
 ## Debugging
 
