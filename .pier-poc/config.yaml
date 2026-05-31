@@ -1,0 +1,20 @@
+# Pier job config: single-task DeepSWE PoC driven by the CVM Benchmark Kit.
+# Auth: subscription via CLAUDE_CODE_OAUTH_TOKEN (exported on the host before `pier run`).
+# The custom docker_image, CVM MCP server, and skills_dir are set in the task's task.toml.
+job_name: cvm-poc-fastapi
+jobs_dir: .pier-poc/jobs
+n_concurrent_trials: 1
+quiet: false
+
+agents:
+  - name: claude-code
+    model_name: anthropic/claude-opus-4-8
+    kwargs:
+      max_turns: 400
+      # Bootstrap lives in a Jinja2 prompt template. Pier shlex-quotes the rendered
+      # instruction, so multi-line content here is safe (unlike --append-system-prompt,
+      # whose value pier inserts unquoted and which breaks the claude command line).
+      prompt_template_path: .pier-poc/prompt-template.j2
+
+tasks:
+  - path: .pier-poc/tasks/fastapi-implicit-head-options

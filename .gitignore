@@ -1,0 +1,10 @@
+# Secrets — never commit the OAuth token
+.pier-poc/.env
+.pier-poc/.config.run.yaml
+
+# Pier run outputs and build artifacts
+.pier-poc/jobs/
+.pier-poc/build/cvm-server.tgz
+
+# CVM file storage
+.cvm/

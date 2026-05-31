@@ -1,0 +1,20 @@
+You are running the CVM Benchmark Kit (TDDAB + CVM methodology). Do ALL work inside /app.
+
+MANDATORY startup sequence, before solving the task below:
+1. Bootstrap the working directory:
+     cp /opt/cvm-kit/benchmark-runner.ts /app/benchmark-runner.ts
+     mkdir -p /app/memory-bank && cp /opt/cvm-kit/memory-bank/README.md /app/memory-bank/README.md
+2. Write the task described under "TASK" (verbatim, the full text) into /app/instruction.md.
+3. Run the CVM runner that orchestrates the whole flow:
+     - call mcp__cvm__loadFile  with programId="benchmark-runner", filePath="benchmark-runner.ts"
+     - call mcp__cvm__start     with programId="benchmark-runner", executionId="run-1"
+     - then loop: call mcp__cvm__getTask, perform exactly what the returned prompt says,
+       then call mcp__cvm__submitTask with the requested response — repeat until getTask
+       returns "Execution completed".
+
+Follow the runner's phases (understand -> init memory-bank -> plan -> review -> execute) and the
+skills it references (/mind-sets:tddab-planner, /j-cvm-exec-plan). Never write code without a plan;
+never skip the review loop; update the memory-bank before each commit.
+
+==================================== TASK ====================================
+{{ instruction }}
