@@ -4,6 +4,7 @@ MANDATORY startup sequence, before solving the task below:
 1. Bootstrap the working directory:
      cp /opt/cvm-kit/benchmark-runner.ts /app/benchmark-runner.ts
      mkdir -p /app/memory-bank && cp /opt/cvm-kit/memory-bank/README.md /app/memory-bank/README.md
+     printf 'benchmark-runner.ts\ninstruction.md\nmemory-bank/\n' >> /app/.git/info/exclude   # keep kit files out of the graded diff
 2. Write the task described under "TASK" (verbatim, the full text) into /app/instruction.md.
 3. Run the CVM runner that orchestrates the whole flow:
      - call mcp__cvm__loadFile  with programId="benchmark-runner", filePath="benchmark-runner.ts"
@@ -13,8 +14,15 @@ MANDATORY startup sequence, before solving the task below:
        returns "Execution completed".
 
 Follow the runner's phases (understand -> init memory-bank -> plan -> review -> execute) and the
-skills it references (/mind-sets:tddab-planner, /j-cvm-exec-plan). Never write code without a plan;
+skills it references (/tddab-planner, /j-cvm-exec-plan). Never write code without a plan;
 never skip the review loop; update the memory-bank before each commit.
+
+COMPLETENESS — before declaring the task done, re-read /app/instruction.md and treat EVERY explicit
+requirement as a checklist item that must be satisfied, not just the core behavior. This includes
+non-behavioral requirements such as exact response shapes, header names, method/field ordering, and
+especially documentation/annotation-style requirements on PUBLIC function signatures (e.g. FastAPI's
+`Annotated[..., Doc(...)]` style for any newly exposed parameters). A single unmet stated requirement
+fails the whole task. When you derive the TDDAB plan, add explicit RED tests for these requirements too.
 
 ==================================== TASK ====================================
 {{ instruction }}

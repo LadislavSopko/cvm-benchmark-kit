@@ -3,6 +3,8 @@
 # task working directory. Pier's MCPServerConfig has no env field, so the CVM
 # environment is injected here instead.
 export CVM_STORAGE_TYPE=file
-export CVM_DATA_DIR=/app/.cvm
+# Keep CVM state OUT of /app so it never lands in the captured model.patch.
+export CVM_DATA_DIR=/tmp/cvm-data
 export CVM_SANDBOX_ROOT=/app
+mkdir -p "$CVM_DATA_DIR"
 exec cvm-server "$@"
