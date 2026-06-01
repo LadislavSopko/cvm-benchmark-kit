@@ -51,9 +51,20 @@ mcp__cvm__start    → programId: "planexecutor", executionId: "run-<timestamp>"
 
 ### 4. Execute the loop
 
-Call `mcp__cvm__getTask` to get the next prompt. The planexecutor orchestrates all phases and provides self-sufficient prompts — follow what each prompt says.
+**CVM protocol is STRICTLY SYNCHRONOUS. Violating this causes phase desync.**
 
-Call `mcp__cvm__submitTask` with the response requested by the prompt.
+Rules:
+- **ONE CVM tool call per turn** — never batch getTask + submitTask or multiple CVM calls in the same message
+- **ALL CVM calls (getTask, submitTask) must be made by the main conversation** — never delegate CVM communication to Agent/subagents
+- Subagents CAN be used for the work itself (analyzing files, running tests, exploring code) — but the CVM protocol stays in master
+- **Strict sequence**: getTask → do the work → submitTask → wait for response → then getTask again
+- **NEVER call getTask before submitTask response is confirmed**
+
+The loop:
+1. Call `mcp__cvm__getTask` — get the next prompt
+2. Do the work the prompt asks (write tests, implement, verify, etc.)
+3. Call `mcp__cvm__submitTask` with the response — wait for confirmation
+4. Go to step 1
 
 Repeat until `getTask` returns "Execution completed".
 
