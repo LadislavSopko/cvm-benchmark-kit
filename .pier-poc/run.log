@@ -17,7 +17,7 @@ MANDATORY startup sequence, before solving the task below:
 1. Bootstrap the working directory:
      cp /opt/cvm-kit/benchmark-runner.ts /app/benchmark-runner.ts
      mkdir -p /app/memory-bank && cp /opt/cvm-kit/memory-bank/README.md /app/memory-bank/README.md
-     printf '"'"'benchmark-runner.ts\ninstruction.md\nmemory-bank/\n'"'"' >> /app/.git/info/exclude   # keep kit files out of the graded diff
+     printf '"'"'benchmark-runner.ts\ninstruction.md\nmemory-bank/\nplan.md\n.cvm/\n'"'"' >> /app/.git/info/exclude   # keep kit/CVM files out of the graded diff
 2. Write the task described under "TASK" (verbatim, the full text) into /app/instruction.md.
 3. Run the CVM runner that orchestrates the whole flow:
      - call mcp__cvm__loadFile  with programId="benchmark-runner", filePath="benchmark-runner.ts"
@@ -36,6 +36,17 @@ non-behavioral requirements such as exact response shapes, header names, method/
 especially documentation/annotation-style requirements on PUBLIC function signatures (e.g. FastAPI'"'"'s
 `Annotated[..., Doc(...)]` style for any newly exposed parameters). A single unmet stated requirement
 fails the whole task. When you derive the TDDAB plan, add explicit RED tests for these requirements too.
+
+Two hard-won rules for "applies to the public API" requirements:
+1. EXACT SYMBOL SOURCE — if the task (or its tests) name a specific import for a symbol (e.g.
+   `annotated_doc.Doc` vs `typing_extensions.Doc` — these are DIFFERENT classes and an isinstance
+   check will reject the wrong one), use that EXACT import everywhere. Do not assume the framework'"'"'s
+   own existing import is the one graded.
+2. ALL SURFACES, NO EXCEPTIONS — apply the required style to EVERY public callable in scope, not most.
+   If you define a reusable alias (e.g. `AutoHeadParam = Annotated[bool, Doc(...)]`), grep the codebase
+   to confirm NO method still uses the bare type. Before finishing, write/run a tiny introspection
+   snippet that iterates ALL the public callables the task lists and asserts the requirement holds for
+   each — then fix any that fail. Missing it on a single method fails the whole task.
 
 ==================================== TASK ====================================
 GET routes lack implicit HEAD controls, and FastAPI has no OPTIONS response exposing path metadata. 
@@ -56,23 +67,23 @@ Define `ImplicitMethodTrackingMiddleware` in `fastapi/middleware/methods.py`; in
 
 Before editing, audit `applications.py` and `routing.py`, then trace HEAD/OPTIONS dispatch; after changes, verify precedence layers separately, repeated inclusion, method ordering, OpenAPI output, CORS preflight, docs surface, and middleware stats.' 2>&1 </dev/null | tee /logs/agent/claude-code.txt
 Command outputs captured
-Failed to convert Claude Code events to trajectory: 'charmap' codec can't decode byte 0x88 in position 120: character maps to <undefined>
-  1/1 Mean: 0.000 ---------------------------------------- 0:36:39 0:00:00
+Failed to convert Claude Code events to trajectory: 'charmap' codec can't decode byte 0x88 in position 510: character maps to <undefined>
+  1/1 Mean: 1.000 ---------------------------------------- 0:46:36 0:00:00
 adhoc � claude-code � claude-opus-4-8
 +-----------------------------+
 | Trials | Exceptions |  Mean |
 |--------+------------+-------|
-|      1 |          0 | 0.000 |
+|      1 |          0 | 1.000 |
 +-----------------------------+
 
 +----------------+
 | Reward | Count |
 |--------+-------|
-| 0.0    |     1 |
+| 1.0    |     1 |
 +----------------+
 
 Job Info
-Total runtime: 36m 39s
+Total runtime: 46m 36s
 Results written to .pier-poc\jobs\cvm-poc-fastapi\result.json
 Inspect results by running `pier view .pier-poc\jobs`
 
