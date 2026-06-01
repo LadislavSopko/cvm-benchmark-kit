@@ -15,7 +15,7 @@
 ## [Methodology]
 @backend-method: tddab
 @tddab-file: skills/mind-sets/tddab-planner.md
-@tddab-lang-overlay: (not applicable — multi-language benchmark)
+@tddab-lang-overlay:
 
 ## [Code Navigation]
 @code-nav-local: grep

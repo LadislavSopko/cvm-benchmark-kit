@@ -1,5 +1,5 @@
 ---
-description: Validate a TDDAB plan file using CVM parsePlan. Shows block count, IDs, validation errors. Use when user says check plan, validate plan, controlla piano CVM.
+description: Validate a TDDAB plan file using CVM parsePlan. Shows block count, IDs, validation errors.
 ---
 
 # CVM Check Plan
@@ -8,29 +8,15 @@ Validate a TDDAB plan file using the CVM `parsePlan` tool.
 
 ## Prerequisites
 
-First check if `mcp__cvm__parsePlan` tool is available.
-If NOT available → tell user:
-```
-CVM MCP server not configured. Run /j-mcp-setup and add CVM, or add manually to .mcp.json:
-{
-  "mcpServers": {
-    "cvm": {
-      "command": "npx",
-      "args": ["cvm-server@latest"],
-      "env": { "CVM_STORAGE_TYPE": "file", "CVM_DATA_DIR": ".cvm", "CVM_SANDBOX_ROOT": "." }
-    }
-  }
-}
-```
-STOP.
+Check if `mcp__cvm__parsePlan` tool is available.
+If NOT available → STOP with error: "CVM MCP server not available. Cannot validate plan."
 
 ## What to do
 
-1. Find the plan file:
-   - If user specified a path, use that
-   - Otherwise look for `index.md` (multi-file plan) or `plan.md` (single-file) in current directory
-   - If both exist, prefer `index.md`
-   - If not found, ask user
+1. Get the plan file path:
+   - If a path was provided, use that
+   - Otherwise look for `index.md` or `plan.md` in current directory (prefer `index.md`)
+   - If not found → STOP with error: "Plan file not found in current directory."
 
 2. Call `mcp__cvm__parsePlan` with the plan file path
 

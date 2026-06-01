@@ -1,31 +1,30 @@
 ---
 name: j-review-plan
-description: Review plan for TDDAB/Step conformity. Checks methodology compliance, dependency ordering, and optionally validates with CVM parsePlan.
+description: Review plan for TDDAB/Step conformity. Checks methodology compliance, dependency ordering, and validates with CVM parsePlan.
 ---
 
 ## Prerequisites
-- Read `j-settings.md` from project root (REQUIRED - run `j-setup` if missing)
-- If not read this session: Read `.claude/commands/mind-sets/junior.md`
-- Read (if not already done) MB skip all subdirs
+- Read `j-settings.md` if it exists (provides methodology config)
+- Read (if not already done) MB — skip if memory-bank/ does not exist yet
 
 ## Steps
 
 ### 1. Read Methodology Reference
-**Check `j-settings.md @backend-method`:**
-- If `tddab` → Read `@tddab-file` + `@tddab-lang-overlay` from j-settings.md
+**Check `j-settings.md @backend-method` (if j-settings.md exists):**
+- If `tddab` → Read the file at `@tddab-file`. If `@tddab-lang-overlay` is defined and not empty, also read it.
 - If `tdd` → Standard TDD rules apply
-- If `manual` → No strict methodology
+- If `manual` or j-settings.md missing → Default to tddab, read `skills/mind-sets/tddab-planner.md`
 
 **Read the mindset file completely.** The rules in that file are the ONLY source of truth for the review. Do NOT apply rules from memory or training — only what the mindset file says.
 
 ### 2. Find the Plan
-Look for plan in:
-- Current task folder: `{@tasks}/NN-*/plan.md`, `index.md`, or `tddab-plan.md`
-- Or ask user: "Where is the plan file?"
+- If a plan path was provided → use that
+- Otherwise look in current directory for `plan.md` or `index.md`
+- If not found → STOP with error: "Plan file not found. Provide the path."
 
 ### 3. Detect Plan Type
 - If plan has `<red>` with `- test:` lines → TDDAB plan, use tddab-planner.md rules
-- If plan has `<actions>` with `- action:` lines → Step plan, read `.claude/commands/mind-sets/step-planner.md` for rules
+- If plan has `<actions>` with `- action:` lines → Step plan, read `skills/mind-sets/step-planner.md` for rules
 - If plan has `<files>` tag → multi-file plan, read index.md + all sub-files
 
 ### 4. Review — Apply Rules From Mindset File
@@ -57,7 +56,6 @@ Focus on these categories:
 
 #### E. Project Conformity
 - Follows project architecture patterns
-- Uses project conventions from j-settings.md
 - No security issues (SQL injection, XSS, etc.)
 
 ### 5. CVM Structural Validation (if available)
@@ -87,7 +85,7 @@ SUGGESTED FIXES:
 1. [specific fix]
 2. [specific fix]
 
-Fix these before proceeding with j-develop or j-cvm-exec-plan.
+Fix these before proceeding with j-cvm-exec-plan.
 ```
 
 If plan is OK:
@@ -98,15 +96,15 @@ PLAN REVIEW — APPROVED ✅
 ✓ Dependencies: execution order matches dependencies
 ✓ Self-sufficiency: blocks work on clean context
 ✓ Completeness: per methodology rules
-✓ Project conformity: OK
+✓ CVM parsePlan: valid (if available)
 
-Ready to proceed with j-develop or j-cvm-exec-plan.
+Ready to proceed with j-cvm-exec-plan.
 ```
 
 ### 7. Update Plan (if needed)
-If user agrees to fixes:
+If issues were found:
 - Edit the plan file with corrections
-- Mark reviewed sections
+- Re-run review from step 4
 
 ## Rules
 - **The mindset file is the ONLY source of truth** — do not invent stricter or looser rules
