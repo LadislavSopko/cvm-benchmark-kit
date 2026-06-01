@@ -1,6 +1,6 @@
 ---
 name: j-cvm-exec-plan
-description: Parse and execute a TDDAB plan via CVM planexecutor. Autonomous block-by-block execution with RED/GREEN/VERIFY/COMMIT phases. Supports resume after interruption. Use when user says execute plan, esegui piano, run plan CVM.
+description: Parse and execute a TDDAB plan via CVM planexecutor. Autonomous block-by-block execution with RED/GREEN/VERIFY/COMMIT phases. Supports resume after interruption.
 ---
 
 # CVM Execute Plan
@@ -27,10 +27,13 @@ Parse a TDDAB or Step plan and execute it using the CVM planexecutor.
 
 ## What to do
 
-### 1. Parse the plan
+### 1. Get plan path and parse
 
-- Find `index.md` (multi-file plan) or `plan.md` (single-file) in current directory (or user-specified path). Prefer `index.md` if both exist.
-- Call `mcp__cvm__parsePlan` with the file path
+- If user specified a path → use that
+- Otherwise check MB activeContext for plan path
+- If still unknown → ask user: "Which plan file should I execute?" and STOP until answered
+- **Do NOT search for plan files. Do NOT read the plan file.** The planexecutor provides all context needed per phase. Reading the plan pollutes context and encourages deviation.
+- Call `mcp__cvm__parsePlan` with the file path (CVM reads the file internally)
 - If invalid → show errors and STOP
 - If valid → continue
 
