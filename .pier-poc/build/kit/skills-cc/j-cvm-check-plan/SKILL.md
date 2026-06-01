@@ -1,6 +1,6 @@
 ---
 name: j-cvm-check-plan
-description: Validate a TDDAB plan file using CVM parsePlan. Shows block count, IDs, validation errors. Use when user says check plan, validate plan, controlla piano CVM.
+description: Validate a TDDAB plan file using CVM parsePlan. Shows block count, IDs, validation errors.
 ---
 
 # CVM Check Plan

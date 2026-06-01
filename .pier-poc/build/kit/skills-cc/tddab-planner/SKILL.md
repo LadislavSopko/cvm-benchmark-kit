@@ -1,8 +1,7 @@
 ---
 name: tddab-planner
-description: TDDAB plan format and rules: test-first failing tests, atomic deployable blocks, RED/GREEN/VERIFY, bottom-up decomposition. Use when generating or reviewing an implementation plan.
+description: TDDAB plan format and rules — test-first, atomic blocks, RED/GREEN/VERIFY, bottom-up decomposition.
 ---
-
 # TDDAB Planner Mindset
 
 ## What is TDDAB?

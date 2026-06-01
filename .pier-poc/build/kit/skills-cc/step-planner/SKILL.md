@@ -1,8 +1,7 @@
 ---
 name: step-planner
-description: Step plan format for removal, migration, and cleanup work (non-TDD).
+description: Step plan format for removal, migration, and cleanup work (non-TDD). Uses actions tag instead of red.
 ---
-
 # Step Planner Mindset
 
 ## What is a Step Plan?

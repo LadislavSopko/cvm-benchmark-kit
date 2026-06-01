@@ -1,5 +1,8 @@
 ---
 name: debug-protocol
+description: Protocol D — systematic debugging methodology (RIDHV). Evidence-based, one change at a time.
+---
+---
 description: "Debug Protocol Mindset - Systematic debugging methodology (Protocol D)"
 ---
 
