@@ -31,7 +31,7 @@ function main() {
 
   console.log("Phase 3: Generate TDDAB plan...");
   CC("Now generate the implementation plan. Follow these steps IN ORDER: " +
-    "1. Load the TDDAB planner mindset: use skill /mind-sets:tddab-planner " +
+    "1. Load the TDDAB planner mindset: use skill /tddab-planner " +
     "2. Read the mindset carefully — it contains ALL the rules for creating plans. " +
     "3. Use your codebase understanding and memory-bank context to generate a TDDAB plan. " +
     "4. Save as plan.md. " +
@@ -41,7 +41,7 @@ function main() {
   var reviewOk = "failed";
   while (reviewOk !== "passed") {
     reviewOk = CC("Review the plan you created. Follow these steps: " +
-      "1. Re-read the TDDAB planner mindset: use skill /mind-sets:tddab-planner " +
+      "1. Re-read the TDDAB planner mindset: use skill /tddab-planner " +
       "2. Read plan.md " +
       "3. Check plan.md against EVERY rule in the mindset. " +
       "If ANY rule is violated: fix plan.md and respond failed. " +
