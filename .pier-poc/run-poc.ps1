@@ -1,13 +1,17 @@
-# Runs the single-task DeepSWE PoC via Pier + CVM benchmark kit, on subscription auth.
+# Runs a single-task DeepSWE PoC via Pier + CVM benchmark kit, on subscription auth.
 #
 # Setup (once):
 #   1. claude setup-token          # mint a token from your Claude subscription
 #   2. paste it into .pier-poc\.env  (CLAUDE_CODE_OAUTH_TOKEN=...)
 # Then just:
-#   .\.pier-poc\run-poc.ps1
+#   .\.pier-poc\run-poc.ps1                                       # fastapi task (default)
+#   .\.pier-poc\run-poc.ps1 -Config .pier-poc\config-prometheus.yaml   # another task
 #
 # Run from the repo root (D:\cvm-benchmark-kit). The token is read from .pier-poc\.env
 # (gitignored) — no need to export anything by hand.
+param(
+    [string]$Config = ".pier-poc\config.yaml"
+)
 
 $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -41,10 +45,10 @@ $env:ANTHROPIC_API_KEY = ""
 $env:Path += ";$env:USERPROFILE\.local\bin"
 
 # Pick the config; if PIER_MODEL is set, write a temp copy with the model swapped.
-$config = ".pier-poc\config.yaml"
+$config = $Config
 if ($env:PIER_MODEL) {
     $runConfig = Join-Path $here ".config.run.yaml"
-    (Get-Content (Join-Path $here "config.yaml")) `
+    (Get-Content $Config) `
         -replace '(?<=model_name:\s).*', $env:PIER_MODEL `
         | Set-Content $runConfig
     $config = ".pier-poc\.config.run.yaml"
