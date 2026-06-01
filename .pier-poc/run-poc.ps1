@@ -7,10 +7,19 @@
 #   .\.pier-poc\run-poc.ps1                                       # fastapi task (default)
 #   .\.pier-poc\run-poc.ps1 -Config .pier-poc\config-prometheus.yaml   # another task
 #
+# Select which tasks to run WITHOUT touching any image (-Config supplies agent/job
+# settings; -Tasks overrides the task list). Images are a one-time build per task.
+#   .\.pier-poc\run-poc.ps1 -Tasks all                            # every prepared task
+#   .\.pier-poc\run-poc.ps1 -Tasks prometheus-transactional-reload-status
+#   .\.pier-poc\run-poc.ps1 -Tasks "fastapi-implicit-head-options,prometheus-transactional-reload-status" -JobName cvm-poc-multi
+#
 # Run from the repo root (D:\cvm-benchmark-kit). The token is read from .pier-poc\.env
 # (gitignored) — no need to export anything by hand.
 param(
-    [string]$Config = ".pier-poc\config.yaml"
+    [string]$Config = ".pier-poc\config.yaml",
+    # "all" = every dir under .pier-poc\tasks; or a comma-separated list of task dir names.
+    [string]$Tasks,
+    [string]$JobName
 )
 
 $ErrorActionPreference = "Stop"
@@ -44,15 +53,59 @@ $env:ANTHROPIC_API_KEY = ""
 # Make sure pier is on PATH.
 $env:Path += ";$env:USERPROFILE\.local\bin"
 
-# Pick the config; if PIER_MODEL is set, write a temp copy with the model swapped.
-$config = $Config
+# Build the effective config text (start from -Config), applying optional overrides.
+$configText = Get-Content $Config -Raw
+$rewrite = $false
+
+# Optional job name override.
+if ($JobName) {
+    $configText = $configText -replace '(?m)^job_name:.*', "job_name: $JobName"
+    $rewrite = $true
+    Write-Host "Job name: $JobName"
+}
+
+# Optional model override (PIER_MODEL).
 if ($env:PIER_MODEL) {
-    $runConfig = Join-Path $here ".config.run.yaml"
-    (Get-Content $Config) `
-        -replace '(?<=model_name:\s).*', $env:PIER_MODEL `
-        | Set-Content $runConfig
-    $config = ".pier-poc\.config.run.yaml"
+    $configText = $configText -replace '(?<=model_name:\s).*', $env:PIER_MODEL
+    $rewrite = $true
     Write-Host "Using model override: $($env:PIER_MODEL)"
+}
+
+# Optional task selection: rebuild the tasks: block (assumed to be the last key).
+if ($Tasks) {
+    $tasksRoot = Join-Path $here "tasks"
+    if ($Tasks -eq "all") {
+        $names = Get-ChildItem $tasksRoot -Directory | Select-Object -ExpandProperty Name
+    } else {
+        $names = $Tasks.Split(",") | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+    }
+    if (-not $names) { Write-Error "No tasks selected."; exit 1 }
+
+    $lines = @()
+    foreach ($n in $names) {
+        $toml = Join-Path $tasksRoot "$n\task.toml"
+        if (-not (Test-Path $toml)) { Write-Error "Task not found: '$n' (missing $toml)"; exit 1 }
+        # Warn if the task's docker_image isn't built locally (selection won't rebuild it).
+        $m = Select-String -Path $toml -Pattern '^\s*docker_image\s*=\s*"(.+)"' | Select-Object -First 1
+        if ($m) {
+            $img = $m.Matches.Groups[1].Value
+            docker image inspect $img *> $null
+            if ($LASTEXITCODE -ne 0) { Write-Warning "Image not built for '$n': $img  (build it before running)" }
+        }
+        $lines += "  - path: .pier-poc/tasks/$n"
+    }
+    # Strip the existing tasks: block to EOF, then append the selected one.
+    $configText = [regex]::Replace($configText, '(?s)\r?\ntasks:.*$', '')
+    $configText = $configText.TrimEnd() + "`n`ntasks:`n" + ($lines -join "`n") + "`n"
+    $rewrite = $true
+    Write-Host ("Selected tasks (" + $names.Count + "): " + ($names -join ", "))
+}
+
+if ($rewrite) {
+    $config = ".pier-poc\.config.run.yaml"
+    Set-Content -Path (Join-Path $here ".config.run.yaml") -Value $configText
+} else {
+    $config = $Config
 }
 
 Write-Host "Running pier with config: $config"

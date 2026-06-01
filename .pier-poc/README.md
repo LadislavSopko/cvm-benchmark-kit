@@ -27,9 +27,8 @@ run-poc.ps1 (host)
 | `run-poc.ps1` | Launcher: načíta `.env`, vynuluje `ANTHROPIC_API_KEY`, spustí `pier run`. |
 | `config.yaml` | Pier job config: agent `claude-code`, model, `prompt_template_path`, cesta k úlohe. |
 | `prompt-template.j2` | Bootstrap promptu agenta + completeness nudge. `{{ instruction }}` = zadanie úlohy. |
-| `build/Dockerfile` | Custom image: base task image + cvm-server + wrapper + kit. |
+| `build/Dockerfile` | Custom image: base task image + cvm-server + CVM `ENV` + kit. |
 | `build/cvm-server.tgz` | cvm-server zbuildený z lokálneho `D:\cvm` (npm verzia je stará). |
-| `build/cvm-mcp` | Wrapper, ktorý spúšťa cvm-server s env premennými (CVM nemá env pole v pier MCP configu). |
 | `build/kit/` | CLAUDE.md, benchmark-runner.ts, memory-bank/ (kopírujú sa do /app). |
 | `build/kit/skills-cc/` | Skilly v Claude Code formáte (`<nazov>/SKILL.md`). |
 | `tasks/<task>/` | Lokálna kópia DeepSWE úlohy s upraveným `task.toml`. |
@@ -46,7 +45,7 @@ Naše úpravy, aby fungoval CVM + skilly + commandy + predplatné:
 
 2. **Custom Docker image** (`build/Dockerfile`) — DeepSWE úlohy sú air-gapped (`allow_internet=false`),
    takže `npx cvm-server` za behu zlyhá. CVM preto musí byť **zabudovaný v image**:
-   base task image + `npm i -g cvm-server.tgz` + wrapper `cvm-mcp` + kit do `/opt/cvm-kit`.
+   base task image + `npm i -g cvm-server.tgz` + CVM `ENV` + kit do `/opt/cvm-kit`.
    `task.toml` má `docker_image` prepnutý na tento image.
 
 3. **CVM ako MCP server** — v `task.toml`:
@@ -54,9 +53,15 @@ Naše úpravy, aby fungoval CVM + skilly + commandy + predplatné:
    [[environment.mcp_servers]]
    name = "cvm"
    transport = "stdio"
-   command = "cvm-mcp"
+   command = "cvm-server"
    ```
-   Wrapper `cvm-mcp` nastaví `CVM_STORAGE_TYPE=file`, `CVM_DATA_DIR=/tmp/cvm-data`, `CVM_SANDBOX_ROOT=/app`.
+   Env sa nastaví priamo v image cez Dockerfile `ENV` (kanonická CVM konfigurácia):
+   `CVM_STORAGE_TYPE=file`, `CVM_DATA_DIR=.cvm` (= `/app/.cvm`, držané mimo graded diffu cez
+   `.git/info/exclude`), `CVM_LOG_LEVEL=info`, `CVM_SANDBOX_ROOT=.` (= pracovný adresár agenta `/app`).
+   cvm-server (spúšťaný claude-code ako stdio MCP server) tieto premenné zdedí z prostredia kontajnera,
+   takže `command` ukazuje priamo na `cvm-server` — žiadny wrapper netreba. Pier MCP config nemá `env`
+   pole, preto sa injektuje cez image. Jediná odchýlka od kanonickej konfigurácie je `command`:
+   air-gapped beh používa baked-in `cvm-server`, nie `npx ... cvm-server@latest`.
 
 4. **Skilly v Claude Code formáte** — kit má ploché `.md`; Claude Code načíta skill len ako
    `skills/<nazov>/SKILL.md` s frontmatterom (`name` + `description`). Preto `build/kit/skills-cc/`.

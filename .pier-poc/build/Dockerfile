@@ -1,7 +1,7 @@
 # Custom CVM-kit image for a DeepSWE PoC task.
 # Base = the task's prebuilt image. Override per task with --build-arg BASE_IMAGE=...
 # (default is the fastapi task image, which already has python deps + Node 24).
-# We add: cvm-server (built from the local D:\cvm repo), an env wrapper, and the kit files.
+# We add: cvm-server (built from the local D:\cvm repo), its env config, and the kit files.
 ARG BASE_IMAGE=public.ecr.aws/d3j8x8q7/swe-bench-202605:kh7191qb52n5pfwh0a4yhahmt18343sn
 FROM ${BASE_IMAGE}
 
@@ -38,9 +38,15 @@ RUN npm install -g /tmp/cvm-server.tgz \
     && command -v cvm-server \
     && rm -f /tmp/cvm-server.tgz
 
-# Env wrapper used as the MCP stdio command (see task.toml mcp_servers).
-COPY cvm-mcp /usr/local/bin/cvm-mcp
-RUN chmod +x /usr/local/bin/cvm-mcp
+# CVM environment, mirroring the canonical CVM MCP config's inline `env` block.
+# cvm-server (spawned by claude-code as the stdio MCP server, per task.toml) inherits
+# these from the container env, so task.toml can point `command` straight at cvm-server —
+# no wrapper script needed. Pier's MCPServerConfig has no `env` field, so this is how the
+# env is injected. Relative paths resolve against the agent's working dir (/app).
+ENV CVM_STORAGE_TYPE=file \
+    CVM_DATA_DIR=.cvm \
+    CVM_LOG_LEVEL=info \
+    CVM_SANDBOX_ROOT=.
 
 # Kit files (CLAUDE.md, benchmark-runner.ts, skills/, memory-bank/) for the agent
 # to copy into /app at runtime. skills_dir in task.toml points at /opt/cvm-kit/skills.
