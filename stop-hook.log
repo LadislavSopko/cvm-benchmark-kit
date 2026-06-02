@@ -4,3 +4,17 @@
 [12:20:46] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
 [12:20:57] EVAL: msg_len=1619 first_80="Memory Bank loaded. Here's the current state of **cvm-benchmark-kit**:\n\n## What "
 [12:20:57] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[12:23:08] EVAL: msg_len=888 first_80='Hotovo. Ostal len relevantnĂ˝ beh:\n\n## `.pier-poc/jobs/` â†’ len `cvm-poc-fastap'
+[12:23:08] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[12:31:52] EVAL: msg_len=553 first_80='Ă\udc81no, to je uĹľ splnenĂ© â€” v kite sa to volĂˇ `memory-bank`, len **zdroj** je '
+[12:31:52] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[12:35:08] EVAL: msg_len=420 first_80='Memory uloĹľenĂˇ. \n\n**Stav:** Prometheus task beĹľĂ\xad na pozadĂ\xad (job `cvm-poc-pr'
+[12:35:08] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:46:36] EVAL: msg_len=621 first_80='TentokrĂˇt naĹˇtartoval sprĂˇvne â€” `Job name: cvm-poc-prometheus-r2`, pier beĹ'
+[13:46:36] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:54:57] EVAL: msg_len=2654 first_80='Ă\udc81no, dĂˇ sa â€” a pier na to dokonca **mĂˇ vstavanĂ˝ mechanizmus**, len je defa'
+[13:54:57] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:02:26] EVAL: msg_len=710 first_80='JasnĂ©, nechĂˇvam tak. Re-run `b8rfu02hs` (job `cvm-poc-prometheus-r2`) beĹľĂ\xad Ä'
+[14:02:26] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:18:51] EVAL: msg_len=675 first_80='BeĹľĂ\xad dobre â€” a uĹľ je **za bodom, kde minulĂ˝ beh spadol** (267 ĹĄahov):\n\n- '
+[14:18:51] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}

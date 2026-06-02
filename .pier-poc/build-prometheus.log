@@ -1,0 +1,58 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.20kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for public.ecr.aws/d3j8x8q7/swe-bench-202605:kh7faaexjnnv9h4vt84e0r1v4d82qtv7
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 65.50kB 0.0s done
+#4 DONE 0.0s
+
+#5 [1/5] FROM public.ecr.aws/d3j8x8q7/swe-bench-202605:kh7faaexjnnv9h4vt84e0r1v4d82qtv7@sha256:df532347c0222b949cbd71703e8eb616310d922e58e742e84bf4fcb470f79b45
+#5 resolve public.ecr.aws/d3j8x8q7/swe-bench-202605:kh7faaexjnnv9h4vt84e0r1v4d82qtv7@sha256:df532347c0222b949cbd71703e8eb616310d922e58e742e84bf4fcb470f79b45 0.0s done
+#5 DONE 0.1s
+
+#6 [2/5] RUN if ! command -v node >/dev/null 2>&1; then         (curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y --no-install-recommends nodejs)         || (apt-get update && apt-get install -y --no-install-recommends nodejs npm);     fi     && node --version && npm --version
+#6 CACHED
+
+#7 [3/5] RUN if [ "1" = "1" ] && [ -f /app/go.mod ]; then         cd /app         && GOWORK=off GOFLAGS=-mod=mod go test -count=1 -run '^$' ./cmd/prometheus         && GOWORK=off GOFLAGS=-mod=mod go test -tags=olympus_new -count=1 -run '^$' ./cmd/prometheus         && git checkout -- go.mod go.sum;     fi
+#7 CACHED
+
+#8 [4/5] RUN npm install -g cvm-server@latest     && command -v cvm-server
+#8 7.243 
+#8 7.243 added 134 packages in 7s
+#8 7.243 
+#8 7.243 35 packages are looking for funding
+#8 7.243   run `npm fund` for details
+#8 7.244 npm notice
+#8 7.244 npm notice New minor version of npm available! 11.6.2 -> 11.16.0
+#8 7.244 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.16.0
+#8 7.244 npm notice To update run: npm install -g npm@11.16.0
+#8 7.244 npm notice
+#8 7.322 /usr/bin/cvm-server
+#8 DONE 7.5s
+
+#9 [5/5] COPY kit /opt/cvm-kit
+#9 DONE 0.2s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 2.0s done
+#10 exporting manifest sha256:8e5d657b59b9af51fc9823fb70767be80f5c343731b0be0aa3d9e5788cb1d3da 0.0s done
+#10 exporting config sha256:9dcae7bd977c84d9b0d9d94e4adbc85c1a64290c857d88eaed3c5bbba1e30005 0.0s done
+#10 exporting attestation manifest sha256:fbda6adf7ea76a25b2c7877361fdd44c2f410dc210bc4a13da9c9dd5b56f9606 0.1s done
+#10 exporting manifest list sha256:adbedeb39c0b898f16131f94cc778bf54d03754849f6ba2b9ce3f703b2dcb3d6
+#10 exporting manifest list sha256:adbedeb39c0b898f16131f94cc778bf54d03754849f6ba2b9ce3f703b2dcb3d6 0.0s done
+#10 naming to docker.io/library/cvm-kit-poc:prometheus-transactional-reload-status done
+#10 unpacking to docker.io/library/cvm-kit-poc:prometheus-transactional-reload-status
+#10 unpacking to docker.io/library/cvm-kit-poc:prometheus-transactional-reload-status 2.0s done
+#10 DONE 4.3s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/qqwtkswbvt2ij0uciay7sfsa0

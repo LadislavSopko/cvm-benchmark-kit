@@ -108,5 +108,10 @@ if ($rewrite) {
     $config = $Config
 }
 
-Write-Host "Running pier with config: $config"
+# pier resolves the config path AND the config's relative paths (jobs_dir, tasks: - path:)
+# against its CWD, so it must run from the repo root regardless of where this script was invoked.
+$repoRoot = Split-Path -Parent $here
+Set-Location $repoRoot
+
+Write-Host "Running pier with config: $config (cwd: $repoRoot)"
 pier run -c $config --debug
