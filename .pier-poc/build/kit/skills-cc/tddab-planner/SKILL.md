@@ -45,7 +45,12 @@ Keep markdown readable — tags mark boundaries, not replace content.
 file structure, testing approach, build commands. Must contain enough
 information that ANY block can be executed on a completely clean context
 without prior knowledge. Think of it as the briefing document for a
-developer who just walked into the project.]
+developer who just walked into the project.
+Clean policy (MANDATORY — state it here, scoped to the project's REAL tools):
+list the project's ACTUAL checks (whichever of build / typecheck / lint / test
+exist, with exact commands) and require them at 0 errors / 0 warnings; warnings
+are failures. Do NOT invent absent tooling. No "pre-existing" exemption, no
+suppress / skip / disable workarounds — fix the root cause.]
 </mission>
 
 <block id="01-short-name">
@@ -202,6 +207,28 @@ WRONG:
 2. Write tests afterward
 ```
 
+### 7. Exact Types, Units & Wire Formats (CRITICAL!)
+When the task names a data field, response field, header, or any serialized value, the `<red>` tests AND `<success>` criteria MUST pin its EXACT type, unit, and wire format — never leave it to inference.
+
+- A field whose name carries a unit/type suffix (`*_ms`, `*_count`, `*_id`, `*_bytes`, `*_seconds`) implies an exact type. State it explicitly: "reloader_timings_ms: integer milliseconds, no fractional/float".
+- JSON number type matters on the wire: integer vs float are NOT interchangeable. If the grader unmarshals `0.001` into an `int64` field, it fails. If a field is integer ms, emit `1`, never `0.001`.
+- Assert the TYPE, not just presence. A RED test must check the serialized type/shape — e.g. "the JSON value of `reloader_timings_ms` is an integer", "the `Allow` header equals `GET, HEAD, POST, ...` exactly", "method/field order is X, Y, Z" — not merely that the field exists.
+- Exact symbol source: if the task names a specific import/class for a value, the test must assert THAT exact symbol. Two identically-named types from different modules fail an isinstance/type check.
+
+**Why (benchmark-critical):** the hidden grading tests assert exact shapes and types. A plan that leaves a field's type/unit ambiguous lets GREEN pass on your OWN tests while the grader's stricter test fails. The block's `<red>` is your only defense — encode the exact contract there.
+
+### 8. Clean Policy — 0 errors / 0 warnings on the project's REAL toolchain
+Code we hand back must be clean — but ONLY against the tooling the project actually uses. Never invent tools it does not have.
+
+- During UNDERSTAND, detect the project's real toolchain and exact commands: which of **Build / TypeCheck / Lint / Test (BTLT)** actually exist (e.g. `deno check`, `go vet`, `npm run lint`, `pytest`). If the project has no linter, there is NO lint requirement — do not add one. Forcing absent tooling does more harm than good.
+- Whatever DOES exist must be clean: every check the project provides runs with 0 errors AND 0 warnings (treat warnings as errors). Its tests pass — none skipped, ignored, commented out, or marked pending.
+- A block is NOT done until those real commands are clean. The `<mission>` states WHICH commands apply; each block's `<success>` lists them as exit criteria.
+- **It is a STATE, not a delta.** The bar is "the project's checks are green NOW (0/0)", not "I added no new warnings". A warning already present still has to go.
+- **"Pre-existing" is not an excuse.** If a real check reports it, you own it and fix the ROOT CAUSE — not "already there" / "unrelated".
+- **No workarounds.** Never suppress or hide it to make a check pass: no `@ts-ignore` / `eslint-disable` / `#[allow(...)]` / `# type: ignore` / `@SuppressWarnings`, no commenting-out or skipping a failing test, no loosening the project's config. Fix the cause. Suppressing a warning is a FAILED block.
+
+This is a planning/agent discipline encoded in the mission + success criteria — NOT a separate machine-enforced gate. State in the mission the EXACT clean commands the project has, e.g.: "Clean policy: `deno check` + `deno test` must be 0 errors / 0 warnings; no suppressions, no pre-existing exemption." Add to each block's `<success>`: "<project's checks> clean: 0 errors / 0 warnings".
+
 ---
 
 ## TDDAB Size Guidelines
@@ -275,6 +302,8 @@ For each block, verify:
 - [ ] No decisions or options included
 - [ ] File paths are exact
 - [ ] Code shows types, signatures, key logic, assertions (compilability verified by j-develop)
+- [ ] Every data field / response value has its EXACT type+unit pinned in `<red>` (integer vs float, ms, exact header strings, exact symbol source)
+- [ ] Mission lists the project's REAL checks (whichever of build/typecheck/lint/test exist, exact commands) and requires them at 0/0; each block's `<success>` lists those checks clean
 - [ ] Can be rolled back independently
 - [ ] No dependencies on future blocks
 
@@ -361,6 +390,8 @@ When NOT using CVM, the same format works perfectly for manual execution — tag
 4. **If tests aren't first** → STOP, restructure the block
 5. **If it's not atomic** → STOP, split or merge blocks
 6. **If there's no `<block>` tag** → STOP, add structure
+7. **If a field has a unit/type suffix (`_ms`, `_id`, `_count`) or the task states a wire format/header/order** → STOP, pin the EXACT type+unit in the RED test, never infer
+8. **If one of the project's real checks shows ANY warning or error** → the block is NOT done; fix the ROOT CAUSE. 0/0 on the tools the project actually has (don't invent absent ones) — no "pre-existing" excuse, no suppress/skip/disable workarounds. The mission must list those checks
 
 ---
 

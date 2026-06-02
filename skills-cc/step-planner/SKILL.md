@@ -1,3 +1,7 @@
+---
+name: step-planner
+description: Step plan format for removal, migration, and cleanup work (non-TDD). Uses actions tag instead of red.
+---
 # Step Planner Mindset
 
 ## What is a Step Plan?
@@ -39,6 +43,10 @@ Use TDDAB when building new functionality. Use Step Plan when the work is removi
 [Full project context — architecture, tech stack, what is being removed/migrated,
 what must remain working, test command to verify stability.
 Must contain enough information that ANY block can be executed on clean context.
+Clean policy (MANDATORY — state it here, scoped to the project's REAL tools):
+list the project's actual checks (whichever of build/typecheck/lint/test exist, exact
+commands) and require them at 0 errors / 0 warnings. State, not delta; no "pre-existing"
+exemption, no suppressions/workarounds — fix the root cause. Do not invent absent tooling.
 Plan type (tddab or step) is auto-detected from blocks: all "- action:" → step.]
 </mission>
 
@@ -127,6 +135,15 @@ Each step must be:
 
 ### 5. No Mixing
 A plan is EITHER tddab (`- test:`) OR step (`- action:`), never both. The parser rejects mixed plans.
+
+### 6. Clean Policy — 0 errors / 0 warnings on the project's REAL toolchain
+Same discipline as TDDAB, scoped to the tools the project actually has:
+- Use the project's REAL checks (whichever of build / typecheck / lint / test exist, exact commands). Do NOT invent absent tooling — no linter means no lint gate.
+- Whatever exists must be 0 errors / 0 warnings (warnings are failures); tests pass, none skipped.
+- It is a STATE, not a delta: the bar is "the project's checks are green NOW (0/0)", not "I added no new warnings".
+- "Pre-existing" is not an excuse — if a real check reports it, you own it and fix the root cause.
+- No workarounds: no `@ts-ignore` / `eslint-disable` / `.skip` / loosened config to hide it. Suppressing a warning is a FAILED block.
+- The `<mission>` MUST list the project's real checks, and each block's `<success>` MUST include them at 0/0.
 
 ---
 

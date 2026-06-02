@@ -1,4 +1,5 @@
 ---
+name: j-cvm-exec-plan
 description: Parse and execute a TDDAB plan via CVM planexecutor. Autonomous block-by-block execution with RED/GREEN/VERIFY/COMMIT phases. Supports resume after interruption.
 ---
 
@@ -54,10 +55,22 @@ The loop:
 
 Repeat until `getTask` returns "Execution completed".
 
+### 4b. Submit ONE word — never a report
+
+Do all the thinking and checking AS WORK in your turn (run the tests, read the code, gather file:line evidence — that guardrail stays). But `submitTask` is a SIGNAL, not a report. Submit ONLY the bare token, nothing else:
+
+- VERIFY / RE-VERIFY → submit exactly `passed` or `failed`
+- RED / GREEN / FIX / UPDATE MEMORY BANK / COMMIT → submit exactly `done`
+- CROSS-CHECK → submit exactly the JSON the prompt asks for
+
+Lowercase, one token, no punctuation, no explanation, no `✅`, no summary after it. Submit `passed`, not `passed. all criteria met`. Submit `done`, not `done. created file X and Y`.
+
+Submit `passed` ONLY when every success criterion genuinely holds against the actual code; otherwise `failed` — the executor gives you a FIX phase. When in doubt, `failed`: a false `passed` commits broken code and fails the task.
+
 ### 5. If something goes wrong
 
-- If VERIFY fails → respond `failed`, the executor will give you a FIX phase
-- If stuck after multiple fix attempts → report error and STOP
+- If VERIFY fails → first line `failed`, the executor will give you a FIX phase
+- Keep fixing and re-verifying until genuinely `passed` — never fake a `passed` to escape the loop
 
 ## Resuming after interruption
 

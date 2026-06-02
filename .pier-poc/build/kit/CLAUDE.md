@@ -31,7 +31,7 @@ When something fails during execution, use Protocol D (systematic debugging):
 4. HYPOTHESIZE — state ONE prediction
 5. VERIFY — make ONE change and test
 
-Read `skills/mind-sets/debug-protocol.md` for the full methodology.
+Load the `/debug-protocol` skill for the full methodology.
 
 ## Memory Bank Updates
 
