@@ -14,7 +14,7 @@
 
 ## [Methodology]
 @backend-method: tddab
-@tddab-file: skills/mind-sets/tddab-planner.md
+@tddab-file: /tddab-planner   # loaded as a Claude Code skill (source: skills-cc/tddab-planner/SKILL.md)
 @tddab-lang-overlay:
 
 ## [Code Navigation]

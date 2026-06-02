@@ -1,4 +1,5 @@
 ---
+name: j-review-plan
 description: Review plan for TDDAB/Step conformity. Checks methodology compliance, dependency ordering, and validates with CVM parsePlan.
 ---
 
@@ -10,9 +11,9 @@ description: Review plan for TDDAB/Step conformity. Checks methodology complianc
 
 ### 1. Read Methodology Reference
 **Check `j-settings.md @backend-method` (if j-settings.md exists):**
-- If `tddab` → Read the file at `@tddab-file`. If `@tddab-lang-overlay` is defined and not empty, also read it.
+- If `tddab` → load the `/tddab-planner` skill (its rules are the source of truth). If `@tddab-lang-overlay` is defined and not empty, also apply it.
 - If `tdd` → Standard TDD rules apply
-- If `manual` or j-settings.md missing → Default to tddab, read `skills/mind-sets/tddab-planner.md`
+- If `manual` or j-settings.md missing → Default to tddab, load the `/tddab-planner` skill
 
 **Read the mindset file completely.** The rules in that file are the ONLY source of truth for the review. Do NOT apply rules from memory or training — only what the mindset file says.
 
@@ -23,7 +24,7 @@ description: Review plan for TDDAB/Step conformity. Checks methodology complianc
 
 ### 3. Detect Plan Type
 - If plan has `<red>` with `- test:` lines → TDDAB plan, use tddab-planner.md rules
-- If plan has `<actions>` with `- action:` lines → Step plan, read `skills/mind-sets/step-planner.md` for rules
+- If plan has `<actions>` with `- action:` lines → Step plan, load the `/step-planner` skill for rules
 - If plan has `<files>` tag → multi-file plan, read index.md + all sub-files
 
 ### 4. Review — Apply Rules From Mindset File
@@ -65,40 +66,14 @@ If `mcp__cvm__parsePlan` tool is available, call it on the plan file as a final 
 - If parsePlan succeeds → note "CVM parsePlan: valid" in the report
 - If CVM is not available → skip this step (review is still valid without it)
 
-### 6. Report
+### 6. Submit the verdict — ONE word only
 
-If issues found:
-```
-PLAN REVIEW — ISSUES FOUND
+The review itself (checking rules, listing issues, fixing `plan.md`) is your WORK, done on screen in your turn. What you SUBMIT is only the verdict — a single bare token:
 
-[Dependency / Ordering Errors]
-- [specific issue with block IDs and explanation]
+- No issues found AND (if available) parsePlan valid → submit `passed`
+- Any issue, parsePlan error, or doubt → fix `plan.md` first, then submit `failed`
 
-[Structural Issues]
-- [specific issue]
-
-[Completeness Issues]
-- [specific issue]
-
-SUGGESTED FIXES:
-1. [specific fix]
-2. [specific fix]
-
-Fix these before proceeding with j-cvm-exec-plan.
-```
-
-If plan is OK:
-```
-PLAN REVIEW — APPROVED ✅
-
-✓ Structure: all required tags present
-✓ Dependencies: execution order matches dependencies
-✓ Self-sufficiency: blocks work on clean context
-✓ Completeness: per methodology rules
-✓ CVM parsePlan: valid (if available)
-
-Ready to proceed with j-cvm-exec-plan.
-```
+Submit exactly `passed` or `failed` — lowercase, one word, nothing else. No report, no `✅`, no summary. The fixes go into `plan.md`, never into the reply. Submit `failed`, not `failed. dependency issue in block 03`.
 
 ### 7. Update Plan (if needed)
 If issues were found:
@@ -113,3 +88,4 @@ If issues were found:
 - Explain WHY something is wrong
 - Suggest specific fixes, not vague advice
 - If plan is good, say so quickly and move on
+- **Gate output:** submit ONLY the verdict word — `passed` or `failed`, lowercase, nothing else. No report in the submit. The review notes stay on screen in your turn. Submit `passed`, not `passed. <reasons>`.

@@ -1,4 +1,5 @@
 ---
+name: j-cvm-check-plan
 description: Validate a TDDAB plan file using CVM parsePlan. Shows block count, IDs, validation errors.
 ---
 

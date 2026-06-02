@@ -18,7 +18,7 @@ function main() {
     "2. Explore the codebase: file structure, existing code, tests, build system. " +
     "3. Identify the language, framework, test runner, and key patterns used. " +
     "TASK: " + task + " " +
-    "Explore thoroughly. Respond with done when you understand the project.");
+    "Do all exploration in tool calls. Submit ONLY one word: done.");
 
   console.log("Phase 2: Initialize Memory Bank...");
   CC("Create a memory-bank/ directory and initialize it with project context from your exploration: " +
@@ -27,7 +27,7 @@ function main() {
     "3. memory-bank/activeContext.md — current task context and what needs to be done " +
     "4. memory-bank/progress.md — empty for now, will track block progress " +
     "Use MBEL v5.0 format if memory-bank/README.md exists, otherwise use plain text. " +
-    "Respond with done when memory-bank is initialized.");
+    "Submit ONLY one word: done.");
 
   console.log("Phase 3: Generate TDDAB plan...");
   CC("Now generate the implementation plan. Follow these steps IN ORDER: " +
@@ -35,20 +35,23 @@ function main() {
     "2. Read the mindset carefully — it contains ALL the rules for creating plans. " +
     "3. Use your codebase understanding and memory-bank context to generate a TDDAB plan. " +
     "4. Save as plan.md. " +
-    "Respond with done when plan.md is saved.");
+    "Submit ONLY one word: done.");
 
   console.log("Phase 4: Review plan...");
-  var reviewOk = "failed";
-  while (reviewOk !== "passed") {
-    reviewOk = CC("Use skill /j-review-plan on plan.md. " +
-      "If j-settings.md is missing, default to tddab methodology with mindset at skills/mind-sets/tddab-planner.md. " +
-      "If the review finds ANY issues: fix plan.md and respond failed. " +
-      "If the review approves AND parsePlan validates: respond passed.");
-    console.log("Review result: " + reviewOk);
+  var reviewPassed = false;
+  while (!reviewPassed) {
+    var rv = CC("Use skill /j-review-plan on plan.md. " +
+      "If j-settings.md is missing, default to tddab methodology (mindset skill /tddab-planner). " +
+      "If the review finds ANY issue or parsePlan is invalid: fix plan.md directly. " +
+      "Do ALL analysis in tool calls, NOT in your reply. " +
+      "Submit ONLY one word: passed or failed.");
+    var v = rv.toLowerCase();
+    reviewPassed = v.startsWith("passed");
+    console.log("Review passed: " + reviewPassed);
   }
 
   console.log("Phase 5: Execute plan via CVM...");
-  CC("Use skill /j-cvm-exec-plan on plan.md");
+  CC("Use skill /j-cvm-exec-plan on plan.md. Submit ONLY one word: done when execution is complete.");
 
   console.log("=== Benchmark Runner Complete ===");
 }

@@ -5,18 +5,27 @@ Minimal skill set for running Claude Code with TDDAB + CVM methodology on coding
 ## What's Inside
 
 ```
-cvm-benchmark-kit/
+cvm-benchmark-kit/                 ← SOURCES (edit these)
 ├── CLAUDE.md                      ← instructions for Claude (understand → plan → review → execute)
-├── skills/
-│   ├── mind-sets/
-│   │   ├── tddab-planner.md       ← TDDAB plan format and rules
-│   │   ├── step-planner.md        ← Step plan format (removal/migration/cleanup)
-│   │   └── debug-protocol.md      ← Protocol D systematic debugging
-│   ├── j-cvm-exec-plan.md         ← CVM plan executor skill
-│   └── j-cvm-check-plan.md        ← CVM plan validator skill
-└── memory-bank/
-    └── README.md                  ← MBEL v5.0 grammar (Memory Bank format)
+├── benchmark-runner.ts            ← CVM program orchestrating the 5 phases
+├── j-settings.md                  ← methodology config
+├── skills-cc/                     ← Claude Code skills (SKILL.md format, the deployed form)
+│   ├── tddab-planner/SKILL.md     ← TDDAB plan format and rules
+│   ├── step-planner/SKILL.md      ← Step plan format (removal/migration/cleanup)
+│   ├── debug-protocol/SKILL.md    ← Protocol D systematic debugging
+│   ├── j-review-plan/SKILL.md     ← plan review (gate)
+│   ├── j-cvm-exec-plan/SKILL.md   ← CVM plan executor skill
+│   └── j-cvm-check-plan/SKILL.md  ← CVM plan validator skill
+├── memory-bank/
+│   └── README.md                  ← MBEL v5.0 grammar (Memory Bank format)
+└── .pier-poc/
+    ├── build.sh                   ← regenerates build/kit/ from the sources above
+    └── build/                     ← PRODUCT (generated; do not edit by hand)
+        ├── Dockerfile
+        └── kit/                   ← copied into the image (skills_dir → kit/skills-cc)
 ```
+
+> **Sources vs product:** edit only the files at the repo root (`skills-cc/`, `benchmark-runner.ts`, `CLAUDE.md`, `j-settings.md`, `memory-bank/`). Then run `.pier-poc/build.sh` to regenerate `.pier-poc/build/kit/`, which the Dockerfile copies into the image. Never hand-edit `.pier-poc/build/kit/`.
 
 ## Usage with Pier (DeepSWE)
 
@@ -32,13 +41,13 @@ uv tool install git+https://github.com/datacurve-ai/pier
 pier run -p deep-swe/tasks \
   --agent claude-code \
   --model anthropic/claude-opus-4-7 \
-  --ak skills_dir=./cvm-benchmark-kit/skills \
+  --ak skills_dir=./cvm-benchmark-kit/skills-cc \
   --ak memory_dir=./cvm-benchmark-kit/memory-bank
 
 # Single task test
 pier run -p deep-swe/tasks/<task-id> \
   --agent claude-code \
-  --ak skills_dir=./cvm-benchmark-kit/skills
+  --ak skills_dir=./cvm-benchmark-kit/skills-cc
 ```
 
 ## Requirements
