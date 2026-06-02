@@ -139,8 +139,8 @@ function toolSummary(name, input) {
   if (name === "Write") return input.file_path || "";
   if (name === "Glob" || name === "Grep") return input.pattern || JSON.stringify(input);
   if (name === "Skill") return input.skill || input.command || JSON.stringify(input);
-  if (String(name).startsWith("mcp__cvm__")) return JSON.stringify(input).slice(0, 200);
-  return JSON.stringify(input).slice(0, 200);
+  if (String(name).startsWith("mcp__cvm__")) return JSON.stringify(input, null, 2);
+  return JSON.stringify(input, null, 2);
 }
 
 // ---------- verifier parse ----------
@@ -192,10 +192,10 @@ function buildTrial(trialDir, repoRoot) {
     // tool
     const sm = toolSummary(s.name, s.input);
     const res = s.result == null ? "" :
-      `<details class="tr"><summary>${s.isError ? "⚠ result (error)" : "result"}</summary><pre>${esc(trunc(s.result, 4000))}</pre></details>`;
+      `<details class="tr"><summary>${s.isError ? "⚠ result (error)" : "result"}</summary><pre>${esc(s.result)}</pre></details>`;
     return `<div class="step tool${s.isError ? " err" : ""}">
       <div class="tn">🔧 ${esc(s.name)}</div>
-      ${sm ? `<pre class="ti">${esc(trunc(sm, 1500))}</pre>` : ""}
+      ${sm ? `<pre class="ti">${esc(sm)}</pre>` : ""}
       ${res}</div>`;
   }).join("");
 
@@ -225,8 +225,8 @@ function buildTrial(trialDir, repoRoot) {
   .step.say{background:#1f2937}.say-b{white-space:pre-wrap}
   .step.think{color:var(--mut);font-size:12px}
   .step.tool .tn{font-weight:600;color:var(--acc)}.step.tool.err{background:var(--del)}
-  .ti{background:#0b0f14;border:1px solid var(--bd);border-radius:6px;margin:6px 0 0;max-height:220px;overflow:auto}
-  .tr{margin:6px 0 0;background:#0b0f14}.tr pre{max-height:300px;overflow:auto}
+  .ti{background:#0b0f14;border:1px solid var(--bd);border-radius:6px;margin:6px 0 0}
+  .tr{margin:6px 0 0;background:#0b0f14}
   a{color:var(--acc)}`;
 
   const statCards = [
