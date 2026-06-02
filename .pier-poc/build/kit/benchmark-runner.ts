@@ -40,13 +40,10 @@ function main() {
   console.log("Phase 4: Review plan...");
   var reviewOk = "failed";
   while (reviewOk !== "passed") {
-    reviewOk = CC("Review the plan you created. Follow these steps: " +
-      "1. Re-read the TDDAB planner mindset: use skill /tddab-planner " +
-      "2. Read plan.md " +
-      "3. Check plan.md against EVERY rule in the mindset. " +
-      "If ANY rule is violated: fix plan.md and respond failed. " +
-      "If ALL rules pass: respond passed. " +
-      "Be STRICT. A bad plan wastes more time than a good review.");
+    reviewOk = CC("Use skill /j-review-plan on plan.md. " +
+      "If j-settings.md is missing, default to tddab methodology with mindset at skills/mind-sets/tddab-planner.md. " +
+      "If the review finds ANY issues: fix plan.md and respond failed. " +
+      "If the review approves AND parsePlan validates: respond passed.");
     console.log("Review result: " + reviewOk);
   }
 
