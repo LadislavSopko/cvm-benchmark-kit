@@ -18,3 +18,37 @@
 [14:02:26] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
 [14:18:51] EVAL: msg_len=675 first_80='BeĹľĂ\xad dobre â€” a uĹľ je **za bodom, kde minulĂ˝ beh spadol** (267 ĹĄahov):\n\n- '
 [14:18:51] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[14:37:16] EVAL: msg_len=3997 first_80='MĂˇm kompletnĂ˝ obraz. Najprv vĂ˝sledok r2, potom ĂşplnĂ˝ inventĂˇr pier moĹľnos'
+[14:37:17] BLOCK: category=WEASEL_GUESSING scores={'hypothesis_score': 0.85, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:41:35] EXIT: stop_hook_active=true
+[14:51:01] EVAL: msg_len=1511 first_80='Nie â€” to tvrdiĹĄ nemĂ´Ĺľem, a nebudem to hĂˇdaĹĄ. RozlĂ\xadĹˇme dve veci, lebo sp'
+[14:51:01] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[15:00:32] EVAL: msg_len=2074 first_80='Ă\udc81no, dĂˇ sa â€” ale nie â€žzladenĂ\xadm mien" (to je nemoĹľnĂ©, agent skrytĂ© menĂ'
+[15:00:32] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[15:22:41] EVAL: msg_len=1446 first_80='Hotovo. Memory aktualizovanĂˇ (`prometheus-task-result` doplnenĂˇ o dneĹˇnĂ© beh'
+[15:22:41] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[15:27:03] EVAL: msg_len=894 first_80='R3 beĹľĂ\xad sprĂˇvne â€” `cwd: D:\\cvm-benchmark-kit`, uĹľ v trial fĂˇze (rovnakĂ˝ '
+[15:27:03] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[15:35:38] EVAL: msg_len=549 first_80='BeĹľĂ\xad zdravo:\n\n- **FĂˇza:** EXECUTE â€” TDDAB cykly `RED â†’ GREEN â†’ VERIFY â'
+[15:35:38] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[15:49:33] EVAL: msg_len=1100 first_80='AktualizovanĂ© a opravenĂ© â€” beĹľiaci trial sa uĹľ **nepoÄŤĂ\xadta ako FAIL**.\n\n#'
+[15:49:33] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[15:51:48] EVAL: msg_len=576 first_80='VeÄľmi dobrĂˇ sprĂˇva â€” agent je **v Phase 6 CLEANUP** prĂˇve teraz:\n\n- **Ĺ¤ah'
+[15:51:48] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[16:01:29] EVAL: msg_len=490 first_80='PosĂşva sa k zĂˇveru:\n\n- **Ĺ¤ahy:** 346, log ĹľivĂ˝ (16:00)\n- **Phase 6:** prebe'
+[16:01:29] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[16:05:41] EVAL: msg_len=423 first_80='Prefix experiment beĹľĂ\xad na pozadĂ\xad (ID `bmi5lqo7t`), ~1â€“2 min. SĂşbeĹľne stĂˇ'
+[16:05:41] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[16:17:23] EVAL: msg_len=1027 first_80='Stav implementĂˇcie a r3:\n\n## ImplementovanĂ© (podÄľa tvojej preferencie)\nPrefix'
+[16:17:23] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[21:10:45] EVAL: msg_len=1237 first_80='Memory aktualizovanĂˇ. Zhrnutie kde sme:\n\n## VĂ˝sledok\n**Prometheus mĂˇ prvĂ˝ re'
+[21:10:45] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[21:18:11] EVAL: msg_len=753 first_80='Hotovo â€” vĹˇetkĂ˝ch 9 HTML dokumentov zregenerovanĂ˝ch v jednom behu:\n\n- **Agr'
+[21:18:11] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[07:26:49] EVAL: msg_len=591 first_80='R4 beĹľĂ\xad sprĂˇvne (`cwd: D:\\cvm-benchmark-kit`, v trial fĂˇze), job `cvm-poc-pr'
+[07:26:49] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[07:42:39] EVAL: msg_len=1058 first_80='Korekcia â€” **prefix SA pouĹľĂ\xadva.** MĂ´j prvĂ˝ poplach bol faloĹˇnĂ˝: tie nepr'
+[07:42:39] BLOCK: category=WEASEL_GUESSING scores={'hypothesis_score': 0.65, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[07:42:52] EXIT: stop_hook_active=true
+[08:07:29] EVAL: msg_len=1222 first_80='Hotovo. HTML reporty zregenerovanĂ© (3/5 passed, 5 jobov, vrĂˇtane r4).\n\n## ZĂˇv'
+[08:07:29] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}

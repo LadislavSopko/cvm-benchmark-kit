@@ -35,6 +35,9 @@ function main() {
     "2. Read the mindset carefully — it contains ALL the rules for creating plans. " +
     "3. Use your codebase understanding and memory-bank context to generate a TDDAB plan. " +
     "4. Save as plan.md. " +
+    "When the plan names RED tests/helpers, give every test-declared top-level identifier the 'zerox_' " +
+    "prefix (test entry points as TestZerox_...) so they cannot collide with the grader's hidden tests in " +
+    "the same package. " +
     "Submit ONLY one word: done.");
 
   console.log("Phase 4: Review plan...");
@@ -51,7 +54,12 @@ function main() {
   }
 
   console.log("Phase 5: Execute plan via CVM...");
-  CC("Use skill /j-cvm-exec-plan on plan.md. Submit ONLY one word: done when execution is complete.");
+  CC("Use skill /j-cvm-exec-plan on plan.md. " +
+    "REMEMBER (test symbol namespacing): every test you write must prefix ALL top-level identifiers you " +
+    "declare with 'zerox_' (helper types/functions, package-level vars/consts), and test entry points as " +
+    "TestZerox_... — the grader's hidden tests compile in the same package and identical names break the " +
+    "build. Apply it from the first test, not as an afterthought. " +
+    "Submit ONLY one word: done when execution is complete.");
 
   console.log("=== Benchmark Runner Complete ===");
 }

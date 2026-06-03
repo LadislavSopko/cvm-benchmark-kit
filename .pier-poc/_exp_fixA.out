@@ -1,0 +1,54 @@
+
+############################## CASE: control ##############################
+[control] agent-created NEW *_test.go:
+    cmd/prometheus/reload_status_test.go
+    cmd/prometheus/reload_transactional_test.go
+    cmd/prometheus/transactional_feature_test.go
+    util/reloadstatus/reloadstatus_test.go
+    web/api/v1/reload_status_test.go
+[control] --- running verifier (/tests/test.sh) ---
+[control] reward = 0
+[control] --- key compile/test lines ---
+ok  	github.com/prometheus/prometheus/cmd/prometheus	22.636s
+[verifier] Baseline exit code: 0
+cmd/prometheus/reload_status_test.go:32:6: reloadStatusResponse redeclared in this block
+	cmd/prometheus/reload_state_test.go:23:6: other declaration of reloadStatusResponse
+cmd/prometheus/reload_status_test.go:61:6: getReloadStatus redeclared in this block
+	cmd/prometheus/reload_state_test.go:72:6: other declaration of getReloadStatus
+cmd/prometheus/reload_status_test.go:71:34: out.Status undefined (type reloadStatusResponse has no field or method Status)
+cmd/prometheus/reload_status_test.go:93:27: out.Data undefined (type reloadStatusResponse has no field or method Data)
+cmd/prometheus/reload_status_test.go:94:23: out.Data undefined (type reloadStatusResponse has no field or method Data)
+cmd/prometheus/reload_status_test.go:95:31: out.Data undefined (type reloadStatusResponse has no field or method Data)
+cmd/prometheus/reload_status_test.go:96:21: out.Data undefined (type reloadStatusResponse has no field or method Data)
+cmd/prometheus/reload_status_test.go:97:21: out.Data undefined (type reloadStatusResponse has no field or method Data)
+cmd/prometheus/reload_status_test.go:125:22: out.Data undefined (type reloadStatusResponse has no field or method Data)
+cmd/prometheus/reload_status_test.go:126:31: out.Data undefined (type reloadStatusResponse has no field or method Data)
+FAIL	github.com/prometheus/prometheus/cmd/prometheus [build failed]
+FAIL
+[verifier] New tests exit code: 1
+
+############################## CASE: fixA ##############################
+[fixA] agent-created NEW *_test.go:
+    cmd/prometheus/reload_status_test.go
+    cmd/prometheus/reload_transactional_test.go
+    cmd/prometheus/transactional_feature_test.go
+    util/reloadstatus/reloadstatus_test.go
+    web/api/v1/reload_status_test.go
+[fixA] removed: cmd/prometheus/reload_status_test.go
+[fixA] removed: cmd/prometheus/reload_transactional_test.go
+[fixA] removed: cmd/prometheus/transactional_feature_test.go
+[fixA] removed: util/reloadstatus/reloadstatus_test.go
+[fixA] removed: web/api/v1/reload_status_test.go
+[fixA] --- running verifier (/tests/test.sh) ---
+[fixA] reward = 0
+[fixA] --- key compile/test lines ---
+ok  	github.com/prometheus/prometheus/cmd/prometheus	23.077s
+[verifier] Baseline exit code: 0
+--- FAIL: TestReloadStatusEndpoint_BeforeFirstReload_BlackBox (0.21s)
+--- FAIL: TestReloadStatusEndpoint_PersistsFailedOutcomeAcrossRestart_BlackBox (0.42s)
+FAIL
+FAIL	github.com/prometheus/prometheus/cmd/prometheus	4.161s
+FAIL
+[verifier] New tests exit code: 1
+
+############################## DONE ##############################

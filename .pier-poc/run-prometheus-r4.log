@@ -1,4 +1,4 @@
-Job name: cvm-poc-prometheus-r2
+Job name: cvm-poc-prometheus-r4
 Using model override: anthropic/claude-opus-4-8
 Running pier with config: .pier-poc\.config.run.yaml (cwd: D:\cvm-benchmark-kit)
 Skipping image OS validation for hb__prometheus-transactional-reload-status__agent-403aa0a49a53899a: docker inspect returned 1
@@ -48,6 +48,19 @@ Two general rules for "applies to the public API" requirements:
    the bare form. Before finishing, write and run a small introspection snippet that iterates ALL the
    public callables the task lists and asserts the requirement holds for each, then fix any that fail.
 
+TEST SYMBOL NAMESPACING — applies the MOMENT you write your first test, not at the end. The grader runs
+its OWN hidden tests, compiled in the SAME package/module as the tests you write. If any top-level
+identifier you declare in a test file has the same name as one the grader declares, the compiler fails
+with a duplicate-symbol / redeclaration error and the ENTIRE task fails — even if your solution is
+correct. You cannot see the hidden tests, so make YOUR test symbols unmistakably unique:
+- From the FIRST test onward, prefix EVERY top-level identifier you declare in a test file with '"'"'zerox_'"'"'
+  (helper types, helper functions, package-level vars/consts), e.g. reloadStatusResponse ->
+  zerox_reloadStatusResponse.
+- For test entry points keep the leading Test/Benchmark/Example so the runner still discovers them, but
+  insert the token right after: TestFoo -> TestZerox_Foo.
+- NEVER rename base-repo or production (non-test) symbols — only identifiers YOU declare inside YOUR OWN
+  test files. When you derive the TDDAB plan, write the RED tests with these prefixed names already.
+
 ==================================== TASK ====================================
 Prometheus reload can fail after some components applied a new configuration, leaving a mixed runtime state. Add an opt-in transactional reload mode that executes reloaders in sequence and records a single outcome for the whole attempt. The most recent outcome must be observable via HTTP and durable across restarts so operators can diagnose failures after a restart.
 
@@ -63,23 +76,23 @@ Prometheus reload can fail after some components applied a new configuration, le
 - Enabling transactional-reload-config must be reflected in GET /api/v1/features as prometheus.transactional_reload_config.
 - Exploration: This feature makes it easier to understand and debug configuration reload failures after the fact.' 2>&1 </dev/null | tee /logs/agent/claude-code.txt
 Command outputs captured
-Failed to convert Claude Code events to trajectory: 'charmap' codec can't decode byte 0x88 in position 3850: character maps to <undefined>
-  1/1 Mean: 0.000 ---------------------------------------- 0:35:28 0:00:00
+Failed to convert Claude Code events to trajectory: 'charmap' codec can't decode byte 0x88 in position 4214: character maps to <undefined>
+  1/1 Mean: 1.000 ---------------------------------------- 0:40:24 0:00:00
 adhoc � claude-code � claude-opus-4-8
 +-----------------------------+
 | Trials | Exceptions |  Mean |
 |--------+------------+-------|
-|      1 |          0 | 0.000 |
+|      1 |          0 | 1.000 |
 +-----------------------------+
 
 +----------------+
 | Reward | Count |
 |--------+-------|
-| 0.0    |     1 |
+| 1.0    |     1 |
 +----------------+
 
 Job Info
-Total runtime: 35m 28s
-Results written to .pier-poc\jobs\cvm-poc-prometheus-r2\result.json
+Total runtime: 40m 24s
+Results written to .pier-poc\jobs\cvm-poc-prometheus-r4\result.json
 Inspect results by running `pier view .pier-poc\jobs`
 

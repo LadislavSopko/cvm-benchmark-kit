@@ -34,5 +34,18 @@ Two general rules for "applies to the public API" requirements:
    the bare form. Before finishing, write and run a small introspection snippet that iterates ALL the
    public callables the task lists and asserts the requirement holds for each, then fix any that fail.
 
+TEST SYMBOL NAMESPACING — applies the MOMENT you write your first test, not at the end. The grader runs
+its OWN hidden tests, compiled in the SAME package/module as the tests you write. If any top-level
+identifier you declare in a test file has the same name as one the grader declares, the compiler fails
+with a duplicate-symbol / redeclaration error and the ENTIRE task fails — even if your solution is
+correct. You cannot see the hidden tests, so make YOUR test symbols unmistakably unique:
+- From the FIRST test onward, prefix EVERY top-level identifier you declare in a test file with 'zerox_'
+  (helper types, helper functions, package-level vars/consts), e.g. reloadStatusResponse ->
+  zerox_reloadStatusResponse.
+- For test entry points keep the leading Test/Benchmark/Example so the runner still discovers them, but
+  insert the token right after: TestFoo -> TestZerox_Foo.
+- NEVER rename base-repo or production (non-test) symbols — only identifiers YOU declare inside YOUR OWN
+  test files. When you derive the TDDAB plan, write the RED tests with these prefixed names already.
+
 ==================================== TASK ====================================
 {{ instruction }}
