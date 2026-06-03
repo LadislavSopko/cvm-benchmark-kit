@@ -67,6 +67,40 @@ Lowercase, one token, no punctuation, no explanation, no `✅`, no summary after
 
 Submit `passed` ONLY when every success criterion genuinely holds against the actual code; otherwise `failed` — the executor gives you a FIX phase. When in doubt, `failed`: a false `passed` commits broken code and fails the task.
 
+### 4c. Phase discipline — true RED and adversarial VERIFY
+
+The grader's tests are hidden; you only see your own. The failure that loses tasks is going GREEN on
+a test that is weaker than the grader's. Two disciplines prevent it (apply on EVERY block — generic to
+any language/stack):
+
+**RED must genuinely fail for the right reason (before you implement):**
+- Run the block's new tests against the CURRENT code BEFORE writing the implementation. You must
+  OBSERVE them FAIL.
+- The failure must be because the required behavior is ABSENT — an assertion mismatch on the expected
+  value/state. NOT a compile error, import error, typo, or missing-symbol setup failure (that proves
+  nothing about the behavior). If it errors for a setup reason, fix the test until it fails on the
+  assertion itself.
+- If a test PASSES before you implement anything, it is too weak — it does not actually exercise the
+  required behavior. Tighten it (assert the exact value/state the requirement demands) until it fails,
+  then implement.
+
+**VERIFY is adversarial, not self-congratulatory:**
+- VERIFY does not mean "my test passed." For each success criterion / requirement in scope, act like an
+  independent grader trying to BREAK the implementation: construct the strictest concrete probe of the
+  ACTUAL behavior (read the real output / state / value / attribute / type), including the exact value,
+  the negative case, the boundary, and the "switch back / undo / second instance" case where relevant.
+- If any strict probe does not hold, submit `failed` — the executor gives you a FIX phase. Only submit
+  `passed` when the strict probes genuinely hold against the real code, not just your own happy-path test.
+
+### 4d. Completion gate — adversarial requirement sweep
+
+When the executor reports the plan complete, do ONE final pass before treating the work as done (only if
+`requirements.md` exists): for EVERY requirement `R1..Rn`, probe the actual built behavior against its
+`accept:` criterion with the strictest concrete check (exact value/state/count, negative case, boundary,
+reversal). Any requirement whose real behavior does not exactly satisfy its `accept:` criterion is NOT
+done — fix it (re-run the relevant tests, correct the implementation) before finishing. Do not rely on
+your own tests having passed; verify the behavior directly.
+
 ### 5. If something goes wrong
 
 - If VERIFY fails → first line `failed`, the executor will give you a FIX phase

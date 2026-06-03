@@ -1,13 +1,23 @@
 §MBEL:5.0
 
 [PROGRESS]
-@phase::tooling+multiTaskRuns{validated end-to-end}
+@phase::methodology-suite deployment + multi-task validation + browser task
 
 [RESULTS::CVMkit]
-fastapi-implicit-head-options{py}::run1✓1 + run2✓1{new image cvm-server@npm+SANDBOX_PATHS}
-prometheus-transactional-reload-status{go}::✗0{realBug::reloader_timings_ms float↔int64 expected}+harnessFix{Go warm-up GOWORK=off}
-cliffy-config-file-parsing{ts/deno}::run1✓ run2✗ run3✓ run4✓ → 3/4≈75%{run2 fail::missing export ConfigParseError/ConfigValidationError from mod.ts}
-@aggregate::5/7{after fastapi-run2;variance real,small sample}
+fastapi-implicit-head-options{py}::run1✓1 + run2✓1{cvm-server@npm+SANDBOX_PATHS}
+prometheus-transactional-reload-status{go}::r2✗0,r3✓1{delete},r4✓1{prefix zerox_}+WARM_GO → 2/3✓
+cliffy-config-file-parsing{ts/deno}::run1✓ run2✗ run3✓ run4✓ → 3/4≈75%
+→aggregate pre-quill::3/5 complete
+quill-shared-toolbar-focus{ts/vitest/playwright}::7 trials{r1=6fail,r2=2fail,r3=4fail,r4=2fail,r5=3fail,r6=TRUNCATED{529x7},r7=1fail clean verdict}
+  r7best::14/15✓{image-input+read-only-restore fixed via accept-driven+trueRED+adversarial};1fail=size-picker surface miss
+  @conclusion::each methodology improvement verified on target{prefix→no collision,requirements→read-only captured,accept/trueRED/adversarial→image fixed,ARIA+W3C→semantics};but hits variance ceiling at 14/15✓per run
+  @pattern::different requirement fails each clean trial{variance not fixable via solution quality;need multi-task+multi-trial measurement}
+
+[SKILLS::extended]
+✓j-analyze-requirements{Phase 3:decompose→R1..Rn exhaustive + hunt checklist + surface inventory}
+✓benchmark-runner.ts{6 phases: Understand→MB→AnalyzeRequirements→Plan→Review{+F gate}→Execute}
+✓tddab-planner+j-review-plan{extended with coverage+accept-strictness+surface-coverage rules}
+✓j-cvm-exec-plan{enforces true RED + adversarial VERIFY + completion gate per requirement}
 
 [TOOLING::done]
 ✓run-poc.ps1{-Tasks,-JobName,-Config,model override}
@@ -19,6 +29,7 @@ cliffy-config-file-parsing{ts/deno}::run1✓ run2✗ run3✓ run4✓ → 3/4≈7
 
 [KEY_LEARNINGS]
 !recurringFailMode::exactPublicSurface{field type | missing export}¬coreLogic
-!variance::need multiple trials/task{1 run unreliable}
-!harness vs leaderboard::¬comparable{kit+model+env differ from DeepSWE mini-swe-agent/Modal}
-!provisioning::Go go.work warm-up needed;Deno/python images complete as-is
+!variance::model+env variance ceiling~14/15✓;different req fails per trial{need multi-task measurement,not single→green chase}
+!provisioning::Go needs WARM_GO;TS/playwright air-gap complete{prebuilt base has node_modules+chromium};python needs no warm-up
+!harness vs leaderboard::¬comparable{kit+model+env differ from DeepSWE}
+!graderDrift::W3C fix in .pier-poc/quill diverges stock DeepSWE{upstream PR pending→affects benchmark}
