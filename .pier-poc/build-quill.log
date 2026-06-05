@@ -1,0 +1,60 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.20kB 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for public.ecr.aws/d3j8x8q7/swe-bench-202605:kh73sgee6751fmh72hwwctyscx832frj
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 79.06kB 0.0s done
+#4 DONE 0.0s
+
+#5 [1/5] FROM public.ecr.aws/d3j8x8q7/swe-bench-202605:kh73sgee6751fmh72hwwctyscx832frj@sha256:b5df38354b0490db11b1d0bff23e726859c31e077610999432645679d8b96921
+#5 resolve public.ecr.aws/d3j8x8q7/swe-bench-202605:kh73sgee6751fmh72hwwctyscx832frj@sha256:b5df38354b0490db11b1d0bff23e726859c31e077610999432645679d8b96921 0.0s done
+#5 CACHED
+
+#6 [2/5] RUN if ! command -v node >/dev/null 2>&1; then         (curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y --no-install-recommends nodejs)         || (apt-get update && apt-get install -y --no-install-recommends nodejs npm);     fi     && node --version && npm --version
+#6 0.630 v24.12.0
+#6 0.842 11.6.2
+#6 DONE 0.9s
+
+#7 [3/5] RUN if [ "0" = "1" ] && [ -f /app/go.mod ]; then         cd /app         && GOWORK=off GOFLAGS=-mod=mod go test -count=1 -run '^$' ./cmd/prometheus         && GOWORK=off GOFLAGS=-mod=mod go test -tags=olympus_new -count=1 -run '^$' ./cmd/prometheus         && git checkout -- go.mod go.sum;     fi
+#7 DONE 0.4s
+
+#8 [4/5] RUN npm install -g cvm-server@latest     && command -v cvm-server
+#8 7.137 
+#8 7.137 added 134 packages in 7s
+#8 7.137 
+#8 7.137 35 packages are looking for funding
+#8 7.137   run `npm fund` for details
+#8 7.139 npm notice
+#8 7.139 npm notice New minor version of npm available! 11.6.2 -> 11.16.0
+#8 7.139 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.16.0
+#8 7.139 npm notice To update run: npm install -g npm@11.16.0
+#8 7.139 npm notice
+#8 7.167 /usr/bin/cvm-server
+#8 DONE 7.3s
+
+#9 [5/5] COPY kit /opt/cvm-kit
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 1.9s done
+#10 exporting manifest sha256:1ecbfc41c1e7b83b645f0c22ccd8db52125c9ae91e9986f7d3d201ddcff8f3ae 0.0s done
+#10 exporting config sha256:0fd1d3a6499296854fa04ffee726f8c2bc3e849db1c8827706e919277e9e918c 0.0s done
+#10 exporting attestation manifest sha256:9e10d43367a2bfc45d0cd2cf6da09183b79c5bde79055aa198c510c5c9c914f4 0.1s done
+#10 exporting manifest list sha256:118858c59e20542418e6c047f37792bf318b5999422e069ea9aed74b7519b208
+#10 exporting manifest list sha256:118858c59e20542418e6c047f37792bf318b5999422e069ea9aed74b7519b208 0.0s done
+#10 naming to docker.io/library/cvm-kit-poc:quill-shared-toolbar-focus done
+#10 unpacking to docker.io/library/cvm-kit-poc:quill-shared-toolbar-focus
+#10 unpacking to docker.io/library/cvm-kit-poc:quill-shared-toolbar-focus 1.7s done
+#10 DONE 3.8s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/wiuswacc1fbll28xqdihu04nc
