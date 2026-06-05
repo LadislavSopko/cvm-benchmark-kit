@@ -9,9 +9,9 @@ for line in src.split('\n'):
 open('/tmp/sol.patch','w').write('\n'.join(out)+'\n')
 PYEOF
 git apply --whitespace=nowarn /tmp/sol.patch
-echo "=== AutoHeadParam / AutoOptionsParam definícia v routing.py ==="
+echo "=== AutoHeadParam / AutoOptionsParam definition in routing.py ==="
 grep -nE 'AutoHeadParam|AutoOptionsParam' /app/fastapi/routing.py | head
-echo "=== APIRouter.add_api_route: auto_head/options anotácia v zdroji ==="
+echo "=== APIRouter.add_api_route: auto_head/options annotation in source ==="
 python3 - <<'PYEOF'
 import inspect, fastapi.routing as R
 s=inspect.getsource(R.APIRouter.add_api_route)

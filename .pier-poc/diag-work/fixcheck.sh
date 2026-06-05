@@ -12,14 +12,14 @@ for line in src.split('\n'):
 open('/tmp/sol.patch','w').write('\n'.join(out)+'\n')
 PYEOF
 git apply --whitespace=nowarn /tmp/sol.patch && echo "[fix] solution applied"
-echo "[fix] výskyty bare typu pred opravou:"; grep -c 'auto_head: bool | DefaultPlaceholder = Default(None)' /app/fastapi/routing.py
-# 2-riadková oprava: použiť alias na APIRouter.add_api_route
+echo "[fix] bare-type occurrences before the fix:"; grep -c 'auto_head: bool | DefaultPlaceholder = Default(None)' /app/fastapi/routing.py
+# 2-line fix: use the alias on APIRouter.add_api_route
 sed -i 's/auto_head: bool | DefaultPlaceholder = Default(None)/auto_head: AutoHeadParam = Default(None)/' /app/fastapi/routing.py
 sed -i 's/auto_options: bool | DefaultPlaceholder = Default(None)/auto_options: AutoOptionsParam = Default(None)/' /app/fastapi/routing.py
-echo "[fix] po oprave (malo by byť 0):"; grep -c 'auto_head: bool | DefaultPlaceholder = Default(None)' /app/fastapi/routing.py
+echo "[fix] after the fix (should be 0):"; grep -c 'auto_head: bool | DefaultPlaceholder = Default(None)' /app/fastapi/routing.py
 mkdir -p /tests /logs/verifier /logs/artifacts
 cp /work/test.patch /tests/test.patch; cp /work/test.sh /tests/test.sh; chmod +x /tests/test.sh
-echo "[fix] spúšťam oficiálny verifier..."
+echo "[fix] running the official verifier..."
 bash /tests/test.sh >/tmp/v.log 2>&1
 echo "[fix] ===== REWARD ====="; cat /logs/verifier/reward.txt
-echo "[fix] test súhrn:"; grep -E 'passed|failed' /tmp/v.log | tail -3
+echo "[fix] test summary:"; grep -E 'passed|failed' /tmp/v.log | tail -3

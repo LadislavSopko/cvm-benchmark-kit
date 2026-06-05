@@ -84,3 +84,13 @@ reverifyOffline::apply model.patch|reference solution+test.patch,--network none�
 [REPORTING]
 make-report.mjs{node,noDeps}::trialDir→report.html | jobDir→index.html+perTrial | jobsRoot→aggregate dashboard{passRate+perTask rollup+variance}
 watch-cvm.mjs::live CVM monitor{loadFile/start/getTask[phase]/submitTask,wall-clock+spinner}
+
+[TEAM_TRACKER]
+§artifact::deepswe-tasks.html{repoRoot,113 tasks©deepswe.datacurve.ai/artifacts/tasks.json × 4 runSlots}
+@purpose::checklist{which runs executed}+teamDivision{assign each TASK to owner∈{Domino|Simon|Laco}}
+¬scope::reward|trajectory|details→.pier-poc/jobs/index.html{do NOT duplicate here}
+@truth::STATE block inside html{git-committed,1 line per taskId,ts-merge over browser localStorage}
+@shape::STATE[taskId]::{owner:str,runs:[bool×4],ts:int}
+!rule::afterEachRun→Claude edits STATE in deepswe-tasks.html{set runs[K]:true+bump ts}→commit
+@assign::owner per TASK{¬per run}
+©seed>progress.md[RESULTS::CVMkit]{fastapi r1+r2,prometheus r2-r4,cliffy r1-r4,quill r1-r4 marked executed}

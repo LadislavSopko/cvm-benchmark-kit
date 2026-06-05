@@ -1,0 +1,22 @@
+[09:34:48] EVAL: msg_len=2992 first_80='Ă\udc81no â€” **vĂ¤ÄŤĹˇinu Ăˇno, ale s pĂˇr dĂ´leĹľitĂ˝mi dierami**, ak mĂˇ ten ÄŤlov'
+[09:34:48] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:03:32] EVAL: msg_len=1996 first_80='Done. Final scan is clean â€” no Slovak remains in any project doc, script, or c'
+[10:03:32] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:57:20] EVAL: msg_len=1770 first_80='Hotovo. Vytvoril som **`D:\\cvm-benchmark-kit\\deepswe-tasks.html`** â€” samostatn'
+[10:57:20] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:02:57] EVAL: msg_len=1259 first_80='Rozumiem â€” Q1 mĂˇm: **4 run sloty na kaĹľdĂ˝ task**. Pri Q2 (zĂˇpis do Memory '
+[11:02:57] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:14:46] EVAL: msg_len=1960 first_80='Hotovo. Prerobil som tracker presne na to, ÄŤo mĂˇ byĹĄ â€” **ÄŤistĂ˝ checklist '
+[11:14:46] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:17:51] EVAL: msg_len=1067 first_80='Hotovo.\n\n## Zmena\n\n**`deepswe-tasks.html`** â€” owner je teraz **na Ăşrovni task'
+[11:17:51] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:29:56] EVAL: msg_len=1378 first_80='Hotovo a overenĂ©.\n\n## `deepswe-tasks.html` â€” finĂˇlny stav\n\n- **ZoradenĂ© pod'
+[11:29:56] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:31:32] EVAL: msg_len=1990 first_80='Stav sa ukladĂˇ na **dvoch miestach** (plus jeden zdrojovĂ˝ zĂˇznam v MB). Konkr'
+[11:31:32] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:35:24] EVAL: msg_len=1216 first_80='OpravenĂ© a overenĂ©. âś…\n\n## ÄŚo bolo zle a ÄŤo som spravil\n\n- **Realita v `job'
+[11:35:24] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:36:54] EVAL: msg_len=1561 first_80='DobrĂˇ otĂˇzka â€” a tu je dĂ´leĹľitĂ˝ detail: **HTML otvorenĂ© z disku (`file:/'
+[11:36:54] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:39:54] EVAL: msg_len=1186 first_80='Hotovo a overenĂ©. âś…\n\n## Zmeny v `deepswe-tasks.html`\n\n- **PridanĂ©: đź’ľ Save'
+[11:39:54] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}

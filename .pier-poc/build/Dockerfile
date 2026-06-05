@@ -1,7 +1,7 @@
 # Custom CVM-kit image for a DeepSWE PoC task.
 # Base = the task's prebuilt image. Override per task with --build-arg BASE_IMAGE=...
 # (default is the fastapi task image, which already has python deps + Node 24).
-# We add: cvm-server (built from the local D:\cvm repo), its env config, and the kit files.
+# We add: cvm-server (installed from the public npm registry), its env config, and the kit files.
 ARG BASE_IMAGE=public.ecr.aws/d3j8x8q7/swe-bench-202605:kh7191qb52n5pfwh0a4yhahmt18343sn
 FROM ${BASE_IMAGE}
 

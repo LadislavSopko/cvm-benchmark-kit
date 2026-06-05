@@ -40,7 +40,7 @@ uv tool install git+https://github.com/datacurve-ai/pier
 # 3. Run benchmark with CVM kit
 pier run -p deep-swe/tasks \
   --agent claude-code \
-  --model anthropic/claude-opus-4-7 \
+  --model anthropic/claude-opus-4-8 \
   --ak skills_dir=./cvm-benchmark-kit/skills-cc \
   --ak memory_dir=./cvm-benchmark-kit/memory-bank
 
@@ -54,7 +54,7 @@ pier run -p deep-swe/tasks/<task-id> \
 
 - Claude Code CLI (with subscription or API key)
 - Node.js (for CVM MCP server)
-- CVM MCP server: `npx cvm-server@next`
+- CVM MCP server: `cvm-server` (interactive use: `npx cvm-server@latest`; the air-gapped pier PoC bakes it into the Docker image — see `.pier-poc/README.md` and `HANDOFF.md`)
 
 ## How It Works
 
