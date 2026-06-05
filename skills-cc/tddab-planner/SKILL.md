@@ -124,6 +124,14 @@ list of what the task demands. The plan MUST cover it completely:
    member, not a representative subset — especially members with different mechanics (a native control
    vs a custom dropdown/picker vs a file input behave differently). The member the plan forgets is the
    one the hidden grader checks.
+7. **Idempotency / exactly-once / lifecycle requirements need a REPEAT test, never a single-trigger
+   test.** When a requirement says an effect/binding happens "exactly once" / "no duplicates", or
+   concerns add-after-init, remove-then-readd, or re-init, the `<red>` test MUST exercise the
+   repetition: trigger the action TWICE (and where controls are added/removed, do add→remove→re-add),
+   then assert the effect applied EXACTLY ONCE — exact final value/state, no doubled output, no
+   duplicate element/listener (assert the deduplicated COUNT or the exact single-applied result). A test
+   that triggers the action only once goes GREEN even when the handler is bound twice — the classic loss
+   (text becomes `alphaA` instead of `alpha`, a node appears twice, a listener fires N times).
 
 ---
 

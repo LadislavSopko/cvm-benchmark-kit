@@ -89,6 +89,12 @@ any language/stack):
   independent grader trying to BREAK the implementation: construct the strictest concrete probe of the
   ACTUAL behavior (read the real output / state / value / attribute / type), including the exact value,
   the negative case, the boundary, and the "switch back / undo / second instance" case where relevant.
+- **Idempotency / exactly-once probe — MANDATORY for any cardinality or lifecycle requirement** ("exactly
+  once", "no duplicates", add-after-init, remove-then-readd, re-init): trigger the action a SECOND time,
+  and where controls can be added/removed do add→remove→re-add, then assert the effect applied EXACTLY
+  ONCE — exact final value/state, no doubled output, no duplicate element/listener. A handler bound twice
+  PASSES a single-trigger test but fails the grader (text becomes `alphaA` not `alpha`, a node appears
+  twice, a listener fires N times). If the second trigger doubles anything, submit `failed`.
 - If any strict probe does not hold, submit `failed` — the executor gives you a FIX phase. Only submit
   `passed` when the strict probes genuinely hold against the real code, not just your own happy-path test.
 
@@ -97,9 +103,12 @@ any language/stack):
 When the executor reports the plan complete, do ONE final pass before treating the work as done (only if
 `requirements.md` exists): for EVERY requirement `R1..Rn`, probe the actual built behavior against its
 `accept:` criterion with the strictest concrete check (exact value/state/count, negative case, boundary,
-reversal). Any requirement whose real behavior does not exactly satisfy its `accept:` criterion is NOT
-done — fix it (re-run the relevant tests, correct the implementation) before finishing. Do not rely on
-your own tests having passed; verify the behavior directly.
+reversal). For any requirement about cardinality or lifecycle ("exactly once", "no duplicates",
+add-after-init, remove-then-readd), run the idempotency probe from 4c — trigger twice / add→remove→re-add
+and confirm the effect applied exactly once (no doubling, no duplicate listener). Any requirement whose
+real behavior does not exactly satisfy its `accept:` criterion is NOT done — fix it (re-run the relevant
+tests, correct the implementation) before finishing. Do not rely on your own tests having passed; verify
+the behavior directly.
 
 ### 5. If something goes wrong
 
