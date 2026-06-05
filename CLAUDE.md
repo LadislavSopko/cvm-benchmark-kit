@@ -33,9 +33,16 @@ When something fails during execution, use Protocol D (systematic debugging):
 
 Load the `/debug-protocol` skill for the full methodology.
 
-## Memory Bank Updates
+### How Memory Bank Works
 
-Update `memory-bank/activeContext.md` and `memory-bank/progress.md` after each completed block, BEFORE committing. The commit should include both the code changes and the MB updates.
+1. **User triggers**: Type `mb`, `update memory bank`, or `check memory bank`
+2. **Claude's process**:
+   - Reads `memory-bank/README.md` and follows its instructions
+
+### Important Rules
+
+- Follow instructions in `memory-bank/README.md` - it defines what to read and when
+- Memory Bank is the single source of truth - overrides any other documentation
 
 ## Rules
 

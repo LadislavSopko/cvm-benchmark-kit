@@ -90,13 +90,48 @@ No TODOs, no unresolved decisions.]
 1. `<mission>` — EXACTLY once, before first block, must be comprehensive enough for clean-context execution
 2. `<block id="">` — id format: `NN-kebab-case`, must be unique across ALL files
 3. `<intro>` — MUST be self-sufficient (executable with zero prior context)
-4. `<red>` — each line starts with `- test:`, describes ONE testable behavior. Must cover ALL cases: happy path, edge cases, error conditions, boundaries. No arbitrary limits on count.
+4. `<red>` — each line starts with `- test:`, describes ONE testable behavior. Must cover ALL cases: happy path, edge cases, error conditions, boundaries. No arbitrary limits on count. If `requirements.md` exists, annotate each test with the requirement id(s) it covers, e.g. `- test: response omits field F when the input is empty (R7)`.
 5. `<success>` — checklist of verifiable outcomes (`- [ ]` format), ALL must pass
 6. `<files>` — ONLY in index.md, signals multi-file mode (see Multi-File Plans below)
 7. Tags can span multiple lines
 8. No nesting tags inside other tags (except all tags are inside `<block>`)
 9. Standard markdown between tags is preserved for human reading
 10. **Never write raw TDDAB tag names with angle brackets inside any tag content** (mission, block, intro, red, success, files). This applies to ALL text inside ANY tag — not just mission. When referencing tags in prose, use backtick-wrapped form or write without angle brackets ("the mission tag", "the files list"). The parser cannot distinguish a literal tag name from a real tag boundary.
+
+---
+
+## Requirement Coverage (MANDATORY when `requirements.md` exists)
+
+If `requirements.md` is present (produced by `/j-analyze-requirements`), it is the authoritative
+list of what the task demands. The plan MUST cover it completely:
+
+1. Read `requirements.md` before writing any block.
+2. EVERY requirement `R1..Rn` must be covered by at least one `<red>` test in some block. Annotate
+   each test with the id(s) it covers (see Tag Rule 4).
+3. Secondary / buried requirements (negative "must not", disabled/read-only states, restore-on-
+   switch-back, "exactly once", "no duplicates", exact response shapes) need their OWN explicit
+   RED test — they are the ones all-or-nothing grading punishes. Do not fold them into a happy-path
+   test where they can silently go unchecked.
+4. End the plan with a coverage line per requirement, e.g. `R7 → block 04 (test: empty-input
+   response)`. Any `R` with no covering test is an incomplete plan — add the block/test.
+5. Each covering RED test must encode the requirement's `accept:` criterion as a CONCRETE value/state
+   assertion — assert the exact observable (value, attribute, count, type, string, state), not mere
+   presence or truthiness. A test that would still pass without the precise required behavior is too
+   weak: it lets execution go GREEN while a stricter hidden grader test fails. Write the assertion at
+   the tightest exact form the `accept:` line states.
+6. When a requirement ranges over a CATEGORY of entities (every control / callable / endpoint / field /
+   UI surface — see the requirements' surface inventory), the RED tests must cover EACH enumerated
+   member, not a representative subset — especially members with different mechanics (a native control
+   vs a custom dropdown/picker vs a file input behave differently). The member the plan forgets is the
+   one the hidden grader checks.
+7. **Idempotency / exactly-once / lifecycle requirements need a REPEAT test, never a single-trigger
+   test.** When a requirement says an effect/binding happens "exactly once" / "no duplicates", or
+   concerns add-after-init, remove-then-readd, or re-init, the `<red>` test MUST exercise the
+   repetition: trigger the action TWICE (and where controls are added/removed, do add→remove→re-add),
+   then assert the effect applied EXACTLY ONCE — exact final value/state, no doubled output, no
+   duplicate element/listener (assert the deduplicated COUNT or the exact single-applied result). A test
+   that triggers the action only once goes GREEN even when the handler is bound twice — the classic loss
+   (text becomes `alphaA` instead of `alpha`, a node appears twice, a listener fires N times).
 
 ---
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Regenerates .pier-poc/build/kit/ — the Docker build input — from the kit SOURCES at the repo root.
 #
-# SOURCES (edit these):   CLAUDE.md, benchmark-runner.ts, j-settings.md, .mcp.json, memory-bank/, skills-cc/
+# SOURCES (edit these):   CLAUDE.md, benchmark-runner.ts, j-settings.md, .mcp.json, memory-bank-template/, skills-cc/
+#   NOTE: the kit ships memory-bank-template/ (NOT the real harness memory-bank/, which is this repo's own MB).
 # PRODUCT (generated):    .pier-poc/build/kit/   ← never hand-edit; this script overwrites it
 #
 # The Dockerfile (.pier-poc/build/Dockerfile) does `COPY kit /opt/cvm-kit`, and task.toml sets
@@ -25,7 +26,7 @@ cp    "$ROOT/CLAUDE.md"            "$KIT/CLAUDE.md"
 cp    "$ROOT/benchmark-runner.ts" "$KIT/benchmark-runner.ts"
 cp    "$ROOT/j-settings.md"       "$KIT/j-settings.md"
 cp    "$ROOT/.mcp.json"           "$KIT/.mcp.json"
-cp -r "$ROOT/memory-bank"         "$KIT/memory-bank"
+cp -rL "$ROOT/memory-bank-template" "$KIT/memory-bank"   # source = TEMPLATE (not the real harness MB); -L derefs README.md symlink so the kit gets the real FILE, not a symlink
 cp -r "$ROOT/skills-cc"           "$KIT/skills-cc"
 
 echo "Done. Contents:"

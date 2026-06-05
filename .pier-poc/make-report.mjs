@@ -139,8 +139,8 @@ function toolSummary(name, input) {
   if (name === "Write") return input.file_path || "";
   if (name === "Glob" || name === "Grep") return input.pattern || JSON.stringify(input);
   if (name === "Skill") return input.skill || input.command || JSON.stringify(input);
-  if (String(name).startsWith("mcp__cvm__")) return JSON.stringify(input).slice(0, 200);
-  return JSON.stringify(input).slice(0, 200);
+  if (String(name).startsWith("mcp__cvm__")) return JSON.stringify(input, null, 2);
+  return JSON.stringify(input, null, 2);
 }
 
 // ---------- verifier parse ----------
@@ -170,6 +170,7 @@ function buildTrial(trialDir, repoRoot) {
   const ver = parseVerifier(trialDir);
   const patch = readText(path.join(trialDir, "artifacts", "model.patch")) || "";
 
+  const running = !ver.reward;          // no reward.txt yet → trial in progress / incomplete
   const pass = ver.reward === "1";
   const title = tget("display_title") || taskName;
   const meta = {
@@ -192,10 +193,10 @@ function buildTrial(trialDir, repoRoot) {
     // tool
     const sm = toolSummary(s.name, s.input);
     const res = s.result == null ? "" :
-      `<details class="tr"><summary>${s.isError ? "⚠ result (error)" : "result"}</summary><pre>${esc(trunc(s.result, 4000))}</pre></details>`;
+      `<details class="tr"><summary>${s.isError ? "⚠ result (error)" : "result"}</summary><pre>${esc(s.result)}</pre></details>`;
     return `<div class="step tool${s.isError ? " err" : ""}">
       <div class="tn">🔧 ${esc(s.name)}</div>
-      ${sm ? `<pre class="ti">${esc(trunc(sm, 1500))}</pre>` : ""}
+      ${sm ? `<pre class="ti">${esc(sm)}</pre>` : ""}
       ${res}</div>`;
   }).join("");
 
@@ -206,6 +207,7 @@ function buildTrial(trialDir, repoRoot) {
   h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;border-bottom:1px solid var(--bd);padding-bottom:6px;margin:28px 0 12px}
   .badge{display:inline-block;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13px}
   .pass{background:var(--add);color:var(--addb);border:1px solid var(--addb)}.fail{background:var(--del);color:var(--delb);border:1px solid var(--delb)}
+  .run{background:#9e6a0326;color:#d29922;border:1px solid #d29922}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
   .stat{background:var(--panel);border:1px solid var(--bd);border-radius:8px;padding:10px 12px}
   .stat .k{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.stat .v{font-size:18px;font-weight:600;margin-top:2px}
@@ -225,12 +227,12 @@ function buildTrial(trialDir, repoRoot) {
   .step.say{background:#1f2937}.say-b{white-space:pre-wrap}
   .step.think{color:var(--mut);font-size:12px}
   .step.tool .tn{font-weight:600;color:var(--acc)}.step.tool.err{background:var(--del)}
-  .ti{background:#0b0f14;border:1px solid var(--bd);border-radius:6px;margin:6px 0 0;max-height:220px;overflow:auto}
-  .tr{margin:6px 0 0;background:#0b0f14}.tr pre{max-height:300px;overflow:auto}
+  .ti{background:#0b0f14;border:1px solid var(--bd);border-radius:6px;margin:6px 0 0}
+  .tr{margin:6px 0 0;background:#0b0f14}
   a{color:var(--acc)}`;
 
   const statCards = [
-    ["Verdict", pass ? `<span class="badge pass">PASS · reward 1</span>` : `<span class="badge fail">FAIL · reward ${esc(ver.reward || "?")}</span>`],
+    ["Verdict", running ? `<span class="badge run">RUNNING / incomplete</span>` : pass ? `<span class="badge pass">PASS · reward 1</span>` : `<span class="badge fail">FAIL · reward ${esc(ver.reward || "?")}</span>`],
     ["Baseline", ver.baseExit === "0" ? "✅ pass" : `❌ exit ${esc(ver.baseExit ?? "?")}`],
     ["New tests", ver.newExit === "0" ? "✅ pass" : `❌ exit ${esc(ver.newExit ?? "?")}`],
     ["Duration", fmtDuration(traj.durationMs)],
@@ -268,7 +270,7 @@ ${traj.finalText ? `<h2>Final summary (agent)</h2><pre>${esc(traj.finalText)}</p
   if (WANT_MD) {
     const md = `# ${title}\n\n**${trialName}**\n\n` +
       `| | |\n|---|---|\n` +
-      `| Verdict | ${pass ? "✅ PASS (reward 1)" : `❌ FAIL (reward ${ver.reward || "?"})`} |\n` +
+      `| Verdict | ${running ? "⏳ RUNNING / incomplete" : pass ? "✅ PASS (reward 1)" : `❌ FAIL (reward ${ver.reward || "?"})`} |\n` +
       `| Baseline / New | exit ${ver.baseExit ?? "?"} / ${ver.newExit ?? "?"} |\n` +
       `| Duration | ${fmtDuration(traj.durationMs)} |\n| Turns | ${num(traj.numTurns)} |\n| Tool calls | ${num(traj.counts.tools)} |\n` +
       `| Output tokens | ${num(traj.tok.output)} |\n` +
@@ -280,7 +282,7 @@ ${traj.finalText ? `<h2>Final summary (agent)</h2><pre>${esc(traj.finalText)}</p
 
   return {
     trialName, dir: path.basename(trialDir), taskId: tget("task_id") || taskName, title,
-    pass, reward: ver.reward, durationMs: traj.durationMs, duration: fmtDuration(traj.durationMs),
+    pass, running, reward: ver.reward, durationMs: traj.durationMs, duration: fmtDuration(traj.durationMs),
     turns: traj.numTurns, tools: traj.counts.tools, lang: meta.Language,
   };
 }
@@ -301,14 +303,18 @@ const DASH_CSS = `body{background:#0d1117;color:#e6edf3;font:14px/1.5 -apple-sys
  table{width:100%;border-collapse:collapse;background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:8px}
  td,th{padding:9px 12px;border-bottom:1px solid #30363d;text-align:left;vertical-align:top}th{color:#8b949e;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:700;font-size:12px}
- .pass{background:#2ea04326;color:#3fb950}.fail{background:#f8514926;color:#f85149}a{color:#58a6ff;text-decoration:none}a:hover{text-decoration:underline}
+ .pass{background:#2ea04326;color:#3fb950}.fail{background:#f8514926;color:#f85149}.run{background:#9e6a0326;color:#d29922}a{color:#58a6ff;text-decoration:none}a:hover{text-decoration:underline}
  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
  .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px}.card .k{color:#8b949e;font-size:11px;text-transform:uppercase}.card .v{font-size:22px;font-weight:700;margin-top:2px}
  .bar{height:8px;border-radius:999px;background:#f8514926;overflow:hidden;min-width:90px}.bar>i{display:block;height:100%;background:#3fb950}
  .muted{color:#8b949e}small{color:#8b949e}`;
 
+function badgeHTML(r) {
+  if (r.running) return '<span class="badge run">RUNNING</span>';
+  return r.pass ? '<span class="badge pass">PASS</span>' : `<span class="badge fail">FAIL (${esc(r.reward || "?")})</span>`;
+}
 function verdictCell(r, linkPrefix) {
-  const b = r.pass ? '<span class="badge pass">PASS</span>' : `<span class="badge fail">FAIL${r.reward && r.reward !== "0" ? " (" + esc(r.reward) + ")" : ""}</span>`;
+  const b = r.running ? '<span class="badge run">RUN</span>' : r.pass ? '<span class="badge pass">PASS</span>' : `<span class="badge fail">FAIL${r.reward && r.reward !== "0" ? " (" + esc(r.reward) + ")" : ""}</span>`;
   return `<a href="${linkPrefix}${esc(r.dir)}/report.html">${b}</a>`;
 }
 
@@ -320,14 +326,16 @@ function processJob(jobDir, repoRoot) {
     try { rows.push(buildTrial(t, repoRoot)); } catch (e) { console.error(`! ${t}: ${e.message}`); }
   }
   const passN = rows.filter((r) => r.pass).length;
+  const done = rows.filter((r) => !r.running).length;
+  const runN = rows.filter((r) => r.running).length;
   const trh = rows.map((r) => `<tr>
     <td><a href="./${esc(r.dir)}/report.html">${esc(r.title)}</a><br><small>${esc(r.dir)}</small></td>
     <td>${esc(r.lang || "")}</td>
-    <td>${r.pass ? '<span class="badge pass">PASS</span>' : `<span class="badge fail">FAIL (${esc(r.reward || "?")})</span>`}</td>
+    <td>${badgeHTML(r)}</td>
     <td>${esc(r.duration)}</td><td>${num(r.turns)}</td><td>${num(r.tools)}</td></tr>`).join("");
   const html = `<!doctype html><meta charset="utf-8"><title>${esc(jobName)} — job report</title><style>${DASH_CSS}</style>
    <div class="wrap"><p><a href="../index.html">← all jobs</a></p><h1>${esc(jobName)}</h1>
-   <div class="cards"><div class="card"><div class="k">Pass rate</div><div class="v">${passN}/${rows.length}</div></div></div>
+   <div class="cards"><div class="card"><div class="k">Pass rate</div><div class="v">${passN}/${done}${runN ? ` <small>(+${runN} running)</small>` : ""}</div></div></div>
    <table><tr><th>Task</th><th>Lang</th><th>Verdict</th><th>Duration</th><th>Turns</th><th>Tools</th></tr>${trh}</table>
    <p class="muted">Generated by make-report.mjs</p></div>`;
   fs.writeFileSync(path.join(jobDir, "index.html"), html);
@@ -345,8 +353,9 @@ if (isTrialDir(target)) {
 } else if (isJobDir(target)) {
   const { rows } = processJob(target, repoRoot);
   const passN = rows.filter((r) => r.pass).length;
-  console.log(`✓ Job: ${passN}/${rows.length} passed → ${path.join(target, "index.html")}`);
-  for (const r of rows) console.log(`   - ${r.pass ? "PASS" : "FAIL"}  ${r.title}`);
+  const done = rows.filter((r) => !r.running).length;
+  console.log(`✓ Job: ${passN}/${done} passed${rows.length - done ? `, ${rows.length - done} running` : ""} → ${path.join(target, "index.html")}`);
+  for (const r of rows) console.log(`   - ${r.running ? "RUN " : r.pass ? "PASS" : "FAIL"}  ${r.title}`);
 } else {
   // jobs root: aggregate every job dir under it
   const jobDirs = fs.readdirSync(target, { withFileTypes: true })
@@ -360,6 +369,8 @@ if (isTrialDir(target)) {
     for (const r of rows) all.push({ job: jobName, ...r });
   }
   const passN = all.filter((r) => r.pass).length;
+  const done = all.filter((r) => !r.running).length;   // completed (pass+fail), excludes running
+  const runN = all.filter((r) => r.running).length;
   const totMs = all.reduce((a, r) => a + (r.durationMs || 0), 0);
   const tools = all.reduce((a, r) => a + (r.tools || 0), 0);
 
@@ -371,10 +382,13 @@ if (isTrialDir(target)) {
     byTask.get(k).runs.push(r);
   }
   const taskRows = [...byTask.values()].sort((a, b) => a.taskId.localeCompare(b.taskId)).map((t) => {
-    const p = t.runs.filter((r) => r.pass).length, n = t.runs.length, pct = Math.round((p / n) * 100);
+    const p = t.runs.filter((r) => r.pass).length;
+    const n = t.runs.filter((r) => !r.running).length;   // completed runs
+    const rN = t.runs.length - n;                        // running
+    const pct = n ? Math.round((p / n) * 100) : 0;
     const dots = t.runs.map((r) => verdictCell(r, `./${esc(r.job)}/`)).join(" ");
     return `<tr><td>${esc(t.title)}<br><small>${esc(t.taskId)}</small></td><td>${esc(t.lang || "")}</td>
-      <td><b>${p}/${n}</b></td>
+      <td><b>${p}/${n}</b>${rN ? ` <small>+${rN}⏳</small>` : ""}</td>
       <td><div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${pct}%"></i></div><small>${pct}%</small></div></td>
       <td>${dots}</td></tr>`;
   }).join("");
@@ -384,15 +398,16 @@ if (isTrialDir(target)) {
     <td><a href="./${esc(r.job)}/${esc(r.dir)}/report.html">${esc(r.title)}</a></td>
     <td><a href="./${esc(r.job)}/index.html">${esc(r.job)}</a></td>
     <td>${esc(r.lang || "")}</td>
-    <td>${r.pass ? '<span class="badge pass">PASS</span>' : `<span class="badge fail">FAIL (${esc(r.reward || "?")})</span>`}</td>
+    <td>${badgeHTML(r)}</td>
     <td>${esc(r.duration)}</td><td>${num(r.turns)}</td><td>${num(r.tools)}</td></tr>`).join("");
 
-  const pct = all.length ? Math.round((passN / all.length) * 100) : 0;
+  const pct = done ? Math.round((passN / done) * 100) : 0;
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
    <title>CVM Benchmark — all tasks</title><style>${DASH_CSS}</style></head><body><div class="wrap">
    <h1>CVM Benchmark — all tasks</h1>
    <div class="cards">
-     <div class="card"><div class="k">Overall pass rate</div><div class="v">${passN}/${all.length} <small>(${pct}%)</small></div></div>
+     <div class="card"><div class="k">Overall pass rate</div><div class="v">${passN}/${done} <small>(${pct}%)</small></div></div>
+     ${runN ? `<div class="card"><div class="k">Running</div><div class="v">${runN}⏳</div></div>` : ""}
      <div class="card"><div class="k">Unique tasks</div><div class="v">${byTask.size}</div></div>
      <div class="card"><div class="k">Jobs</div><div class="v">${jobDirs.length}</div></div>
      <div class="card"><div class="k">Total agent time</div><div class="v">${fmtDuration(totMs)}</div></div>
@@ -405,5 +420,5 @@ if (isTrialDir(target)) {
    <p class="muted">Generated by make-report.mjs · ${all.length} trials across ${jobDirs.length} jobs</p>
    </div></body></html>`;
   fs.writeFileSync(path.join(target, "index.html"), html);
-  console.log(`✓ Aggregate: ${passN}/${all.length} passed across ${byTask.size} tasks, ${jobDirs.length} jobs → ${path.join(target, "index.html")}`);
+  console.log(`✓ Aggregate: ${passN}/${done} passed${runN ? `, ${runN} running` : ""} across ${byTask.size} tasks, ${jobDirs.length} jobs → ${path.join(target, "index.html")}`);
 }

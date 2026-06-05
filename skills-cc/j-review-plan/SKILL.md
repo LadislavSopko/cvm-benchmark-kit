@@ -58,6 +58,23 @@ Focus on these categories:
 - Follows project architecture patterns
 - No security issues (SQL injection, XSS, etc.)
 
+#### F. Requirement Coverage (BLOCKING — only if `requirements.md` exists)
+This is the gate against all-or-nothing near-misses, where the plan satisfies most of the task but
+silently drops one requirement. If `requirements.md` exists:
+- **Exhaustive list:** re-read `instruction.md` clause by clause and confirm `requirements.md`
+  captured EVERY clause — especially secondary ones buried in compound sentences (negative
+  "must not", disabled/read-only states, restore-on-switch-back, "exactly once", "no duplicates",
+  exact response shapes). A missed clause is a BLOCKING gap — add the requirement, then fail.
+- **Every requirement is tested:** every `R1..Rn` must map to at least one `<red>` test in the plan
+  (via the test annotations / the plan's coverage lines). Any `R` with zero covering tests is a
+  BLOCKING gap — add the block/test, then fail.
+- **Surface coverage:** for any requirement that ranges over a category (every control / callable /
+  endpoint / field / UI surface), confirm the plan tests EACH enumerated member, not a representative
+  subset — especially members with different mechanics (native control vs custom dropdown/picker vs
+  file input). A category requirement covering only some members is a BLOCKING gap.
+- Do not pass the plan while any requirement is uncovered, any instruction clause is unmapped, or any
+  category requirement covers only a subset of its members.
+
 ### 5. CVM Structural Validation (if available)
 
 If `mcp__cvm__parsePlan` tool is available, call it on the plan file as a final objective check. The parser validates tag structure, block IDs, and format — things Claude's review might miss.

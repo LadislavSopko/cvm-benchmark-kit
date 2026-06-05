@@ -1,111 +1,113 @@
-# DeepSWE cez CVM + TDDAB na predplatnom — ako to funguje
+# DeepSWE via CVM + TDDAB on subscription — how it works
 
-PoC, ktorý spúšťa DeepSWE úlohu s metodikou CVM benchmark kitu (TDDAB + CVM planexecutor),
-cez `pier`, autentifikovaný **predplatným** (nie API). Overené: reward = 1 na úlohe
-`fastapi-implicit-head-options`.
+A PoC that runs a DeepSWE task with the CVM benchmark kit methodology (TDDAB + CVM
+planexecutor), via `pier`, authenticated with a **subscription** (not an API key).
+Verified: reward = 1 on the `fastapi-implicit-head-options` task.
 
-## Architektúra behu
+## Run architecture
 
 ```
 run-poc.ps1 (host)
-  → načíta .env (CLAUDE_CODE_OAUTH_TOKEN)
+  → loads .env (CLAUDE_CODE_OAUTH_TOKEN)
   → pier run -c config.yaml
-      → postaví air-gapped Docker sandbox z custom image (allow_internet=false, povolené len api.anthropic.com cez egress-proxy/squid)
-      → spustí claude-code agenta v sandboxe:
-          - auth predplatným (OAuth token, apiKeySource=none)
-          - prompt-template.j2 = bootstrap: skopíruje kit, zapíše instruction.md, naštartuje CVM
-          - CVM MCP server (cvm-mcp) riadi 5 fáz: understand → init MB → plan → review → execute
-          - agent používa skills (/tddab-planner, /j-cvm-exec-plan) a CVM planexecutor (RED/GREEN/VERIFY/COMMIT)
-      → po dobehnutí spustí verifier (test.sh) → zapíše reward.txt (0/1)
+      → builds an air-gapped Docker sandbox from a custom image (allow_internet=false, only api.anthropic.com allowed via egress-proxy/squid)
+      → starts the claude-code agent in the sandbox:
+          - auth via subscription (OAuth token, apiKeySource=none)
+          - prompt-template.j2 = bootstrap: copies the kit, writes instruction.md, starts CVM
+          - CVM MCP server (cvm-mcp) drives 5 phases: understand → init MB → plan → review → execute
+          - agent uses skills (/tddab-planner, /j-cvm-exec-plan) and the CVM planexecutor (RED/GREEN/VERIFY/COMMIT)
+      → after the run, executes the verifier (test.sh) → writes reward.txt (0/1)
 ```
 
-## Súbory v `.pier-poc/`
+## Files in `.pier-poc/`
 
-| Súbor | Účel |
+| File | Purpose |
 |---|---|
-| `.env` | `CLAUDE_CODE_OAUTH_TOKEN` (z `claude setup-token`) + voliteľný `PIER_MODEL`. Gitignored. |
-| `run-poc.ps1` | Launcher: načíta `.env`, vynuluje `ANTHROPIC_API_KEY`, spustí `pier run`. |
-| `config.yaml` | Pier job config: agent `claude-code`, model, `prompt_template_path`, cesta k úlohe. |
-| `prompt-template.j2` | Bootstrap promptu agenta + completeness nudge. `{{ instruction }}` = zadanie úlohy. |
+| `.env` | `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`) + optional `PIER_MODEL`. Gitignored. |
+| `run-poc.ps1` | Launcher: loads `.env`, clears `ANTHROPIC_API_KEY`, runs `pier run`. |
+| `config.yaml` | Pier job config: agent `claude-code`, model, `prompt_template_path`, task path. |
+| `prompt-template.j2` | Agent bootstrap prompt + completeness nudge. `{{ instruction }}` = the task brief. |
 | `build/Dockerfile` | Custom image: base task image + cvm-server + CVM `ENV` + kit. |
-| `build/cvm-server.tgz` | cvm-server zbuildený z lokálneho `D:\cvm` (npm verzia je stará). |
-| `build/kit/` | CLAUDE.md, benchmark-runner.ts, memory-bank/ (kopírujú sa do /app). |
-| `build/kit/skills-cc/` | Skilly v Claude Code formáte (`<nazov>/SKILL.md`). |
-| `tasks/<task>/` | Lokálna kópia DeepSWE úlohy s upraveným `task.toml`. |
-| `jobs/` | Výstupy behov (verdikty, trajektórie, patche). Gitignored. |
-| `reverify.sh` | Nezávislá re-verifikácia: aplikuje model.patch + test.patch na base image, spustí test.sh. |
+| `build/kit/` | CLAUDE.md, benchmark-runner.ts, memory-bank/ (copied into /app). |
+| `build/kit/skills-cc/` | Skills in Claude Code format (`<name>/SKILL.md`). |
+| `tasks/<task>/` | Local copy of a DeepSWE task with a modified `task.toml`. |
+| `jobs/` | Run outputs (verdicts, trajectories, patches). Gitignored. |
+| `reverify.sh` | Independent re-verification: applies model.patch + test.patch on the base image, runs test.sh. |
 
-## Čo je upravené oproti base behu DeepSWE (a prečo)
+## What is changed vs the base DeepSWE run (and why)
 
-Base beh: `pier run -p deep-swe/tasks --agent ... --model ... ` s `ANTHROPIC_API_KEY`, holý agent.
-Naše úpravy, aby fungoval CVM + skilly + commandy + predplatné:
+Base run: `pier run -p deep-swe/tasks --agent ... --model ... ` with `ANTHROPIC_API_KEY`, a bare agent.
+Our changes so CVM + skills + commands + subscription work:
 
-1. **Auth predplatným** — namiesto `ANTHROPIC_API_KEY` sa nastaví `CLAUDE_CODE_OAUTH_TOKEN`
-   (pier ho prepošle do sandboxu). `run-poc.ps1` API key vynuluje.
+1. **Subscription auth** — instead of `ANTHROPIC_API_KEY`, set `CLAUDE_CODE_OAUTH_TOKEN`
+   (pier forwards it into the sandbox). `run-poc.ps1` clears the API key.
 
-2. **Custom Docker image** (`build/Dockerfile`) — DeepSWE úlohy sú air-gapped (`allow_internet=false`),
-   takže `npx cvm-server` za behu zlyhá. CVM preto musí byť **zabudovaný v image**:
-   base task image + `npm i -g cvm-server.tgz` + CVM `ENV` + kit do `/opt/cvm-kit`.
-   `task.toml` má `docker_image` prepnutý na tento image.
+2. **Custom Docker image** (`build/Dockerfile`) — DeepSWE tasks are air-gapped (`allow_internet=false`),
+   so `npx cvm-server` fails at run time. CVM must therefore be **baked into the image**:
+   base task image + `npm install -g cvm-server@latest` + CVM `ENV` + kit into `/opt/cvm-kit`.
+   `task.toml` has `docker_image` switched to this image.
 
-3. **CVM ako MCP server** — v `task.toml`:
+3. **CVM as an MCP server** — in `task.toml`:
    ```toml
    [[environment.mcp_servers]]
    name = "cvm"
    transport = "stdio"
    command = "cvm-server"
    ```
-   Env sa nastaví priamo v image cez Dockerfile `ENV` (kanonická CVM konfigurácia):
-   `CVM_STORAGE_TYPE=file`, `CVM_DATA_DIR=.cvm` (= `/app/.cvm`, držané mimo graded diffu cez
-   `.git/info/exclude`), `CVM_LOG_LEVEL=info`, `CVM_SANDBOX_ROOT=.` (= pracovný adresár agenta `/app`).
-   cvm-server (spúšťaný claude-code ako stdio MCP server) tieto premenné zdedí z prostredia kontajnera,
-   takže `command` ukazuje priamo na `cvm-server` — žiadny wrapper netreba. Pier MCP config nemá `env`
-   pole, preto sa injektuje cez image. Jediná odchýlka od kanonickej konfigurácie je `command`:
-   air-gapped beh používa baked-in `cvm-server`, nie `npx ... cvm-server@latest`.
+   The env is set directly in the image via Dockerfile `ENV` (canonical CVM config):
+   `CVM_STORAGE_TYPE=file`, `CVM_DATA_DIR=.cvm` (= `/app/.cvm`, kept out of the graded diff via
+   `.git/info/exclude`), `CVM_LOG_LEVEL=info`, `CVM_SANDBOX_ROOT=.` (= the agent's working dir `/app`).
+   cvm-server (spawned by claude-code as a stdio MCP server) inherits these from the container env,
+   so `command` points straight at `cvm-server` — no wrapper needed. The pier MCP config has no `env`
+   field, so it is injected via the image. The only deviation from the canonical config is `command`:
+   the air-gapped run uses the baked-in `cvm-server`, not `npx ... cvm-server@latest`.
 
-4. **Skilly v Claude Code formáte** — kit má ploché `.md`; Claude Code načíta skill len ako
-   `skills/<nazov>/SKILL.md` s frontmatterom (`name` + `description`). Preto `build/kit/skills-cc/`.
-   `task.toml` má `skills_dir = "/opt/cvm-kit/skills-cc"`. Runner volá ploché názvy (`/tddab-planner`,
-   nie `/mind-sets:tddab-planner`).
+4. **Skills in Claude Code format** — the kit has flat `.md`; Claude Code loads a skill only as
+   `skills/<name>/SKILL.md` with frontmatter (`name` + `description`). Hence `build/kit/skills-cc/`.
+   `task.toml` has `skills_dir = "/opt/cvm-kit/skills-cc"`. The runner calls flat names (`/tddab-planner`,
+   not `/mind-sets:tddab-planner`).
 
-5. **Bootstrap cez prompt template** — `config.yaml` používa `prompt_template_path` (nie
-   `append_system_prompt`, ktorý pier vkladá nequotovaný a rozbije príkaz). Template povie agentovi
-   skopírovať kit, zapísať `instruction.md` a naštartovať `mcp__cvm__loadFile/start/getTask/submitTask`.
-   Obsahuje aj completeness nudge (splniť každú požiadavku, presný zdroj symbolu, všetky public signatúry).
+5. **Bootstrap via prompt template** — `config.yaml` uses `prompt_template_path` (not
+   `append_system_prompt`, which pier inserts unquoted and which breaks the command). The template tells the
+   agent to copy the kit, write `instruction.md`, and start `mcp__cvm__loadFile/start/getTask/submitTask`.
+   It also includes a completeness nudge (satisfy every requirement, exact symbol source, all public signatures).
 
 6. **Pier CRLF fix (Windows)** — `…/site-packages/pier/environments/agent_setup.py`: `write_text(..., newline="\n")`
-   pre `start-squid.sh`, inak egress-proxy padne na CRLF. **Stratí sa pri reinštalácii pier.**
+   for `start-squid.sh`, otherwise the egress-proxy crashes on CRLF. **Lost on pier reinstall.**
 
-7. **deep-swe na LF** — repo klonovať s `git -c core.autocrlf=false clone ...` (inak `test.sh`/`test.patch`
-   majú CRLF a verifier zlyhá → falošný reward 0).
+7. **deep-swe on LF** — clone the repo with `git -c core.autocrlf=false clone ...` (otherwise `test.sh`/`test.patch`
+   get CRLF and the verifier fails → false reward 0).
 
-## Ako to spustiť
+## How to run it
 
 ```powershell
-# jednorazovo: token z predplatného
+# one-time: token from your subscription
 claude setup-token
-# vlož ho do .pier-poc\.env  ->  CLAUDE_CODE_OAUTH_TOKEN="..."
+# paste it into .pier-poc\.env  ->  CLAUDE_CODE_OAUTH_TOKEN="..."
 
-# spustenie (z D:\cvm-benchmark-kit)
+# run (from D:\cvm-benchmark-kit)
 .\.pier-poc\run-poc.ps1
 ```
-Predpoklady: beží Docker Desktop (Linux engine), `pier` na PATH (`uv tool install datacurve-pier`),
-custom image postavený (`cd .pier-poc\build; docker build -t cvm-kit-poc:fastapi-implicit-head-options .`).
+Prerequisites: Docker Desktop running (Linux engine), `pier` on PATH (`uv tool install datacurve-pier`),
+the custom image built (`cd .pier-poc\build; docker build -t cvm-kit-poc:fastapi-implicit-head-options .`).
 
-## Kde sú výsledky a ako ich vyhodnotiť
+> For the full from-scratch handoff (building images per task with the right build args,
+> running specific tasks, adding new tasks) see **`../HANDOFF.md`**.
 
-Výstup behu: `.pier-poc\jobs\<job-name>\<task>__<id>\`
+## Where the results are and how to evaluate them
 
-| Súbor | Čo je to |
+Run output: `.pier-poc\jobs\<job-name>\<task>__<id>\`
+
+| File | What it is |
 |---|---|
-| `verifier/reward.txt` | **Verdikt: `1` = úspech, `0` = neúspech.** Píše ho pier verifier. |
-| `verifier/test-stdout.txt` | Výstup pytestu (napr. `43 passed`). Baseline aj nové testy musia prejsť. |
-| `artifacts/model.patch` | Diff, ktorý agent vyrobil. |
-| `agent/claude-code.txt` | Surový stream agenta (každý krok / tool call). |
-| `result.json` | Súhrn jobu (n_completed / n_errored, časy). |
+| `verifier/reward.txt` | **Verdict: `1` = success, `0` = failure.** Written by the pier verifier. |
+| `verifier/test-stdout.txt` | Test output (e.g. `43 passed`). Baseline and new tests must all pass. |
+| `artifacts/model.patch` | The diff the agent produced. |
+| `agent/claude-code.txt` | Raw agent stream (every step / tool call). |
+| `result.json` | Job summary (n_completed / n_errored, timings). |
 
-**Vyhodnotenie:** DeepSWE je all-or-nothing — `reward.txt = 1` len ak prejdú VŠETKY testy úlohy
-aj baseline. `1 failed` v `test-stdout.txt` → reward 0.
+**Evaluation:** DeepSWE is all-or-nothing — `reward.txt = 1` only if ALL task tests AND the
+baseline pass. `1 failed` in `test-stdout.txt` → reward 0.
 
 ```powershell
 $T = ".pier-poc\jobs\cvm-poc-fastapi\<task>__<id>"
@@ -113,24 +115,24 @@ Get-Content "$T\verifier\reward.txt"                              # 1 / 0
 Get-Content "$T\verifier\test-stdout.txt" | Select-String "passed|failed"
 ```
 
-## Sledovanie a nezávislé overenie
+## Monitoring and independent verification
 
 ```powershell
-# naživo počas behu:
+# live during the run:
 Get-Content "$T\agent\claude-code.txt" -Wait -Tail 5
 
-# oficiálne GUI od pier:
+# official pier GUI:
 pier view .pier-poc\jobs        # http://127.0.0.1:8080
 
-# nezávislá re-verifikácia (aplikuje model.patch + test.patch na čistý base image, spustí test.sh):
-#   (z .pier-poc, s nakopírovaným model.patch/test.patch/test.sh do reverify-work/)
+# independent re-verification (applies model.patch + test.patch on a clean base image, runs test.sh):
+#   (from .pier-poc, with model.patch/test.patch/test.sh copied into reverify-work/)
 docker run --rm -v ${PWD}\reverify-work:/work:ro <base-image> bash /work/reverify.sh
 ```
 
-`reward.txt` a `test-stdout.txt` generuje pier verifier (pytest) v izolovanom kontajneri — sú to
-trvalé artefakty na disku, dajú sa overiť aj cez `pier view` alebo nezávislou re-verifikáciou.
+`reward.txt` and `test-stdout.txt` are generated by the pier verifier (pytest) in an isolated
+container — they are durable on-disk artifacts, verifiable via `pier view` or independent re-verification.
 
-## Stav
+## Status
 
-Overené 2026-06-01: plný beh end-to-end na predplatnom, `fastapi-implicit-head-options` → **reward = 1**
-(43/43 testov úlohy, 3186 baseline), ~46 min, cez 8 TDDAB blokov riadených CVM.
+Verified 2026-06-01: full end-to-end run on subscription, `fastapi-implicit-head-options` → **reward = 1**
+(43/43 task tests, 3186 baseline), ~46 min, across 8 TDDAB blocks driven by CVM.
