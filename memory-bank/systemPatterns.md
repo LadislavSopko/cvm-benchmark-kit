@@ -86,11 +86,11 @@ make-report.mjs{node,noDeps}::trialDir→report.html | jobDir→index.html+perTr
 watch-cvm.mjs::live CVM monitor{loadFile/start/getTask[phase]/submitTask,wall-clock+spinner}
 
 [TEAM_TRACKER]
-§artifact::deepswe-tasks.html{repoRoot,113 tasks©deepswe.datacurve.ai/artifacts/tasks.json × 4 runSlots}
-@purpose::checklist{which runs executed}+teamDivision{assign each TASK to owner∈{Domino|Simon|Laco}}
+§artifact::deepswe-tasks.md{repoRoot,113 tasks©deepswe.datacurve.ai × 4 runs,markdown table sorted by difficulty(passRate asc)}
+@purpose::checklist{which runs executed}+teamDivision{assign each TASK to Owner∈{Domino|Simon|Laco}}
 ¬scope::reward|trajectory|details→.pier-poc/jobs/index.html{do NOT duplicate here}
-@truth::STATE block inside html{git-committed,1 line per taskId,ts-merge over browser localStorage}
-@shape::STATE[taskId]::{owner:str,runs:[bool×4],ts:int}
-!rule::afterEachRun→Claude edits STATE in deepswe-tasks.html{set runs[K]:true+bump ts}→commit
-@assign::owner per TASK{¬per run}
-©seed>progress.md[RESULTS::CVMkit]{fastapi r1+r2,prometheus r2-r4,cliffy r1-r4,quill r1-r4 marked executed}
+@truth::the .md file itself{git-committed;edit directly→commit;no localStorage,no html}
+@shape::row::| # | Diff | `taskId` | lang | Owner | R1 | R2 | R3 | R4 |{run cell::"[ ]"|"[x]"}
+!rule::afterEachRun→Claude edits matching task row in deepswe-tasks.md{flip "[ ]"→"[x]" for that run}→commit
+@assign::Owner column per TASK{¬per run}
+©seed::actual .pier-poc/jobs/ on disk{ONLY quill r1+r2 executed=2 jobs;¬progress.md historical claims{jobs deleted,unverifiable}}

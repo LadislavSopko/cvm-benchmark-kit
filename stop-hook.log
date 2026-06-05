@@ -20,3 +20,7 @@
 [11:36:54] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
 [11:39:54] EVAL: msg_len=1186 first_80='Hotovo a overenĂ©. âś…\n\n## Zmeny v `deepswe-tasks.html`\n\n- **PridanĂ©: đź’ľ Save'
 [11:39:54] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:47:34] EVAL: msg_len=1317 first_80='Hotovo. âś…\n\n## PrerobenĂ© z HTML do `deepswe-tasks.md`\n\nJednoduchĂ˝ Markdown, k'
+[11:47:34] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:49:28] EVAL: msg_len=583 first_80='Hotovo. âś…\n\n`deepswe-tasks.md` je teraz zoradenĂ˝ **opaÄŤne podÄľa nĂˇroÄŤnosti'
+[11:49:28] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
