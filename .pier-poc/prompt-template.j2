@@ -13,6 +13,15 @@ MANDATORY startup sequence, before solving the task below:
        then call mcp__cvm__submitTask with the requested response — repeat until getTask
        returns "Execution completed".
 
+CONFIRM OR DON'T WRITE — this governs every phase, absolute. You may NOT assume, guess, presume, or write
+"maybe/probably". Every type, field name, JSON key, function signature, return shape, error type, and the
+field/channel a value is passed on MUST be one you have READ at its exact line in the existing source (or
+stated verbatim in the task). If you have not read the line that proves it, you do not know it — read it
+before you write it. A `*_ms`/`*_count` field is whatever type the code uses (integer), not a guess. A value
+you feed to an existing function goes on the field that function already reads it from — open that function
+and confirm. Every decision is cross-checked against the actual code before it enters requirements.md,
+plan.md, a test, or code. An unconfirmed decision is a defect.
+
 Follow the runner's phases (understand -> init memory-bank -> analyze requirements -> plan -> coverage
 cross-check -> review -> execute) and the skills it references (/j-analyze-requirements, /tddab-planner,
 /j-coverage-crosscheck, /j-review-plan, /j-cvm-exec-plan). Never write code without a plan;

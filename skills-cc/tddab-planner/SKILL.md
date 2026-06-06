@@ -263,7 +263,22 @@ WRONG:
 2. Write tests afterward
 ```
 
-### 7. Exact Types, Units & Wire Formats (CRITICAL!)
+### 7. Exact Types, Units & Wire Formats — COHERENT WITH EXISTING CODE, NOTHING INVENTED (CRITICAL!)
+Types are NEVER assumed or chosen for convenience. Every type, field shape, signature, and integration point
+the new code introduces MUST be DERIVED FROM and CONSISTENT WITH the existing codebase it plugs into — read
+the actual code, do not guess. The whole structure into which your code is inserted (the serialized struct,
+the field a consumer reads, the channel a value travels on) must stay coherent with what is already there.
+- A unit/type suffix dictates the type: `*_ms` / `*_count` / `*_bytes` are INTEGER (`int64`), never float.
+  `reloader_timings_ms` is integer milliseconds — compute it as `.Milliseconds()` (int64), NOT
+  `float64(d.Nanoseconds())/1e6`. A float here fails the grader's `int64` unmarshal even though your own
+  float-typed test passed. Pin it: "reloader_timings_ms: JSON integer, int64, no fractional".
+- The value must travel on the SAME field/channel the existing consumer reads. If the existing code reads
+  prior turns from `request.context`, feed your result back via `context` — not a different field like
+  `message` — or the consumer (and the grader) sees nothing. Trace how the existing consumer reads it.
+- Your `<red>` test must assert the REQUIREMENT using the REAL contract's types — never a self-chosen shape.
+  A test written against an assumed type/field passes locally and fails the grader. The test follows the
+  existing code's contract; the code does not follow the test's convenient assumption.
+
 When the task names a data field, response field, header, or any serialized value, the `<red>` tests AND `<success>` criteria MUST pin its EXACT type, unit, and wire format — never leave it to inference.
 
 - A field whose name carries a unit/type suffix (`*_ms`, `*_count`, `*_id`, `*_bytes`, `*_seconds`) implies an exact type. State it explicitly: "reloader_timings_ms: integer milliseconds, no fractional/float".

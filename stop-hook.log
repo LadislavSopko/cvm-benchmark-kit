@@ -405,3 +405,91 @@
 [12:08:41] PRETOOL OK: tool=Read
 [12:08:46] PRETOOL: tool=Edit msg_len=211 first_80='`.gitignore` ha solo il nome esatto → lo allargo a glob per le temp config. `.mc'
 [12:08:46] PRETOOL OK: tool=Edit
+[12:09:06] PRETOOL: tool=Bash msg_len=74 first_80='Planned change. Stage tutto (le temp config ora sono ignorate) e committo.'
+[12:09:06] PRETOOL OK: tool=Bash
+[12:09:29] PRETOOL: tool=Bash msg_len=31 first_80='Commit fatto (`e5585d4`). Push.'
+[12:09:29] PRETOOL OK: tool=Bash
+[12:09:32] PRETOOL: tool=Bash msg_len=31 first_80='Commit fatto (`e5585d4`). Push.'
+[12:09:32] PRETOOL OK: tool=Bash
+[12:09:37] EVAL: msg_len=281 first_80='Rebuild prometheus (WARM_GO ~80s) + ccba in corso. Committo+pushato fatto ✅. App'
+[12:09:37] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[12:09:54] PRETOOL: tool=Bash msg_len=281 first_80='Rebuild prometheus (WARM_GO ~80s) + ccba in corso. Committo+pushato fatto ✅. App'
+[12:09:54] PRETOOL OK: tool=Bash
+[12:10:00] PRETOOL: tool=Bash msg_len=74 first_80='ccba immagine pronta. Lancio ccba ora; prometheus appena finisce il build.'
+[12:10:00] PRETOOL OK: tool=Bash
+[12:10:06] PRETOOL: tool=Bash msg_len=49 first_80='Prometheus image pronta. Lancio anche prometheus.'
+[12:10:06] PRETOOL OK: tool=Bash
+[12:10:15] EVAL: msg_len=801 first_80='Entrambi lanciati col **kit completo + committato/pushato**:\n\n| Run | Trial | Tr'
+[12:10:15] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[12:28:48] PRETOOL: tool=Bash msg_len=801 first_80='Entrambi lanciati col **kit completo + committato/pushato**:\n\n| Run | Trial | Tr'
+[12:28:48] PRETOOL OK: tool=Bash
+[12:28:54] EVAL: msg_len=370 first_80='In corso, entrambi up ~18 min:\n\n- **prometheus-r4** → fase EXECUTE, **VERIFY** d'
+[12:28:54] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[12:44:18] PRETOOL: tool=Bash msg_len=370 first_80='In corso, entrambi up ~18 min:\n\n- **prometheus-r4** → fase EXECUTE, **VERIFY** d'
+[12:44:18] PRETOOL OK: tool=Bash
+[12:44:35] EVAL: msg_len=883 first_80='**ccba-r2 = reward `0`** — torna a **5 failed / 2 passed** (circular ✓, empty ✓;'
+[12:44:35] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[13:00:39] PRETOOL: tool=Bash msg_len=883 first_80='**ccba-r2 = reward `0`** — torna a **5 failed / 2 passed** (circular ✓, empty ✓;'
+[13:00:39] PRETOOL OK: tool=Bash
+[13:01:16] PRETOOL: tool=Bash msg_len=418 first_80='Chiave trovata: il test cerca `findToolResultInContext(continuationCall.context)'
+[13:01:16] PRETOOL OK: tool=Bash
+[13:02:42] EVAL: msg_len=2993 first_80='Ho entrambi. Prima la notizia su prometheus, poi il teardown di ccba.\n\n## promet'
+[13:02:42] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[13:09:50] PRETOOL: tool=Bash msg_len=778 first_80='Avevi ragione e mi correggo subito: la mia ipotesi "deadlock/concorrenza" era **'
+[13:09:50] PRETOOL OK: tool=Bash
+[13:10:59] PRETOOL: tool=Bash msg_len=753 first_80="Confermato nel codice dell'agent (non è supposizione):\n- **riga 594:** `Reloader"
+[13:10:59] PRETOOL OK: tool=Bash
+[13:12:38] PRETOOL: tool=Bash msg_len=286 first_80='Il fix NON è stato applicato — il mio grep ha mancato il file per via degli spaz'
+[13:12:38] PRETOOL OK: tool=Bash
+[13:12:59] PRETOOL: tool=Bash msg_len=326 first_80='`set -e` ha abortito sul grep vuoto — e soprattutto `ReloaderTimingsMs` **non è '
+[13:12:59] PRETOOL WARN: category=WEASEL_GUESSING tool=Bash
+[13:15:08] PRETOOL: tool=Bash msg_len=415 first_80='ccba loop visto: riga 144 `message: currentMessage`, riga 203 `currentMessage = '
+[13:15:08] PRETOOL OK: tool=Bash
+[13:15:43] EVAL: msg_len=2065 first_80='**PROVATO anche ccba** — stesso metodo, due run nello stesso container:\n\n```\nRUN'
+[13:15:43] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[13:22:09] EVAL: msg_len=450 first_80='Rebuild prometheus in corso (`b3dycd1j5`, WARM_GO ~80s) col kit che ora dice esp'
+[13:22:09] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:22:15] PRETOOL: tool=Bash msg_len=450 first_80='Rebuild prometheus in corso (`b3dycd1j5`, WARM_GO ~80s) col kit che ora dice esp'
+[13:22:15] PRETOOL OK: tool=Bash
+[13:22:37] PRETOOL: tool=Bash msg_len=450 first_80='Rebuild prometheus in corso (`b3dycd1j5`, WARM_GO ~80s) col kit che ora dice esp'
+[13:22:37] PRETOOL OK: tool=Bash
+[13:22:48] EVAL: msg_len=412 first_80="Poller in background (`bcg5lzsnv`): aspetta che l'agent scriva `plan.md` nel con"
+[13:22:48] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:28:54] PRETOOL: tool=TaskStop msg_len=412 first_80="Poller in background (`bcg5lzsnv`): aspetta che l'agent scriva `plan.md` nel con"
+[13:28:54] PRETOOL OK: tool=TaskStop
+[13:29:02] PRETOOL: tool=Bash msg_len=288 first_80='Capito: **fermare appena il piano è pronto, niente run completo, risparmiare tok'
+[13:29:02] PRETOOL OK: tool=Bash
+[13:29:17] EVAL: msg_len=544 first_80='Nuovo poller attivo (`bjtuy42rw`): appena `plan.md` è pronto → **salva i file (i'
+[13:29:17] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:35:02] PRETOOL: tool=Bash msg_len=544 first_80='Nuovo poller attivo (`bjtuy42rw`): appena `plan.md` è pronto → **salva i file (i'
+[13:35:02] PRETOOL OK: tool=Bash
+[13:35:29] EVAL: msg_len=1683 first_80='✅ **Verificato — e il piano ora è CORRETTO sul punto che aveva fatto fallire pro'
+[13:35:29] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[13:37:45] EVAL: msg_len=132 first_80='ccba image in rebuild (`bc6smjg15`, cached → veloce). Appena pronta lancio ccba '
+[13:37:45] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:37:54] PRETOOL: tool=Bash msg_len=132 first_80='ccba image in rebuild (`bc6smjg15`, cached → veloce). Appena pronta lancio ccba '
+[13:37:54] PRETOOL OK: tool=Bash
+[13:38:05] PRETOOL: tool=Bash msg_len=102 first_80='ccba image pronta. Lancio ccba fino al piano + poller (salva + ferma + ispeziona'
+[13:38:05] PRETOOL OK: tool=Bash
+[13:38:11] EVAL: msg_len=275 first_80='ccba in esecuzione (detached), poller `bojmny700` in attesa del `plan.md`. Appen'
+[13:38:11] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:50:17] PRETOOL: tool=Bash msg_len=275 first_80='ccba in esecuzione (detached), poller `bojmny700` in attesa del `plan.md`. Appen'
+[13:50:17] PRETOOL OK: tool=Bash
+[13:50:32] EVAL: msg_len=279 first_80="Ancora in pianificazione: l'agent è alla **fase PLAN** (`getTask #4`, container "
+[13:50:32] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[13:51:45] PRETOOL: tool=Bash msg_len=279 first_80="Ancora in pianificazione: l'agent è alla **fase PLAN** (`getTask #4`, container "
+[13:51:45] PRETOOL OK: tool=Bash
+[13:53:11] EVAL: msg_len=1873 first_80="Trovato il **perché**, ed è decisivo: **non è ambiguo — l'agent non ha guardato "
+[13:53:11] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[13:56:34] EVAL: msg_len=3715 first_80="Hai ragione, l'ho spiegato male. Ricominciamo da zero, in chiaro.\n\n## Cos'è ques"
+[13:56:34] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:00:05] EVAL: msg_len=2320 first_80='Esatto, e hai ragione a fermarmi: **`tool_result` → `context` è un dettaglio di '
+[14:00:05] BLOCK: category=WEASEL_GUESSING scores={'hypothesis_score': 0.8, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:00:14] EXIT: stop_hook_active=true
+[14:07:38] EVAL: msg_len=1770 first_80='Ho capito: il problema è che le mie istruzioni sono **molli** ("analizza a fondo'
+[14:07:38] BLOCK: category=WEASEL_GUESSING scores={'hypothesis_score': 0.7, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:07:47] EXIT: stop_hook_active=true
+[14:10:15] PRETOOL: tool=Edit msg_len=182 first_80='Resto fermo, nessuna modifica in corso. Aspetto solo il tuo **ok** sulla direzio'
+[14:10:15] PRETOOL OK: tool=Edit
+[14:11:02] PRETOOL: tool=Bash msg_len=138 first_80='Faccio il commit dello stato attuale del kit (regola di coerenza + regola dura "'
+[14:11:02] PRETOOL OK: tool=Bash

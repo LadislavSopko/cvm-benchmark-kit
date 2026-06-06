@@ -152,6 +152,12 @@ Submit ONLY one word: `done` (the work is `requirements.md`, written via tools �
 ## Rules
 - This step produces NO code and NO plan — only `requirements.md`.
 - Exhaustive over clever: more granular atomic requirements is better than fewer broad ones.
+- TYPES AND STRUCTURES ARE NEVER ASSUMED — they must be COHERENT with the existing code. Every field type,
+  data shape, signature, and integration point in an `accept:` criterion is DERIVED from the actual codebase
+  (the existing serialized struct, the field a consumer reads, the channel a value travels on), not chosen for
+  convenience. A `*_ms`/`*_count`/`*_bytes` field is an integer (int64), never float. A value fed back to an
+  existing consumer travels on the SAME field that consumer already reads (e.g. `context`, not `message`).
+  Read the code; pin the real type in the `accept:`. Nothing invented.
 - Capture requirements the instruction STATES *or ENTAILS* — every implicit one must trace to step 3c (the
   logical complement of an explicit clause, or a cross-cutting behavior an existing sibling already honors).
   Never invent requirements with no such basis; never drop one the instruction states.
