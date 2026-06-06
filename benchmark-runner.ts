@@ -15,14 +15,15 @@ function main() {
   console.log("Phase 1: Understand the codebase...");
   CC("You have a coding task to solve. Before anything else, UNDERSTAND the project: " +
     "1. Read the task description below to know WHAT is needed. " +
-    "2. Explore the codebase: file structure, existing code, tests, build system. " +
-    "3. Identify the language, framework, test runner, and key patterns used. " +
-    "4. HARVEST EXISTING TESTS for the area you will extend: find the tests that cover the sibling/" +
-    "equivalent of what you add (the existing method this one parallels, existing handlers/transports/" +
-    "adapters of the same kind, cross-cutting dirs like tests/custom_scalars/ or error-path/concurrency " +
-    "tests). Read them and note the CONCRETE scenarios they use (custom scalars, error cases, the option/" +
-    "config matrix, how they read the result via the real public surface) — these are the contract you must " +
-    "later replicate, not invent softer versions of. " +
+    "2. Explore the codebase: file structure, existing code, tests, build system, test runner. " +
+    "3. CONFIRM, NEVER ASSUME: for every type, field/JSON key, function signature, error type, and the " +
+    "field/channel a value travels on that your change will touch, READ the exact line in the existing code " +
+    "that defines or consumes it — the existing sibling method this one parallels, the handlers/providers " +
+    "that consume the value (e.g. how an existing call reads conversation history), the serialized struct " +
+    "and its real types (a *_ms/*_count field is the integer type the code uses, never a guessed float). " +
+    "Also read the existing tests for that area (custom-scalar/error-path/concurrency dirs) and note their " +
+    "concrete scenarios. These exact facts are the contract; in requirements and plan you will pin ONLY what " +
+    "you read here — a type, field, or channel you did not read is forbidden. " +
     "TASK: " + task + " " +
     "Do all exploration in tool calls. Submit ONLY one word: done.");
 

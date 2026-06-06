@@ -493,3 +493,11 @@
 [14:10:15] PRETOOL OK: tool=Edit
 [14:11:02] PRETOOL: tool=Bash msg_len=138 first_80='Faccio il commit dello stato attuale del kit (regola di coerenza + regola dura "'
 [14:11:02] PRETOOL OK: tool=Bash
+[14:11:11] EVAL: msg_len=814 first_80='✅ Commit + push fatti: **`89abe64`** su `origin/feature/laco`.\n\nContiene la rego'
+[14:11:11] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[14:22:42] PRETOOL: tool=Edit msg_len=814 first_80='✅ Commit + push fatti: **`89abe64`** su `origin/feature/laco`.\n\nContiene la rego'
+[14:22:42] PRETOOL OK: tool=Edit
+[14:23:15] PRETOOL: tool=mcp__cvm__delete_program msg_len=96 first_80='Edits fatti. Valido il runner col CVM, rigenero, committo, poi rebuild ccba + ru'
+[14:23:15] PRETOOL OK: tool=mcp__cvm__delete_program
+[14:23:18] PRETOOL: tool=mcp__cvm__delete_program msg_len=96 first_80='Edits fatti. Valido il runner col CVM, rigenero, committo, poi rebuild ccba + ru'
+[14:23:18] PRETOOL OK: tool=mcp__cvm__delete_program

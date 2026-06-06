@@ -16,6 +16,13 @@ A forward check (requirements → tests) cannot catch a MISSING requirement, bec
 there to check. This phase adds the REVERSE check (reality → requirements) and demands deep, evidence-based
 reasoning, not a nominal tick-box. Output is `coverage.md`.
 
+CONFIRMATION AUDIT (do this FIRST, blocking): go through the plan and list EVERY concrete decision it makes —
+each field type, JSON key, function signature, return shape, error type, and the field/channel a value is
+passed on. For EACH, point to the exact `file:line` in the EXISTING source that confirms it. If a decision
+has no confirming line — it was assumed/guessed (a `*_ms` typed float without reading the struct; a result
+fed on `message` without reading that the consumer reads `context`) — that is a BLOCKING defect: go read the
+real code, correct the plan to match it, then continue. No decision survives on "maybe" or "probably".
+
 ## Inputs
 Read all three before reasoning:
 - `requirements.md` (the R1..Rn list)
