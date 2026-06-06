@@ -156,3 +156,87 @@
 [08:29:39] PRETOOL OK: tool=Bash
 [08:30:05] EVAL: msg_len=1292 first_80='Validazione **gql R2 avviata** (`cvm-poc-gql-r2/...PZ7pVug`, background `b698qyv'
 [08:30:05] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[08:31:58] PRETOOL: tool=Bash msg_len=1292 first_80='Validazione **gql R2 avviata** (`cvm-poc-gql-r2/...PZ7pVug`, background `b698qyv'
+[08:31:58] PRETOOL OK: tool=Bash
+[08:32:09] PRETOOL: tool=Bash msg_len=159 first_80='TypeScript, ext_id `kh734ehfw2s3bztf7pzc9xf3x18212bs`, no WARM_GO. Verifico come'
+[08:32:09] PRETOOL OK: tool=Bash
+[08:32:25] PRETOOL: tool=Read msg_len=121 first_80="TypeScript, test via `/app/test.sh` (deps prebuilt nell'immagine base → no warm-"
+[08:32:25] PRETOOL OK: tool=Read
+[08:32:46] PRETOOL: tool=Bash msg_len=116 first_80="task.toml adattato. Il kit è già rigenerato (col kit rinforzato). Builddo l'imma"
+[08:32:46] PRETOOL OK: tool=Bash
+[08:32:50] EVAL: msg_len=367 first_80='Config pronta. Aspetto il completamento del build immagine (background `ba6gli7o'
+[08:32:50] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[08:33:22] PRETOOL: tool=Bash msg_len=367 first_80='Config pronta. Aspetto il completamento del build immagine (background `ba6gli7o'
+[08:33:22] PRETOOL OK: tool=Bash
+[08:33:27] PRETOOL: tool=Bash msg_len=367 first_80='Config pronta. Aspetto il completamento del build immagine (background `ba6gli7o'
+[08:33:27] PRETOOL OK: tool=Bash
+[08:33:32] PRETOOL: tool=Bash msg_len=123 first_80='Immagine pronta ✅. Lancio `claude-code-by-agents-recursive-delegation` (in paral'
+[08:33:32] PRETOOL OK: tool=Bash
+[08:33:42] EVAL: msg_len=809 first_80='`claude-code-by-agents-recursive-delegation` **avviato** (`cvm-poc-ccba/...nfxwF'
+[08:33:42] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[08:59:08] PRETOOL: tool=Bash msg_len=809 first_80='`claude-code-by-agents-recursive-delegation` **avviato** (`cvm-poc-ccba/...nfxwF'
+[08:59:08] PRETOOL OK: tool=Bash
+[08:59:50] PRETOOL: tool=Read msg_len=766 first_80='ccba **R1 = reward `0`**. Failure interessante e **diverso** da gql:\n\n- Baseline'
+[08:59:50] PRETOOL OK: tool=Read
+[08:59:54] PRETOOL: tool=Edit msg_len=766 first_80='ccba **R1 = reward `0`**. Failure interessante e **diverso** da gql:\n\n- Baseline'
+[08:59:54] PRETOOL OK: tool=Edit
+[09:00:16] EVAL: msg_len=1250 first_80='ccba R1 → `[-]`. \n\n**Punto importante:** ccba ha girato **già col kit rinforzato'
+[09:00:16] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:00:59] EVAL: msg_len=2639 first_80='Con "classe di fallimento" intendo **il tipo di causa per cui un task va a rewar'
+[09:00:59] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:02:17] PRETOOL: tool=Bash msg_len=2639 first_80='Con "classe di fallimento" intendo **il tipo di causa per cui un task va a rewar'
+[09:02:17] PRETOOL OK: tool=Bash
+[09:02:48] PRETOOL: tool=Read msg_len=62 first_80='La prova decisiva — **gql R2** è terminato. Leggo il verdetto.'
+[09:02:48] PRETOOL OK: tool=Read
+[09:02:52] PRETOOL: tool=Edit msg_len=882 first_80='**gql R2 = reward `0`** — ma con **progresso reale**, non un pari:\n\n| | R1 (kit '
+[09:02:52] PRETOOL OK: tool=Edit
+[09:03:23] EVAL: msg_len=1813 first_80='Tracker aggiornato (gql R1+R2 = `[-][-]`).\n\n## Cosa ci dice gql R2\n\nIl risultato'
+[09:03:23] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:05:10] PRETOOL: tool=Edit msg_len=1813 first_80='Tracker aggiornato (gql R1+R2 = `[-][-]`).\n\n## Cosa ci dice gql R2\n\nIl risultato'
+[09:05:10] PRETOOL OK: tool=Edit
+[09:06:03] PRETOOL: tool=Bash msg_len=204 first_80="Regola scritta nei 3 punti d'enforcement (upfront / exec con coverage gate / rev"
+[09:06:03] PRETOOL OK: tool=Bash
+[09:06:07] PRETOOL: tool=Bash msg_len=69 first_80="Regole verificate nel kit e **dentro l'immagine**. Lancio **gql R3**."
+[09:06:07] PRETOOL OK: tool=Bash
+[09:06:22] EVAL: msg_len=1154 first_80='**gql R3 avviato** (`cvm-poc-gql-r3/...DxUNBaf`, background `b6ywmhwz9`), col ki'
+[09:06:22] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:07:08] EVAL: msg_len=344 first_80='Ok, aspetto. Entrambi i run sono in background e mi notificheranno al termine:\n\n'
+[09:07:08] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[09:09:06] PRETOOL: tool=Bash msg_len=344 first_80='Ok, aspetto. Entrambi i run sono in background e mi notificheranno al termine:\n\n'
+[09:09:06] PRETOOL OK: tool=Bash
+[09:09:35] PRETOOL: tool=Read msg_len=68 first_80='prometheus R3 terminato. Leggo il verdetto (gql R3 ancora in corso).'
+[09:09:35] PRETOOL OK: tool=Read
+[09:09:53] PRETOOL: tool=Edit msg_len=786 first_80='**prometheus R3 = reward `0`** — ma attenzione: è **varianza, non regressione de'
+[09:09:53] PRETOOL OK: tool=Edit
+[09:09:59] EVAL: msg_len=224 first_80='Tracker aggiornato: prometheus **2/3** (R1✓ R2✓ R3✗varianza).\n\nResta solo **gql '
+[09:09:59] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[09:11:47] PRETOOL: tool=Bash msg_len=224 first_80='Tracker aggiornato: prometheus **2/3** (R1✓ R2✓ R3✗varianza).\n\nResta solo **gql '
+[09:11:47] PRETOOL OK: tool=Bash
+[09:12:42] PRETOOL: tool=Edit msg_len=210 first_80='Capito. Fisso **tutte** le classi di problema che ho diagnosticato (non solo la '
+[09:12:42] PRETOOL OK: tool=Edit
+[09:14:11] PRETOOL: tool=TaskStop msg_len=178 first_80='Tutti gli edit al kit fatti (5 meccanismi totali ora). Ora: fermo gql R3 in volo'
+[09:14:11] PRETOOL OK: tool=TaskStop
+[09:14:30] PRETOOL: tool=Bash msg_len=178 first_80='Tutti gli edit al kit fatti (5 meccanismi totali ora). Ora: fermo gql R3 in volo'
+[09:14:30] PRETOOL OK: tool=Bash
+[09:14:42] PRETOOL: tool=Bash msg_len=131 first_80='gql R3 fermato. Ora pulisco i container docker lingering e **cancello i job fall'
+[09:14:42] PRETOOL OK: tool=Bash
+[09:15:07] PRETOOL: tool=Bash msg_len=156 first_80='Job falliti cancellati (tengo prometheus R1+R2 ✓). Resetto le celle del tracker '
+[09:15:07] PRETOOL OK: tool=Bash
+[09:15:34] PRETOOL: tool=Bash msg_len=325 first_80="Il tracker l'hai già resettato tu (celle fallite → `[]`), container puliti. \n\nOr"
+[09:15:34] PRETOOL OK: tool=Bash
+[09:16:00] PRETOOL: tool=Read msg_len=393 first_80='Risultato: i **skill del kit sono già puliti** — nessun riferimento a `vs-mcp`/`'
+[09:16:00] PRETOOL OK: tool=Read
+[09:17:12] PRETOOL: tool=Bash msg_len=859 first_80='## Revisione skill — esito\n\n| Check | Esito |\n|---|---|\n| `vs-mcp` / `xmp4` / `l'
+[09:17:12] PRETOOL OK: tool=Bash
+[09:17:14] PRETOOL: tool=Bash msg_len=859 first_80='## Revisione skill — esito\n\n| Check | Esito |\n|---|---|\n| `vs-mcp` / `xmp4` / `l'
+[09:17:14] PRETOOL OK: tool=Bash
+[09:17:17] PRETOOL: tool=Bash msg_len=859 first_80='## Revisione skill — esito\n\n| Check | Esito |\n|---|---|\n| `vs-mcp` / `xmp4` / `l'
+[09:17:17] PRETOOL OK: tool=Bash
+[09:17:40] PRETOOL: tool=Bash msg_len=129 first_80='gql + ccba immagini ribuilded ✅ (prometheus ancora in build con WARM_GO). Lancio'
+[09:17:40] PRETOOL OK: tool=Bash
+[09:18:02] EVAL: msg_len=530 first_80='Stato:\n- ✅ **gql** partito (detached, job `...sCMbVyt`) — reward lo pollo a mano'
+[09:18:02] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[09:19:41] PRETOOL: tool=Bash msg_len=530 first_80='Stato:\n- ✅ **gql** partito (detached, job `...sCMbVyt`) — reward lo pollo a mano'
+[09:19:41] PRETOOL OK: tool=Bash
+[09:19:47] PRETOOL: tool=Bash msg_len=85 first_80='Prometheus image ribuilded. Verifico che il kit nuovo sia dentro e lancio promet'
+[09:19:47] PRETOOL OK: tool=Bash

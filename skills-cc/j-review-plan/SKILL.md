@@ -84,6 +84,22 @@ silently drops one requirement. If `requirements.md` exists:
   truthy/non-empty check, `is not None` as the ONLY check, or "no exception raised". Each must assert a
   CONCRETE consequence (exact type, value, structure, or raised exception type). A soft test goes green for the
   agent and red for the grader.
+- **Integration-surface parity (BLOCKING):** if the feature plugs into an existing flow (handler, event/result
+  stream, registry, message channel, a return value a caller reads), confirm the plan surfaces its output
+  through the SAME mechanism/shape/entry point the nearest existing equivalent uses, and tests it by reading
+  that standard surface. A result delivered through an ad-hoc path the standard consumer does not read is a
+  BLOCKING gap (symptom: the grader inspects the expected field and finds `null`/`undefined`). (See
+  `j-analyze-requirements` §3c source 3.)
+- **Robustness coverage (BLOCKING):** for any recursive/delegating/chaining feature, the plan must test cycle
+  and depth termination (a cycle surfaces a bounded error, never a hang/stack-overflow); for any concurrent
+  feature, that N concurrent calls converge with no deadlock; for any repeated/sequenced feature, that
+  invariants hold across N iterations. Missing any applicable robustness test is a BLOCKING gap.
+- **Added-path coverage (BLOCKING):** every code path the plan introduces must have a covering `<red>` test
+  that exercises it with a concrete assertion — each new branch, each option/flag the code accepts (both the
+  on and off value), each error / early-return / empty / null path, each loop body. A plan that adds a
+  parameter, branch, or error path with NO test that enters it is a BLOCKING gap (the canonical case: a flag
+  accepted in the signature but no test proves it changes behavior) — add the test, then fail. No added
+  production path may exist without a test that would fail if that path were removed.
 - Do not pass the plan while any requirement is uncovered, any instruction clause is unmapped, any category
   requirement covers only a subset of its members, an implied-contract requirement is missing, or any test
   asserts something soft.

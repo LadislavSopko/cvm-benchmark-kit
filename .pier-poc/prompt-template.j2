@@ -13,8 +13,9 @@ MANDATORY startup sequence, before solving the task below:
        then call mcp__cvm__submitTask with the requested response — repeat until getTask
        returns "Execution completed".
 
-Follow the runner's phases (understand -> init memory-bank -> plan -> review -> execute) and the
-skills it references (/tddab-planner, /j-cvm-exec-plan). Never write code without a plan;
+Follow the runner's phases (understand -> init memory-bank -> analyze requirements -> plan -> review ->
+execute) and the skills it references (/j-analyze-requirements, /tddab-planner, /j-review-plan,
+/j-cvm-exec-plan). Never write code without a plan;
 never skip the review loop; update the memory-bank before each commit.
 
 COMPLETENESS — before declaring the task done, re-read /app/instruction.md and treat EVERY explicit
@@ -49,6 +50,31 @@ in requirements analysis (see /j-analyze-requirements step 3c) and gated in /j-r
 Assert these with CONCRETE checks (exact type / value / raised exception), NEVER a soft shape check
 (hasattr / truthy / not-None alone / "did not crash") — a soft assertion goes green for you and red for the
 grader.
+
+INTEGRATION-SURFACE PARITY — when your feature plugs into an existing flow (a handler, an event/result
+stream, a registry, a message channel, a return value a caller consumes), surface its output through the SAME
+mechanism, shape, and entry point the nearest EXISTING equivalent uses. Find an existing feature of the same
+kind, trace how its result reaches the consumer (which function emits it, the exact object/message shape, the
+field names), and replicate that exact path. A result delivered through a different path is invisible to a
+grader reading the standard surface — the symptom is the grader inspecting the expected field and finding
+null/undefined. "Follow existing patterns" in the task is a direct signal this applies.
+
+ROBUSTNESS — the grader stress-tests termination and concurrency; your happy path does not. If the feature
+RECURSES / delegates / chains, it must TERMINATE on a cycle (A->B->A, A->B->C->A) and a depth bound, surfacing
+a bounded error (e.g. message containing "circular"), never an infinite loop or stack overflow. If it runs
+CONCURRENTLY, N parallel invocations must CONVERGE to one consistent state with no deadlock/timeout. If it
+repeats/sequences, invariants must hold across N iterations. Derive these as requirements and assert them with
+concrete RED tests.
+
+COVER EVERY ADDED CODE PATH — this is absolute. You may NOT add a single line or branch of production code
+that no test exercises. Every new branch, every option/flag the code accepts, every error / early-return /
+empty / null path, every loop body must be entered by at least one test whose assertion FAILS if that path
+is broken or removed. Accepting a parameter you never exercise, or adding a branch no test enters, is
+FORBIDDEN — that is precisely the code that passes your own suite and fails the hidden grader. If you add an
+option, you add its branch AND a test that flips it and asserts the observable difference. After each block,
+measure coverage over the files you changed (coverage.py / vitest --coverage / go test -cover); any added
+line or branch not hit by your tests is a gap — add a concrete test that exercises it, or delete the dead
+code. Never commit production code with an uncovered added path.
 
 TEST SYMBOL NAMESPACING — applies the MOMENT you write your first test, not at the end. The grader runs
 its OWN hidden tests, compiled in the SAME package/module as the tests you write. If any top-level

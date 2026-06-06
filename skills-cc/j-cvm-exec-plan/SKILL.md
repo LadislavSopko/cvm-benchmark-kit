@@ -90,6 +90,19 @@ any language/stack):
   (`pytest.raises(SomeError)` / expecting an error of a named type). If the strongest thing you can assert is
   soft, the requirement is under-specified — pin the exact observable before writing the test.
 
+**EVERY added code path MUST be covered by a test — absolute, no exceptions:**
+- You may NOT add a single line or branch of production code that no test exercises. Every new branch, every
+  option/flag the code accepts, every error / early-return / empty / null path, every loop body must be
+  ENTERED by at least one test whose assertion FAILS if that path is broken or removed. This is the TDDAB
+  contract taken literally: code exists only because a RED test demanded it.
+- Declaring an option/parameter and not exercising it is the canonical miss — e.g. accepting a `parse_result`
+  flag but no test asserts it changes the output. If you add the option, you add its branch AND a test that
+  flips it (`True` vs `False`) and asserts the observable difference.
+- **Coverage gate before COMMIT:** measure coverage over the files you changed using the stack's tool
+  (`coverage.py` / `pytest --cov`, `vitest --coverage`, `go test -cover`). Read the report: any added line or
+  branch NOT hit by your tests is a gap. Add a concrete test that exercises it, or delete the dead code. Do
+  NOT submit `done` for COMMIT while any added production path is uncovered.
+
 **VERIFY is adversarial, not self-congratulatory:**
 - VERIFY does not mean "my test passed." For each success criterion / requirement in scope, act like an
   independent grader trying to BREAK the implementation: construct the strictest concrete probe of the
@@ -101,6 +114,13 @@ any language/stack):
   ONCE — exact final value/state, no doubled output, no duplicate element/listener. A handler bound twice
   PASSES a single-trigger test but fails the grader (text becomes `alphaA` not `alpha`, a node appears
   twice, a listener fires N times). If the second trigger doubles anything, submit `failed`.
+- **Termination / concurrency probe — MANDATORY for any recursive, delegating, or concurrent requirement.**
+  The grader stress-tests robustness; your happy path does not. If the feature RECURSES, delegates, or
+  chains: drive a CYCLE (A→B→A and a deeper A→B→C→A) and a depth bound, and assert it surfaces a BOUNDED
+  error (e.g. a message containing "circular") — never a hang or `Maximum call stack size exceeded`. If it
+  runs CONCURRENTLY or services parallel requests: fire N invocations at once and assert they CONVERGE to one
+  consistent final state with no deadlock/timeout. If a probe hangs, times out, or stack-overflows, the real
+  code is broken — submit `failed`.
 - If any strict probe does not hold, submit `failed` — the executor gives you a FIX phase. Only submit
   `passed` when the strict probes genuinely hold against the real code, not just your own happy-path test.
 

@@ -119,7 +119,7 @@
 | 107 | 7% | `effect-sse-httpapi-streaming` | typescript |  | [ ] | [ ] | [ ] | [ ] |
 | 108 | 6% | `bandit-structured-nosec-directives` | python |  | [ ] | [ ] | [ ] | [ ] |
 | 109 | 6% | `kombu-virtual-queue-dead-lettering` | python |  | [ ] | [ ] | [ ] | [ ] |
-| 110 | 5% | `claude-code-by-agents-recursive-delegation` | typescript |  | [ ] | [ ] | [ ] | [ ] |
-| 111 | 3% | `gql-incremental-graphql-delivery` | python | laco | [-] | [ ] | [ ] | [ ] |
-| 112 | 2% | `prometheus-transactional-reload-status` | typescript | laco | [x] | [x] | [ ] | [ ] |
+| 110 | 5% | `claude-code-by-agents-recursive-delegation` | typescript | laco | [] | [ ] | [ ] | [ ] |
+| 111 | 3% | `gql-incremental-graphql-delivery` | python | laco | [] | [] | [ ] | [ ] |
+| 112 | 2% | `prometheus-transactional-reload-status` | typescript | laco | [x] | [x] | [] | [ ] |
 | 113 | 0% | `quill-shared-toolbar-focus` | typescript |  | [x] | [ ] | [ ] | [ ] |

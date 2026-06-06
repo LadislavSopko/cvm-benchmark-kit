@@ -41,6 +41,14 @@ For each sentence, ask whether it also implies any of these, and if so emit a se
   exact header/enum strings, RFC formats.
 - **Lifecycle** — init, re-init, recreation, teardown, add-after-init, remove-then-readd.
 - **Targeting** — applies to the *active*/*current* one, not a stale or previous one.
+- **Robustness / termination / convergence** — if the feature RECURSES, delegates, or chains, it must
+  TERMINATE on a cycle and on a depth bound (a cycle must surface a bounded error, never infinite recursion /
+  stack overflow). If it runs CONCURRENTLY or services parallel requests, N concurrent invocations must
+  CONVERGE to a consistent state with no deadlock/timeout. If it repeats or sequences, invariants must hold
+  across N iterations. These are the exact properties a hidden grader stress-tests and a happy-path suite
+  never does — emit each as its own `R` with a concrete `accept:` (e.g. "A→B→A raises an error whose message
+  contains 'circular'", "100 concurrent reloads converge to one final state", "45 sequential attempts keep
+  invariant X").
 
 ### 3b. Surface / entity inventory — expand category-ranging requirements to EACH member
 Many requirements quantify over a CATEGORY rather than one thing — e.g. "the controls",
@@ -80,6 +88,16 @@ requirements with no such basis):
    Emit a separate `R` for the unsupported/absent case with its required failure behavior ("calling X on an
    unsupported <thing> raises <ErrorType>"), and assert it CONCRETELY (an exception of an exact type is raised)
    — never "does not crash".
+3. **Integration-surface parity.** When the feature plugs into an existing flow (a handler, an event/result
+   stream, a registry, a message channel, a return value a caller consumes), its output must be surfaced
+   through the SAME mechanism, shape, and entry point that the nearest EXISTING equivalent uses — so any
+   consumer that reads the standard way sees it. Find an existing feature of the same kind in the codebase
+   (another handler, another tool, another transport, another event), trace HOW its result reaches the
+   consumer (which function emits it, the exact object/message shape, the field names, the entry point that
+   drives it), and emit requirements that the new feature replicates that exact path. A result delivered
+   through a different or ad-hoc path is invisible to a grader that reads the standard surface (the canonical
+   symptom: the grader inspects the expected field and finds `null`/`undefined`). The instruction phrase
+   "follow existing … patterns" is a direct signal this source applies.
 
 ### 4. Write `requirements.md`
 Use EXACTLY this format (the plan review parses `R<n>` ids):
