@@ -200,6 +200,8 @@ WRONG: RED tests that are API/E2E tests for the whole endpoint
 - test: POST /api/orders with bad data returns 400
 (These test the WHOLE stack, not ONE block)
 ```
+**EXCEPTION:** this unit-level rule applies to the per-LAYER blocks. The plan ALSO ends with ONE mandatory
+integration block (rule 5b) whose tests ARE end-to-end through the real public surface — by design.
 
 ### 5. Bottom-Up Decomposition (CRITICAL!)
 Features MUST be decomposed into blocks **bottom-up by layer**, not as one monolithic block per endpoint/feature.
@@ -228,6 +230,25 @@ WRONG — one block for entire endpoint:
 3. **Persistence** — repository, DB access (integration test if needed)
 4. **Interface** — controller/endpoint/CLI (mock service layer)
 5. **Wiring** — DI registration, configuration (final block if needed)
+
+### 5b. Mandatory final integration block — drive the REAL public surface, NO mocks (CRITICAL!)
+Bottom-up unit blocks (rule 5) test each layer in isolation with mocks — necessary, but they CANNOT catch a
+feature wired to the wrong surface, an option declared but never applied end-to-end, or a result the real
+consumer never sees. The hidden grader drives the feature through its REAL public API as an external
+consumer — so the plan MUST end with an integration block:
+
+- `<block id="NN-integration">` (last block) whose `<red>` tests drive each behavioral requirement through
+  the REAL public entry point a consumer uses (the public method / endpoint / handler / stream), with NO
+  mocks of the layers under test, reading the result from the SAME surface a caller reads.
+- Exercise the full option/config matrix on that public surface (every flag/mode toggled — e.g.
+  parse_results on/off on a custom-scalar field, each transport, each mode), using the realistic scenarios
+  HARVESTED from the repo's existing tests (see `/j-analyze-requirements` step 1b — PORT them, do not invent
+  softer ones).
+- Cover robustness end-to-end where applicable: recursion/cycle termination, N concurrent calls converge,
+  N-iteration invariants.
+- This block COMPLEMENTS, does not replace, the unit blocks. Every behavioral requirement `R` must be covered
+  by at least one integration test HERE, in addition to its unit test. It is the block that catches what
+  isolated unit tests structurally cannot.
 
 ### 6. Test-First Enforcement
 ```
@@ -427,6 +448,7 @@ When NOT using CVM, the same format works perfectly for manual execution — tag
 6. **If there's no `<block>` tag** → STOP, add structure
 7. **If a field has a unit/type suffix (`_ms`, `_id`, `_count`) or the task states a wire format/header/order** → STOP, pin the EXACT type+unit in the RED test, never infer
 8. **If one of the project's real checks shows ANY warning or error** → the block is NOT done; fix the ROOT CAUSE. 0/0 on the tools the project actually has (don't invent absent ones) — no "pre-existing" excuse, no suppress/skip/disable workarounds. The mission must list those checks
+9. **Test file names must be collision-proof** → every test file the plan creates is named `zerox_<name>_test.go` (e.g. `zerox_reload_test.go`), NEVER a grader-like name (`transactional_reload_test.go`). The hidden grader's verifier resets/replaces any test file whose path matches one of ITS files — deleting the agent's same-named file and orphaning any helper defined there but used in another file (`undefined` symbol → whole package build fails, even though it compiled for the agent). Plan the RED tests with `zerox_`-prefixed FILE names from the start, and keep each helper in the SAME file as its uses
 
 ---
 

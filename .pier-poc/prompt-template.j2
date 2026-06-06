@@ -13,9 +13,9 @@ MANDATORY startup sequence, before solving the task below:
        then call mcp__cvm__submitTask with the requested response — repeat until getTask
        returns "Execution completed".
 
-Follow the runner's phases (understand -> init memory-bank -> analyze requirements -> plan -> review ->
-execute) and the skills it references (/j-analyze-requirements, /tddab-planner, /j-review-plan,
-/j-cvm-exec-plan). Never write code without a plan;
+Follow the runner's phases (understand -> init memory-bank -> analyze requirements -> plan -> coverage
+cross-check -> review -> execute) and the skills it references (/j-analyze-requirements, /tddab-planner,
+/j-coverage-crosscheck, /j-review-plan, /j-cvm-exec-plan). Never write code without a plan;
 never skip the review loop; update the memory-bank before each commit.
 
 COMPLETENESS — before declaring the task done, re-read /app/instruction.md and treat EVERY explicit
@@ -76,6 +76,15 @@ measure coverage over the files you changed (coverage.py / vitest --coverage / g
 line or branch not hit by your tests is a gap — add a concrete test that exercises it, or delete the dead
 code. Never commit production code with an uncovered added path.
 
+HARVEST EXISTING TESTS, then INTEGRATION + FULL SUITE — do NOT invent your own (softer) test scenarios. In
+the UNDERSTAND phase, FIND the repo's existing tests for the sibling/area you extend (the method this one
+parallels, existing handlers/transports, dirs like tests/custom_scalars/, error-path/concurrency tests) and
+note the CONCRETE scenarios they use — those are the contract. The plan must PORT them to the new member.
+End the plan with a MANDATORY integration block that drives every behavioral requirement through the REAL
+public surface (NO mocks), exercising the full option/config matrix with those harvested scenarios. At
+completion, run the ENTIRE existing repo test suite (the whole project test command), not just your blocks'
+tests, at 0 failures — the grader re-runs the repo baseline, so a broken existing test fails the task.
+
 TEST SYMBOL NAMESPACING — applies the MOMENT you write your first test, not at the end. The grader runs
 its OWN hidden tests, compiled in the SAME package/module as the tests you write. If any top-level
 identifier you declare in a test file has the same name as one the grader declares, the compiler fails
@@ -88,6 +97,14 @@ correct. You cannot see the hidden tests, so make YOUR test symbols unmistakably
   insert the token right after: TestFoo -> TestZerox_Foo.
 - NEVER rename base-repo or production (non-test) symbols — only identifiers YOU declare inside YOUR OWN
   test files. When you derive the TDDAB plan, write the RED tests with these prefixed names already.
+- PREFIX TEST FILE NAMES TOO, not just symbols. Name every test file YOU create `zerox_<name>_test.go`
+  (e.g. `zerox_reload_test.go`, not `transactional_reload_test.go`). The verifier RESETS/REPLACES every test
+  file whose name matches one in the hidden grader patch (it resets those paths to base, then applies the
+  grader's version). If you name a file like a grader file, the verifier DELETES your version — and any
+  helper you defined there vanishes while its uses in your other files survive → `undefined` symbol → the
+  whole package fails to build, even though it compiled fine for you. A `zerox_`-prefixed filename can never
+  collide with a grader filename, so your files survive intact. Also keep each helper in the SAME file as its
+  uses, so nothing can be orphaned.
 
 ACCESSIBILITY / ARIA — applies when the task involves HTML UI. If a requirement concerns an element's
 STATE or SEMANTICS (disabled, expanded, pressed, selected, checked, hidden, current, invalid, or a

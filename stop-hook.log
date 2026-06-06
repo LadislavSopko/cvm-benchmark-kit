@@ -240,3 +240,168 @@
 [09:19:41] PRETOOL OK: tool=Bash
 [09:19:47] PRETOOL: tool=Bash msg_len=85 first_80='Prometheus image ribuilded. Verifico che il kit nuovo sia dentro e lancio promet'
 [09:19:47] PRETOOL OK: tool=Bash
+[09:20:03] EVAL: msg_len=1260 first_80='Tutti e tre **in volo col kit completo** (regola "termination probe" verificata '
+[09:20:03] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:42:44] PRETOOL: tool=Read msg_len=1260 first_80='Tutti e tre **in volo col kit completo** (regola "termination probe" verificata '
+[09:42:44] PRETOOL OK: tool=Read
+[09:43:37] EVAL: msg_len=4029 first_80='Domanda azzeccatissima — è esattamente la cucitura dove gql è caduto. Ti spiego '
+[09:43:37] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:47:53] EVAL: msg_len=2691 first_80='Hai ragione, e hai ragione anche a trovare la mia spiegazione troppo arzigogolat'
+[09:47:53] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:48:11] PRETOOL: tool=Bash msg_len=2691 first_80='Hai ragione, e hai ragione anche a trovare la mia spiegazione troppo arzigogolat'
+[09:48:11] PRETOOL OK: tool=Bash
+[09:48:28] PRETOOL: tool=Bash msg_len=64 first_80='ccba terminato. Leggo il verdetto (anche gql, che pollo a mano).'
+[09:48:28] PRETOOL OK: tool=Bash
+[09:49:14] PRETOOL: tool=Bash msg_len=140 first_80='ccba terminato — **reward 0 ancora, MA con un cambiamento netto che conferma la '
+[09:49:14] PRETOOL OK: tool=Bash
+[09:49:21] PRETOOL: tool=Edit msg_len=1731 first_80='Risultato del giro completo (col kit a 5 meccanismi) — e **conferma empirica del'
+[09:49:21] PRETOOL OK: tool=Edit
+[09:51:22] PRETOOL: tool=Edit msg_len=193 first_80='Hai ragione, basta teatrino. Tolgo i fail dal tracker (non li registro) e andiam'
+[09:51:22] PRETOOL OK: tool=Edit
+[09:52:20] PRETOOL: tool=Bash msg_len=162 first_80='Tracker pulito. Prima di riscrivere il kit a naso, **verifico un fatto**: nel ru'
+[09:52:20] PRETOOL OK: tool=Bash
+[09:54:56] PRETOOL: tool=Bash msg_len=180 first_80="732 menzioni di `parse_result` — quindi l'agent **lo conosceva benissimo** e l'h"
+[09:54:56] PRETOOL OK: tool=Bash
+[09:55:51] EVAL: msg_len=3396 first_80="Ho la diagnosi vera, basata sull'evidenza — e ribalta quello che pensavo.\n\n## Co"
+[09:55:51] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[09:56:03] PRETOOL: tool=Bash msg_len=3396 first_80="Ho la diagnosi vera, basata sull'evidenza — e ribalta quello che pensavo.\n\n## Co"
+[09:56:03] PRETOOL OK: tool=Bash
+[09:56:18] EVAL: msg_len=593 first_80='prometheus R3 ancora in corso (unico run rimasto in volo).\n\nResto in attesa del '
+[09:56:18] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:00:13] EVAL: msg_len=2402 first_80="Hai ragione — e il punto è proprio quello: **è lì che dovrebbe stare**, nell'ana"
+[10:00:13] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:01:38] PRETOOL: tool=Edit msg_len=2402 first_80="Hai ragione — e il punto è proprio quello: **è lì che dovrebbe stare**, nell'ana"
+[10:01:38] PRETOOL OK: tool=Edit
+[10:02:02] PRETOOL: tool=Edit msg_len=73 first_80='**Edit 2** — `tddab-planner`: blocco di integrazione finale obbligatorio.'
+[10:02:02] PRETOOL OK: tool=Edit
+[10:04:34] PRETOOL: tool=Read msg_len=77 first_80='Tutti e 6 gli edit fatti. Rigenero il kit e verifico che tutto sia atterrato.'
+[10:04:34] PRETOOL OK: tool=Read
+[10:05:02] PRETOOL: tool=ToolSearch msg_len=361 first_80='Sintatticamente i miei edit sono a posto: concatenazioni di stringa con quote/pa'
+[10:05:02] PRETOOL OK: tool=ToolSearch
+[10:05:40] PRETOOL: tool=Bash msg_len=361 first_80='Sintatticamente i miei edit sono a posto: concatenazioni di stringa con quote/pa'
+[10:05:40] PRETOOL OK: tool=Bash
+[10:06:15] EVAL: msg_len=1752 first_80='✅ **Il file è sano.** Check di bilanciamento:\n\n| | conteggio |\n|---|---|\n| Doppi'
+[10:06:15] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:06:37] PRETOOL: tool=Bash msg_len=1752 first_80='✅ **Il file è sano.** Check di bilanciamento:\n\n| | conteggio |\n|---|---|\n| Doppi'
+[10:06:37] PRETOOL OK: tool=Bash
+[10:08:01] PRETOOL: tool=ToolSearch msg_len=22 first_80='No response requested.'
+[10:08:01] PRETOOL OK: tool=ToolSearch
+[10:08:07] PRETOOL: tool=mcp__cvm__loadFile msg_len=123 first_80='Ora ho il cvm nei tools. Lo carico e provo a fare il `loadFile` di `benchmark-ru'
+[10:08:07] PRETOOL OK: tool=mcp__cvm__loadFile
+[10:08:15] PRETOOL: tool=mcp__cvm__delete_program msg_len=123 first_80='Ora ho il cvm nei tools. Lo carico e provo a fare il `loadFile` di `benchmark-ru'
+[10:08:15] PRETOOL OK: tool=mcp__cvm__delete_program
+[10:08:22] PRETOOL: tool=mcp__cvm__delete_program msg_len=421 first_80='**Prova fatta: CVM ha caricato il file con successo** ✅\n\n```\nProgram loaded succ'
+[10:08:22] PRETOOL OK: tool=mcp__cvm__delete_program
+[10:08:49] PRETOOL: tool=Write msg_len=421 first_80='**Prova fatta: CVM ha caricato il file con successo** ✅\n\n```\nProgram loaded succ'
+[10:08:49] PRETOOL OK: tool=Write
+[10:09:26] EVAL: msg_len=1307 first_80='Tutto fermo, kit aggiornato e validato. Riepilogo:\n\n## Stato\n- ✅ **`benchmark-ru'
+[10:09:26] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[10:13:18] PRETOOL: tool=Bash msg_len=1307 first_80='Tutto fermo, kit aggiornato e validato. Riepilogo:\n\n## Stato\n- ✅ **`benchmark-ru'
+[10:13:18] PRETOOL OK: tool=Bash
+[10:13:21] PRETOOL: tool=Bash msg_len=1307 first_80='Tutto fermo, kit aggiornato e validato. Riepilogo:\n\n## Stato\n- ✅ **`benchmark-ru'
+[10:13:21] PRETOOL OK: tool=Bash
+[10:13:41] PRETOOL: tool=Bash msg_len=117 first_80='Build in corso. Intanto pulisco i job vecchi falliti (gql/ccba) e quello killed '
+[10:13:41] PRETOOL OK: tool=Bash
+[10:13:56] PRETOOL: tool=Bash msg_len=90 first_80="Immagini ribuilded ✅. Verifico il meccanismo harvest dentro l'immagine e lancio "
+[10:13:56] PRETOOL OK: tool=Bash
+[10:13:59] PRETOOL: tool=Bash msg_len=90 first_80="Immagini ribuilded ✅. Verifico il meccanismo harvest dentro l'immagine e lancio "
+[10:13:59] PRETOOL OK: tool=Bash
+[10:14:05] PRETOOL: tool=Bash msg_len=131 first_80="Meccanismi presenti nell'immagine (harvest=1, integration-block=1, runner-harves"
+[10:14:05] PRETOOL OK: tool=Bash
+[10:14:14] EVAL: msg_len=795 first_80='Entrambi i run partiti col **kit completo** (harvest + blocco integrazione + ful'
+[10:14:14] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[10:36:49] PRETOOL: tool=Bash msg_len=795 first_80='Entrambi i run partiti col **kit completo** (harvest + blocco integrazione + ful'
+[10:36:49] PRETOOL OK: tool=Bash
+[10:37:02] EVAL: msg_len=854 first_80='Stato attuale:\n\n| Run | Stato |\n|---|---|\n| **gql** | 🔄 in corso — `getTask #30`'
+[10:37:02] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:39:03] PRETOOL: tool=Bash msg_len=854 first_80='Stato attuale:\n\n| Run | Stato |\n|---|---|\n| **gql** | 🔄 in corso — `getTask #30`'
+[10:39:03] PRETOOL OK: tool=Bash
+[10:39:07] EVAL: msg_len=178 first_80='Rebuild prometheus avviato (`big8r3hvy`, ~80s per WARM_GO). Appena pronta lancio'
+[10:39:07] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[10:39:15] PRETOOL: tool=Bash msg_len=178 first_80='Rebuild prometheus avviato (`big8r3hvy`, ~80s per WARM_GO). Appena pronta lancio'
+[10:39:15] PRETOOL OK: tool=Bash
+[10:39:26] PRETOOL: tool=Bash msg_len=178 first_80='Rebuild prometheus avviato (`big8r3hvy`, ~80s per WARM_GO). Appena pronta lancio'
+[10:39:26] PRETOOL OK: tool=Bash
+[10:39:39] EVAL: msg_len=605 first_80='Prometheus R3 partito (`...cm5i79K`), ora girano tutti e tre.\n\n**Quanto dura un '
+[10:39:39] BLOCK: category=WEASEL_GUESSING scores={'hypothesis_score': 0.65, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:39:52] EXIT: stop_hook_active=true
+[10:40:03] EVAL: msg_len=261 first_80='Capisco la frustrazione. I tre run girano, non posso accelerarli. Resto in attes'
+[10:40:03] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[10:40:45] EVAL: msg_len=149 first_80='Tutti e tre i run stanno girando (gql, ccba, prometheus R3). Aspetto i reward e '
+[10:40:45] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[10:42:23] EVAL: msg_len=576 first_80='Onestamente: questi run girano sulla tua **subscription Claude** (token OAuth, `'
+[10:42:23] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:42:55] PRETOOL: tool=Write msg_len=576 first_80='Onestamente: questi run girano sulla tua **subscription Claude** (token OAuth, `'
+[10:42:55] PRETOOL OK: tool=Write
+[10:43:24] EVAL: msg_len=157 first_80='Fatto. Regola salvata: **non fermo né cancello nulla senza il tuo OK**. I tre ru'
+[10:43:24] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[10:43:58] EVAL: msg_len=173 first_80='Capito. È stato un mio errore e non posso recuperarlo. Da qui in avanti tocco so'
+[10:43:58] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:47:13] PRETOOL: tool=Bash msg_len=173 first_80='Capito. È stato un mio errore e non posso recuperarlo. Da qui in avanti tocco so'
+[10:47:13] PRETOOL OK: tool=Bash
+[10:47:25] EVAL: msg_len=518 first_80='**gql = reward `0`** — ma **1 solo fail** (era 2):\n- Baseline: **869 passed** ✓\n'
+[10:47:25] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:48:01] PRETOOL: tool=Bash msg_len=518 first_80='**gql = reward `0`** — ma **1 solo fail** (era 2):\n- Baseline: **869 passed** ✓\n'
+[10:48:01] PRETOOL OK: tool=Bash
+[10:48:21] EVAL: msg_len=869 first_80='**ccba = reward `0`** — invariato: **5 failed, 2 passed**.\n- Robustness regge: `'
+[10:48:21] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[10:59:39] PRETOOL: tool=Bash msg_len=869 first_80='**ccba = reward `0`** — invariato: **5 failed, 2 passed**.\n- Robustness regge: `'
+[10:59:39] PRETOOL OK: tool=Bash
+[11:01:39] EVAL: msg_len=2931 first_80='Ho la catena forense completa per gql. È airtight.\n\n## gql — dove, cosa, perché '
+[11:01:39] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:13:03] PRETOOL: tool=mcp__cvm__delete_program msg_len=95 first_80='Fase 5 cross-check inserita, rinumerato a 7 fasi. Valido subito col CVM reale ch'
+[11:13:03] PRETOOL OK: tool=mcp__cvm__delete_program
+[11:13:05] PRETOOL: tool=mcp__cvm__delete_program msg_len=141 first_80='✅ CVM carica anche la versione a 7 fasi — valida (i diagnostics sono i soliti fa'
+[11:13:05] PRETOOL OK: tool=mcp__cvm__delete_program
+[11:13:11] PRETOOL: tool=Edit msg_len=141 first_80='✅ CVM carica anche la versione a 7 fasi — valida (i diagnostics sono i soliti fa'
+[11:13:11] PRETOOL OK: tool=Edit
+[11:13:36] PRETOOL: tool=Bash msg_len=69 first_80='Rigenero il kit e verifico che la nuova fase + skill siano nel build.'
+[11:13:36] PRETOOL OK: tool=Bash
+[11:13:48] EVAL: msg_len=671 first_80='**Stato:**\n- ✅ Nuova fase cross-check nel kit (branch `feature/laco`, non commit'
+[11:13:48] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:14:44] EVAL: msg_len=2014 first_80='Domanda giustissima, e tocca il cuore. Risposta: **la fase NON testa roba fuori '
+[11:14:44] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:18:35] EVAL: msg_len=1855 first_80='Mettiamo ordine. Due risposte secche.\n\n## La domanda chiave: possiamo vedere i t'
+[11:18:35] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:20:04] PRETOOL: tool=Bash msg_len=1855 first_80='Mettiamo ordine. Due risposte secche.\n\n## La domanda chiave: possiamo vedere i t'
+[11:20:04] PRETOOL OK: tool=Bash
+[11:20:06] PRETOOL: tool=Bash msg_len=1855 first_80='Mettiamo ordine. Due risposte secche.\n\n## La domanda chiave: possiamo vedere i t'
+[11:20:06] PRETOOL OK: tool=Bash
+[11:20:13] EVAL: msg_len=271 first_80='Rebuild gql + ccba in corso (background). Prometheus R3 **non toccato**, continu'
+[11:20:13] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:20:22] PRETOOL: tool=Bash msg_len=271 first_80='Rebuild gql + ccba in corso (background). Prometheus R3 **non toccato**, continu'
+[11:20:22] PRETOOL OK: tool=Bash
+[11:20:27] PRETOOL: tool=Bash msg_len=75 first_80="Immagini pronte. Verifico la Fase 5 dentro l'immagine e lancio i due rerun."
+[11:20:27] PRETOOL OK: tool=Bash
+[11:20:33] PRETOOL: tool=Bash msg_len=75 first_80="Immagini pronte. Verifico la Fase 5 dentro l'immagine e lancio i due rerun."
+[11:20:33] PRETOOL OK: tool=Bash
+[11:20:43] EVAL: msg_len=558 first_80='Tutti e tre in volo, **Prometheus intatto** (up 40 min):\n\n| Run | Trial | Note |'
+[11:20:43] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': False, 'quoted_evidence': ''}
+[11:54:00] PRETOOL: tool=Bash msg_len=70 first_80='Due chiusi (ccba-cc e prometheus R3), gql-cc ancora gira. Leggo tutto.'
+[11:54:00] PRETOOL OK: tool=Bash
+[11:54:40] EVAL: msg_len=2141 first_80='Ho la causa esatta di entrambi. **Le ultime aggiunte al kit hanno fatto danni**,'
+[11:54:40] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:55:32] PRETOOL: tool=Bash msg_len=2141 first_80='Ho la causa esatta di entrambi. **Le ultime aggiunte al kit hanno fatto danni**,'
+[11:55:32] PRETOOL OK: tool=Bash
+[11:56:03] EVAL: msg_len=1673 first_80='**Correzione importante — ero stato troppo negativo (avevo parlato prima che gql'
+[11:56:03] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[11:56:49] PRETOOL: tool=Bash msg_len=1673 first_80='**Correzione importante — ero stato troppo negativo (avevo parlato prima che gql'
+[11:56:49] PRETOOL OK: tool=Bash
+[11:58:36] EVAL: msg_len=2482 first_80="Ora ho la prova completa, e ti rispondo esattamente sul tuo punto: **l'esecutore"
+[11:58:36] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[12:04:55] PRETOOL: tool=Edit msg_len=205 first_80='Evidenza concreta: `undefined: zerox_fakeReloader` a `transactional_reloadfile_t'
+[12:04:55] PRETOOL OK: tool=Edit
+[12:05:30] PRETOOL: tool=mcp__cvm__delete_program msg_len=127 first_80='Tutti e 4 i punti aggiornati. (I diagnostics sono i soliti falsi `no-default-lib'
+[12:05:30] PRETOOL OK: tool=mcp__cvm__delete_program
+[12:05:33] PRETOOL: tool=mcp__cvm__delete_program msg_len=127 first_80='Tutti e 4 i punti aggiornati. (I diagnostics sono i soliti falsi `no-default-lib'
+[12:05:33] PRETOOL OK: tool=mcp__cvm__delete_program
+[12:05:43] PRETOOL: tool=Bash msg_len=127 first_80='Tutti e 4 i punti aggiornati. (I diagnostics sono i soliti falsi `no-default-lib'
+[12:05:43] PRETOOL OK: tool=Bash
+[12:06:18] EVAL: msg_len=1668 first_80='✅ Regola aggiunta in 4 punti, runner **rivalidato da CVM**, kit rigenerato. (Dia'
+[12:06:18] PASS: scores={'hypothesis_score': 0.0, 'known_bug_score': 0.0, 'shotgun_score': 0.0, 'evidence_present': True, 'quoted_evidence': ''}
+[12:08:25] PRETOOL: tool=Bash msg_len=89 first_80='Procedo: commit + push, poi lancio prometheus e ccba (2 run). Prima vedo cosa co'
+[12:08:25] PRETOOL OK: tool=Bash
+[12:08:41] PRETOOL: tool=Read msg_len=232 first_80='Su `feature/laco`, remote `origin` ok. Le `.config.run.*cc.yaml` sono config tem'
+[12:08:41] PRETOOL OK: tool=Read
+[12:08:46] PRETOOL: tool=Edit msg_len=211 first_80='`.gitignore` ha solo il nome esatto → lo allargo a glob per le temp config. `.mc'
+[12:08:46] PRETOOL OK: tool=Edit

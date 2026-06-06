@@ -23,6 +23,22 @@ map against.
 - Read `instruction.md` in full. Read it twice.
 - If `memory-bank/` exists, read it for project context (do not re-derive).
 
+### 1b. Harvest the repo's EXISTING tests for the area you extend (MANDATORY)
+The recurring loss: the agent understands the feature, then INVENTS its own softer test scenarios, and
+ships a solution that passes them but fails the hidden grader's harder, realistic scenario. The repo almost
+always already contains those realistic scenarios — the hidden grader is built from the same conventions.
+Do NOT invent from scratch; harvest:
+1. LOCATE the existing tests covering the SIBLING / equivalent of what you add — by name and by area: the
+   existing method this one parallels (`test_*<sibling>*`), the existing handlers / transports / adapters of
+   the same kind, and the directories for cross-cutting concerns (e.g. `tests/custom_scalars/`, error-path
+   tests, concurrency tests). Read them.
+2. EXTRACT the concrete scenarios they exercise — exact inputs, custom types/scalars, error cases, the
+   option/config matrix they toggle (e.g. `parse_results` on a custom-scalar field, each transport, each
+   mode), and HOW they read the result (which public surface / entry point).
+3. These scenarios ARE the contract. Carry each into `requirements.md`, and the plan must PORT the existing
+   test to the new member — same scenario, adapted call — not a self-invented easier one. A new member that
+   parallels an existing one INHERITS the existing one's test suite.
+
 ### 2. Decompose into ATOMIC requirements
 - Split EVERY compound sentence into separate items. Clauses joined by `and`, `,`, `;`,
   `including`, `as well as`, `must also`, `but` are usually SEPARATE requirements.

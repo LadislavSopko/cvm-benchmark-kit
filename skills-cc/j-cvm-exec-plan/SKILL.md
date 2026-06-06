@@ -136,6 +136,13 @@ real behavior does not exactly satisfy its `accept:` criterion is NOT done — f
 tests, correct the implementation) before finishing. Do not rely on your own tests having passed; verify
 the behavior directly.
 
+**Run the ENTIRE existing repo test suite at completion (MANDATORY).** Before treating the work as done,
+run the project's WHOLE test command over the entire repo — not just your new blocks' tests — and require 0
+failures. The grader re-runs the repo's baseline suite as half the reward; a change that quietly breaks an
+existing test fails the task even with a perfect new feature. This full-suite run also executes your ported
+integration tests alongside the originals. Any failure (yours or a pre-existing test you broke) means NOT
+done — fix the root cause, never skip/suppress the test.
+
 ### 5. If something goes wrong
 
 - If VERIFY fails → first line `failed`, the executor will give you a FIX phase

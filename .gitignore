@@ -1,6 +1,6 @@
 # Secrets — never commit the OAuth token
 .pier-poc/.env
-.pier-poc/.config.run.yaml
+.pier-poc/.config.run*.yaml
 
 # Pier run outputs and build artifacts
 .pier-poc/jobs/

@@ -94,6 +94,17 @@ silently drops one requirement. If `requirements.md` exists:
   and depth termination (a cycle surfaces a bounded error, never a hang/stack-overflow); for any concurrent
   feature, that N concurrent calls converge with no deadlock; for any repeated/sequenced feature, that
   invariants hold across N iterations. Missing any applicable robustness test is a BLOCKING gap.
+- **Final integration block + ported tests (BLOCKING):** the plan MUST end with an integration block
+  (`NN-integration`) whose tests drive each behavioral requirement through the REAL public surface, NO mocks
+  (tddab-planner rule 5b). Every behavioral `R` must be covered there in addition to its unit test, and those
+  tests must be PORTED from the repo's existing tests for the sibling/area (scenarios harvested in
+  `j-analyze-requirements` step 1b — custom scalars, error paths, option matrix), NOT self-invented softer
+  ones. A missing integration block, a behavioral `R` not exercised end-to-end, or invented scenarios where
+  the repo already has realistic ones, is a BLOCKING gap.
+- **Full-suite run at completion (BLOCKING):** the plan's final block `<success>` must require running the
+  ENTIRE existing repo test suite (the project's whole test command), not just the new blocks' tests, at 0
+  failures — this is half the grade (the grader re-runs the repo's baseline suite) and catches regressions
+  the agent's own tests never would. If the final block does not run the full suite, it is a BLOCKING gap.
 - **Added-path coverage (BLOCKING):** every code path the plan introduces must have a covering `<red>` test
   that exercises it with a concrete assertion — each new branch, each option/flag the code accepts (both the
   on and off value), each error / early-return / empty / null path, each loop body. A plan that adds a
