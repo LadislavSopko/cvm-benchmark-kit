@@ -21,9 +21,14 @@ function main() {
     "that defines or consumes it — the existing sibling method this one parallels, the handlers/providers " +
     "that consume the value (e.g. how an existing call reads conversation history), the serialized struct " +
     "and its real types (a *_ms/*_count field is the integer type the code uses, never a guessed float). " +
-    "Also read the existing tests for that area (custom-scalar/error-path/concurrency dirs) and note their " +
-    "concrete scenarios. These exact facts are the contract; in requirements and plan you will pin ONLY what " +
+    "These exact facts are the contract; in requirements and plan you will pin ONLY what " +
     "you read here — a type, field, or channel you did not read is forbidden. " +
+    "4. HARVEST: for the PRIMARY new public member, OPEN its same-name sibling in the code (e.g. `execute` for " +
+    "`execute_incremental`) and READ its full parameter signature, AND read the existing tests for the area " +
+    "(cross-cutting dirs like tests/custom_scalars/, error-path, concurrency). Note each sibling parameter " +
+    "(parse_result, serialize_variables, ...) and each existing test scenario — these become requirements " +
+    "you must replicate, NOT invent softer versions of. This is what surfaces parse_result-style implicit " +
+    "requirements at analysis time. " +
     "TASK: " + task + " " +
     "Do all exploration in tool calls. Submit ONLY one word: done.");
 

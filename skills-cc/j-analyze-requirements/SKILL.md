@@ -98,6 +98,14 @@ requirements with no such basis):
    member (with a concrete `accept:`), or is explicitly recorded as "excluded because <clause>". A new member
    that declares an option but silently skips its sibling's behavior (e.g. accepts a `parse_result` flag but
    never deserializes) is the classic hidden-grader miss.
+   **MANDATORY mechanical step — produce the artifact, do not just "consider":** for the PRIMARY new public
+   member, locate its same-name sibling in the code (e.g. `execute` for `execute_incremental`), and in
+   `requirements.md` write a `## Sibling surface` block that (a) COPIES the sibling's full parameter
+   signature VERBATIM from the source with its `file:line`, and (b) lists ONE numbered `R` per parameter /
+   option / cross-cutting behavior, each asserting the new member honors it OR `excluded because <clause>`.
+   If `requirements.md` does not contain the copied sibling signature and a per-parameter `R` mapping, this
+   step was NOT done — go do it. This block is exactly what turns `parse_result` / `serialize_variables` into
+   requirements at analysis time instead of leaving them to luck downstream.
 2. **Negative space of capability / support statements.** Every "only A and B do X", "X is supported over A
    and B", enumerated support list, or capability/mode statement ENTAILS its complement: anything NOT in the
    list must FAIL EXPLICITLY (raise / reject / no-op), not silently succeed by falling through a generic path.

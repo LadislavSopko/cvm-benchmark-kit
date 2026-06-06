@@ -14,6 +14,14 @@ quill-shared-toolbar-focus{ts/vitest/playwright}::7 trials{r1=6fail,r2=2fail,r3=
   @conclusion::each methodology improvement verified on target{prefix→no collision,requirements→read-only captured,accept/trueRED/adversarial→image fixed,ARIA+W3C→semantics};but hits variance ceiling at 14/15✓per run
   @pattern::different requirement fails each clean trial{variance not fixable via solution quality;need multi-task+multi-trial measurement}
 
+[TODO_TASKS::revisit]
+!claude-code-by-agents-recursive-delegation{ts}::FAIL@2026-06-06{official 5%,#110 hardest tier}→DO_LATER
+  bug{PROVEN by hand}::agent feeds tool_result via request.MESSAGE;grader reads it from request.CONTEXT{findToolResultInContext(continuationCall.context)}→null→5/7 fail
+  fix{PROVEN}::patch message→context{push {role:user,content:feedbackJSON} into providerRequest.context}→7/7 pass
+  why::base handler executeSingleAgent builds providerRequest={message,...} NO context anywhere;instruction says "follow existing handler patterns"→agent followed→message. provider anthropic.ts DOES read request.context for history→context is protocol-correct channel but handler never populates it
+  verdict::gold/test CORRECT(protocol:tool_result∈conversation=context)¬PR-on-test;instruction MISLEADING("follow patterns"→message);self-referential TDDAB trap{agent tests own wrong assumption→green}
+  noUpstream::baryhuang repo restructured to Swift OpenAgents;feature never merged;only DeepSWE gold(context) as ref
+
 [SKILLS::extended]
 ✓j-analyze-requirements{Phase 3:decompose→R1..Rn exhaustive + hunt checklist + surface inventory}
 ✓benchmark-runner.ts{6 phases: Understand→MB→AnalyzeRequirements→Plan→Review{+F gate}→Execute}
