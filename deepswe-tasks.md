@@ -121,5 +121,5 @@
 | 109 | 6% | `kombu-virtual-queue-dead-lettering` | python |  | [ ] | [ ] | [ ] | [ ] |
 | 110 | 5% | `claude-code-by-agents-recursive-delegation` | typescript |  | [ ] | [ ] | [ ] | [ ] |
 | 111 | 3% | `gql-incremental-graphql-delivery` | python |  | [ ] | [ ] | [ ] | [ ] |
-| 112 | 2% | `prometheus-transactional-reload-status` | typescript |  | [ ] | [ ] | [ ] | [ ] |
+| 112 | 2% | `prometheus-transactional-reload-status` | typescript |  | [x] | [ ] | [ ] | [ ] |
 | 113 | 0% | `quill-shared-toolbar-focus` | typescript |  | [x] | [ ] | [ ] | [ ] |

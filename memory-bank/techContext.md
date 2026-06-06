@@ -28,6 +28,15 @@ sources{repoRoot}::CLAUDE.md,benchmark-runner.ts{6 phases},j-settings.md,.mcp.js
 !6.report::node .pier-poc\make-report.mjs .pier-poc\jobs{aggregate} | <job> | <trial>{run from repoRoot!}
 !7.verify reward0¬falseNeg::apply model.patch|reference solution offline{--network none}→confirm
 
+[LINUX_HOST::WSL2]
+@proven::prometheus reward=1@2026-06-06{firstNonWindows run}
+!noPwsh::run-poc.ps1 NOT needed→config-*.yaml already targets its task→run pier directly
+setup::uv tool install datacurve-pier{→pier 0.2.0 in ~/.local/bin}
+run::cd repoRoot+`set -a;source <(grep OAUTH|PIER_MODEL .pier-poc/.env);set +a`+`export ANTHROPIC_API_KEY=""`+`pier run -c .pier-poc/config-prometheus.yaml --debug`
+imageBuild::same docker build args as Windows{WARM_GO=1,WARM_GO_PKG=./cmd/prometheus,WARM_GO_TAGS=olympus_new}
+¬crlfPatch::Windows-only{squid start-squid.sh}→N/A on Linux{native LF}
+monitor::node .pier-poc/watch-cvm.mjs .pier-poc/jobs/<job>{--once|--full}
+
 [DOCKERFILE]
 ARG BASE_IMAGE{default fastapi ECR}+FROM+ensureNode{no-op if present}
 +ARG WARM_GO/WARM_GO_PKG/WARM_GO_TAGS{Go cache warm,GOWORK=off,no-op unless WARM_GO=1,git checkout go.mod/go.sum after}

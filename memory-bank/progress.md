@@ -6,6 +6,7 @@
 [RESULTS::CVMkit]
 fastapi-implicit-head-options{py}::run1✓1 + run2✓1{cvm-server@npm+SANDBOX_PATHS}
 prometheus-transactional-reload-status{go}::r2✗0,r3✓1{delete},r4✓1{prefix zerox_}+WARM_GO → 2/3✓
+  +LinuxR1✓1{VERIFIED on disk@2026-06-06:reward=1,baseline ok 74.6s+hidden ok 4.2s,WARM_GO→no setup-failed,zerox_ prefix→no collision;firstLinux/WSL2 run}
 cliffy-config-file-parsing{ts/deno}::run1✓ run2✗ run3✓ run4✓ → 3/4≈75%
 →aggregate pre-quill::3/5 complete
 quill-shared-toolbar-focus{ts/vitest/playwright}::7 trials{r1=6fail,r2=2fail,r3=4fail,r4=2fail,r5=3fail,r6=TRUNCATED{529x7},r7=1fail clean verdict}

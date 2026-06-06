@@ -2,10 +2,11 @@
 
 [FOCUS]
 @initialized::thisProjectMB{harness}←©User{separate from kit sandbox-MB}
-@currentTask::quill-shared-toolbar-focus{browser,TS+vitest+playwright,repo slab/quill,base 539cbffd}
-⚡documented::ADD+RUN+RUN+REBUILD process{techContext}←©User priority
+@currentTask::prometheus-transactional-reload-status{go,WARM_GO}rerun on Linux/WSL2→reward=1✓
+@hostMigration::harness now runs on Linux/WSL2{prev Windows-only}←©User
 
 [RECENT]
+>LINUX HARNESS PROVEN@2026-06-06::prometheus reward=1 on WSL2{pier 0.2.0 via uv tool,no pwsh→`pier run -c config-prometheus.yaml --debug` direct,image WARM_GO built,.env token via claude setup-token}→first non-Windows run✓
 >METHODOLOGY SUITE DEPLOYED::requirements→accept→trueRED→adversarial VERIFY applied{quill task validation}
 >REQUIREMENTS COVERAGE INFRA::j-analyze-requirements skill + Phase 3 "Analyze requirements" + review gate F{all Rk tested}
 >TS/PLAYWRIGHT AIR-GAP::prebuilt base images complete{node_modules+chromium cached};only Go needs WARM_GO
