@@ -83,6 +83,12 @@ any language/stack):
 - If a test PASSES before you implement anything, it is too weak — it does not actually exercise the
   required behavior. Tighten it (assert the exact value/state the requirement demands) until it fails,
   then implement.
+- BAN soft assertions. A test that only checks shape/existence — `hasattr`, a bare truthy/non-empty check,
+  `is not None` as the ONLY check, or "no exception was raised" — proves nothing the hidden grader cares
+  about and will pass before you implement. Assert the CONCRETE consequence: exact type
+  (`isinstance(x, datetime)`), exact value, exact structure, or the exact raised exception
+  (`pytest.raises(SomeError)` / expecting an error of a named type). If the strongest thing you can assert is
+  soft, the requirement is under-specified — pin the exact observable before writing the test.
 
 **VERIFY is adversarial, not self-congratulatory:**
 - VERIFY does not mean "my test passed." For each success criterion / requirement in scope, act like an

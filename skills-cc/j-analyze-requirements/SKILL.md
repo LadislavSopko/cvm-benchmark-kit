@@ -57,6 +57,30 @@ with different mechanics. For every such requirement:
    member when their mechanics differ enough to need separate tests). A representative subset is NOT
    enough — "applies to controls" means EVERY control, including the awkward one.
 
+### 3c. Implied-contract derivation — requirements the spec ENTAILS but never spells out
+The instruction is a SUMMARY, not the full contract. An all-or-nothing grader tests the complete
+engineering contract, including requirements the literal text never states but logically ENTAILS. These
+are the ones that pass your own happy-path tests yet fail the hidden grader. Derive them from two
+task-agnostic sources — every derived item must TRACE back to one of these (do not invent free-floating
+requirements with no such basis):
+
+1. **Sibling / family parity.** If the task adds a new public member to an existing family (a new method
+   beside an existing one, a new transport/backend/adapter/driver beside existing ones, a new variant of an
+   existing type), the new member must honor the SAME cross-cutting concerns its siblings already honor —
+   unless the instruction explicitly excludes one. Locate the nearest existing sibling IN THE CODEBASE, read
+   its signature AND body, and enumerate every cross-cutting behavior it applies: result parsing /
+   deserialization, input serialization, validation, defaults taken from the client/config, error & exception
+   mapping, resource cleanup/teardown. Each concern the sibling honors becomes a requirement for the new
+   member (with a concrete `accept:`), or is explicitly recorded as "excluded because <clause>". A new member
+   that declares an option but silently skips its sibling's behavior (e.g. accepts a `parse_result` flag but
+   never deserializes) is the classic hidden-grader miss.
+2. **Negative space of capability / support statements.** Every "only A and B do X", "X is supported over A
+   and B", enumerated support list, or capability/mode statement ENTAILS its complement: anything NOT in the
+   list must FAIL EXPLICITLY (raise / reject / no-op), not silently succeed by falling through a generic path.
+   Emit a separate `R` for the unsupported/absent case with its required failure behavior ("calling X on an
+   unsupported <thing> raises <ErrorType>"), and assert it CONCRETELY (an exception of an exact type is raised)
+   — never "does not crash".
+
 ### 4. Write `requirements.md`
 Use EXACTLY this format (the plan review parses `R<n>` ids):
 
@@ -94,4 +118,6 @@ Submit ONLY one word: `done` (the work is `requirements.md`, written via tools �
 ## Rules
 - This step produces NO code and NO plan — only `requirements.md`.
 - Exhaustive over clever: more granular atomic requirements is better than fewer broad ones.
-- Never invent requirements the instruction does not state; never drop one it does.
+- Capture requirements the instruction STATES *or ENTAILS* — every implicit one must trace to step 3c (the
+  logical complement of an explicit clause, or a cross-cutting behavior an existing sibling already honors).
+  Never invent requirements with no such basis; never drop one the instruction states.

@@ -72,8 +72,21 @@ silently drops one requirement. If `requirements.md` exists:
   endpoint / field / UI surface), confirm the plan tests EACH enumerated member, not a representative
   subset — especially members with different mechanics (native control vs custom dropdown/picker vs
   file input). A category requirement covering only some members is a BLOCKING gap.
-- Do not pass the plan while any requirement is uncovered, any instruction clause is unmapped, or any
-  category requirement covers only a subset of its members.
+- **Implied-contract / grader-persona pass (BLOCKING):** explicit clauses are not the whole grade. Re-read
+  the plan as the HIDDEN GRADER, not as the author. For every new public member the task adds, check the plan
+  carried over its nearest sibling's cross-cutting concerns (result parsing/deserialization, input
+  serialization, validation, defaults from client/config, error & exception mapping, cleanup) — a declared
+  option with no test that it actually takes effect is a gap. For every "only X supports / X works over A and
+  B" statement, check there is a test that the UNSUPPORTED case RAISES. Concretely: write the meanest test the
+  grader would write that the current plan would NOT pass — if such a test exists, it names a missing
+  requirement: add the `R` and its `<red>` test, then fail. (See `j-analyze-requirements` step 3c.)
+- **Assertion strength (BLOCKING):** reject any `<red>` test whose assertion is soft — `hasattr`, a bare
+  truthy/non-empty check, `is not None` as the ONLY check, or "no exception raised". Each must assert a
+  CONCRETE consequence (exact type, value, structure, or raised exception type). A soft test goes green for the
+  agent and red for the grader.
+- Do not pass the plan while any requirement is uncovered, any instruction clause is unmapped, any category
+  requirement covers only a subset of its members, an implied-contract requirement is missing, or any test
+  asserts something soft.
 
 ### 5. CVM Structural Validation (if available)
 

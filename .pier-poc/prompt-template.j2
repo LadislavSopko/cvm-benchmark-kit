@@ -34,6 +34,22 @@ Two general rules for "applies to the public API" requirements:
    the bare form. Before finishing, write and run a small introspection snippet that iterates ALL the
    public callables the task lists and asserts the requirement holds for each, then fix any that fail.
 
+IMPLIED CONTRACT — the instruction is a SUMMARY; the hidden grader tests the full engineering contract,
+including requirements the text never states but ENTAILS. Two recurring, task-agnostic sources — both derived
+in requirements analysis (see /j-analyze-requirements step 3c) and gated in /j-review-plan:
+- SIBLING PARITY: a new public member (method / transport / adapter / driver / variant) added next to existing
+  ones must honor the SAME cross-cutting concerns its siblings honor — result parsing/deserialization, input
+  serialization, validation, defaults taken from the client/config, error & exception mapping, resource
+  cleanup. Read the nearest existing sibling and carry each concern over, or exclude one only if a clause says
+  so. Declaring an option but not implementing its behavior (e.g. accepting a parse/deserialize flag but never
+  applying it) is the classic miss.
+- NEGATIVE SPACE: "only A and B support X" entails anything else must FAIL EXPLICITLY (raise/reject), not fall
+  through a generic path and succeed. Add a RED test asserting the unsupported case raises a concrete error
+  type.
+Assert these with CONCRETE checks (exact type / value / raised exception), NEVER a soft shape check
+(hasattr / truthy / not-None alone / "did not crash") — a soft assertion goes green for you and red for the
+grader.
+
 TEST SYMBOL NAMESPACING — applies the MOMENT you write your first test, not at the end. The grader runs
 its OWN hidden tests, compiled in the SAME package/module as the tests you write. If any top-level
 identifier you declare in a test file has the same name as one the grader declares, the compiler fails
